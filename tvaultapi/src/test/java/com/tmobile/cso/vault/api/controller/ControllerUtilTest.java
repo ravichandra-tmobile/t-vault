@@ -812,9 +812,7 @@ public class ControllerUtilTest {
     @Test
     public void test_areAwsLoginInputsValid_invalid()  {
 
-        ControllerUtil.areAwsLoginInputsValid(AWSAuthType.EC2, null);
-        boolean valid = false;
-        assertFalse(false);
+        assertFalse(ControllerUtil.areAwsLoginInputsValid(AWSAuthType.EC2, null));
     }
 
     @Test
@@ -828,32 +826,24 @@ public class ControllerUtilTest {
         assertTrue(valid);
     }
 
-    @Test
-    public void test_areAWSEC2RoleInputsValid_invalid()  {
+    @Test(expected = TVaultValidationException.class)
+    public void test_areAWSEC2RoleInputsValid_invalid() throws TVaultValidationException {
 
-        try {
             AWSLoginRole awsLoginRole = new AWSLoginRole("ec2", "", "",
                     "", "", "vpc-2f09a348", "",
                     "", "",
                     "\"[prod, dev\"]");
-            boolean valid = ControllerUtil.areAWSEC2RoleInputsValid(awsLoginRole);
-        } catch (TVaultValidationException e) {
-            assertTrue(true);
-        }
+            ControllerUtil.areAWSEC2RoleInputsValid(awsLoginRole);
     }
 
-    @Test
-    public void test_areAWSEC2RoleInputsValid_invalid_authType()  {
+    @Test(expected = TVaultValidationException.class)
+    public void test_areAWSEC2RoleInputsValid_invalid_authType() throws TVaultValidationException {
 
-        try {
             AWSLoginRole awsLoginRole = new AWSLoginRole("iam", "mytestawsrole", "",
                     "", "", "vpc-2f09a348", "",
                     "", "",
                     "\"[prod, dev\"]");
-            boolean valid = ControllerUtil.areAWSEC2RoleInputsValid(awsLoginRole);
-        } catch (TVaultValidationException e) {
-            assertTrue(true);
-        }
+            ControllerUtil.areAWSEC2RoleInputsValid(awsLoginRole);
     }
 
     @Test
@@ -871,8 +861,8 @@ public class ControllerUtilTest {
         assertTrue(valid);
     }
 
-    @Test
-    public void test_areAWSIAMRoleInputsValid_invalid_authType()  {
+    @Test(expected = TVaultValidationException.class)
+    public void test_areAWSIAMRoleInputsValid_invalid_authType() throws TVaultValidationException {
 
         AWSIAMRole awsiamRole = new AWSIAMRole();
         awsiamRole.setAuth_type("ec2");
@@ -882,19 +872,13 @@ public class ControllerUtilTest {
         awsiamRole.setPolicies(policies);
         awsiamRole.setResolve_aws_unique_ids(true);
         awsiamRole.setRole("string");
-        try {
-            boolean valid = ControllerUtil.areAWSIAMRoleInputsValid(awsiamRole);
-        } catch (TVaultValidationException e) {
-            assertTrue(true);
-        }
+        ControllerUtil.areAWSIAMRoleInputsValid(awsiamRole);
     }
 
     @Test
     public void test_areAWSIAMRoleInputsValid_invalid() throws TVaultValidationException {
 
-        ControllerUtil.areAWSIAMRoleInputsValid(null);
-        boolean valid = false;
-        assertFalse(false);
+        assertFalse(ControllerUtil.areAWSIAMRoleInputsValid(null));
     }
 
     @Test

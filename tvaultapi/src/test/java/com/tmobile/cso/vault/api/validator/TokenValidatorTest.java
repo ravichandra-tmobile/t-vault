@@ -16,8 +16,6 @@
 // =========================================================================
 package com.tmobile.cso.vault.api.validator;
 
-import com.fasterxml.jackson.core.JsonProcessingException;
-import com.fasterxml.jackson.databind.ObjectMapper;
 import com.google.common.collect.ImmutableMap;
 import com.tmobile.cso.vault.api.common.TVaultConstants;
 import com.tmobile.cso.vault.api.controller.ControllerUtil;
@@ -53,7 +51,6 @@ import java.io.IOException;
 import java.util.*;
 
 import static org.junit.Assert.assertEquals;
-import static org.junit.Assert.assertTrue;
 import static org.mockito.Matchers.eq;
 import static org.mockito.Mockito.when;
 
@@ -167,8 +164,8 @@ public class TokenValidatorTest {
         assertEquals(JSONUtil.getJSON(expectedLookupDetails), JSONUtil.getJSON(lookupDetails));
     }
 
-    @Test
-    public void test_getVaultTokenLookupDetails_failure() throws TVaultValidationException, IOException {
+    @Test(expected = TVaultValidationException.class)
+    public void test_getVaultTokenLookupDetails_failure() throws TVaultValidationException {
         String token = "7QPMPIGiyDFlJkrK3jFykUqa";
         Response response = getMockResponse(HttpStatus.FORBIDDEN, true, "");
         VaultTokenLookupDetails expectedLookupDetails = new VaultTokenLookupDetails();
@@ -181,16 +178,11 @@ public class TokenValidatorTest {
 
         when(reqProcessor.process("/auth/tvault/lookup","{}", token)).thenReturn(response);
 
-        try {
-            VaultTokenLookupDetails lookupDetails = tokenValidator.getVaultTokenLookupDetails(token);
-        }catch (TVaultValidationException t) {
-            assertTrue(true);
-        }
-
+        tokenValidator.getVaultTokenLookupDetails(token);
     }
 
-    @Test
-    public void test_getVaultTokenLookupDetails_failure_500() throws TVaultValidationException, IOException {
+    @Test(expected = TVaultValidationException.class)
+    public void test_getVaultTokenLookupDetails_failure_500() throws TVaultValidationException {
         String token = "7QPMPIGiyDFlJkrK3jFykUqa";
         Response response = getMockResponse(HttpStatus.INTERNAL_SERVER_ERROR, true, "");
         VaultTokenLookupDetails expectedLookupDetails = new VaultTokenLookupDetails();
@@ -203,12 +195,7 @@ public class TokenValidatorTest {
 
         when(reqProcessor.process("/auth/tvault/lookup","{}", token)).thenReturn(response);
 
-        try {
-            VaultTokenLookupDetails lookupDetails = tokenValidator.getVaultTokenLookupDetails(token);
-        }catch (TVaultValidationException t) {
-            assertTrue(true);
-        }
-
+        tokenValidator.getVaultTokenLookupDetails(token);
     }
 
 }
