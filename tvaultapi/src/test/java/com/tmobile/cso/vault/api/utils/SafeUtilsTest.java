@@ -114,7 +114,7 @@ public class SafeUtilsTest {
         String[] expectedList = {"ert"};
         String[] policies = {"s_users_ert"};
         String[] policiesRes = safeUtils.getManagedSafes(policies, "users");
-        assertEquals(expectedList, policiesRes);
+        assertArrayEquals(expectedList, policiesRes);
     }
 
     @Test

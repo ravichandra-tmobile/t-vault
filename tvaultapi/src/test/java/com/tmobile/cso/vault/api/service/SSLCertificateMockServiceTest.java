@@ -264,13 +264,13 @@ public class SSLCertificateMockServiceTest {
 
     /**
      * Get the revocation mock response
-     * @return
+     * @return CertResponse
      */
     public CertResponse getRevocationMockResponse(){
-        CertResponse CertResponse = new CertResponse();
-        CertResponse.setHttpstatus(HttpStatus.OK);
-        CertResponse.setSuccess(Boolean.TRUE);
-        return CertResponse;
+        CertResponse certResponse = new CertResponse();
+        certResponse.setHttpstatus(HttpStatus.OK);
+        certResponse.setSuccess(Boolean.TRUE);
+        return certResponse;
     }
 
     //get the certificate during renewal
@@ -291,30 +291,30 @@ public class SSLCertificateMockServiceTest {
 
     /**
      * Get the revocation mock response
-     * @return
+     * @return CertResponse
      */
     public CertResponse getRenewMockResponse(){
-        CertResponse CertResponse = new CertResponse();
-        CertResponse.setHttpstatus(HttpStatus.OK);
-        CertResponse.setSuccess(Boolean.TRUE);
-        return CertResponse;
+        CertResponse certResponse = new CertResponse();
+        certResponse.setHttpstatus(HttpStatus.OK);
+        certResponse.setSuccess(Boolean.TRUE);
+        return certResponse;
     }
 
     /**
      * Get the delete mock response
-     * @return
+     * @return CertResponse
      */
     public CertResponse getDeleteMockResponse(){
-        CertResponse CertResponse = new CertResponse();
-        CertResponse.setHttpstatus(HttpStatus.NO_CONTENT);
-        CertResponse.setSuccess(Boolean.TRUE);
-        return CertResponse;
+        CertResponse certResponse = new CertResponse();
+        certResponse.setHttpstatus(HttpStatus.NO_CONTENT);
+        certResponse.setSuccess(Boolean.TRUE);
+        return certResponse;
     }
 
 
     /**
      * Get the delete mock response
-     * @return
+     * @return CertificateData
      */
     public CertificateData getDeleteCertMockResponse(){
         CertificateData certificateData = new CertificateData();
@@ -327,7 +327,7 @@ public class SSLCertificateMockServiceTest {
 
     /**
      * Get Enroll mock Response
-     * @return
+     * @return CertResponse
      */
     public CertResponse getEnrollMockResponse(){
         CertResponse certResponse = new CertResponse();
@@ -338,7 +338,7 @@ public class SSLCertificateMockServiceTest {
 
     /**
      * This return mock certificate data
-     * @return
+     * @return CertificateData
      */
     public CertificateData getMockCertificateData(){
 
@@ -363,7 +363,7 @@ public class SSLCertificateMockServiceTest {
 
     /**
      * Get the Revocation Reasons
-     * @return
+     * @return CertResponse
      */
     public CertResponse getMockRevocationReasons() {
         CertResponse certResponse = new CertResponse();
