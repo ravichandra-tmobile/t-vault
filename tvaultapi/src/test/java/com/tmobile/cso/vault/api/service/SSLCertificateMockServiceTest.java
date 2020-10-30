@@ -391,7 +391,7 @@ public class SSLCertificateMockServiceTest {
         Response response = new Response();
         response.setHttpstatus(status);
         response.setSuccess(success);
-        if (expectedBody != "") {
+        if (!Objects.equals(expectedBody, "")) {
             response.setResponse(expectedBody);
         }
         return response;
@@ -1914,7 +1914,7 @@ public class SSLCertificateMockServiceTest {
 
     @Test
     public void getSSLCertificate_Succes()throws Exception{
-        String token = "12345";
+        String token;
 
         Response response =getMockResponse(HttpStatus.OK, true, "{  \"keys\": [    {      \"akamid\": \"102463\",      \"applicationName\": \"tvs\", "
                 + "     \"applicationOwnerEmailId\": \"abcdef@mail.com\",      \"applicationTag\": \"TVS\",  "
@@ -1944,7 +1944,7 @@ public class SSLCertificateMockServiceTest {
 
     @Test
     public void getSSLCertificate_Failure()throws Exception{
-        String token = "12345";
+        String token;
 
         Response response =getMockResponse(HttpStatus.INTERNAL_SERVER_ERROR, true, "{  \"keys\": [    {      \"akamid\": \"102463\",      \"applicationName\": \"tvs\", "
                 + "     \"applicationOwnerEmailId\": \"abcdef@mail.com\",      \"applicationTag\": \"TVS\",  "
@@ -3277,7 +3277,7 @@ public class SSLCertificateMockServiceTest {
         when(httpResponse.getEntity()).thenReturn(null);
 
         String[] policyList = {"r_cert_certname"};
-        VaultTokenLookupDetails lookupDetails = null;
+        VaultTokenLookupDetails lookupDetails;
         lookupDetails = new VaultTokenLookupDetails();
         lookupDetails.setUsername("normaluser");
         lookupDetails.setPolicies(policyList);
@@ -3329,7 +3329,7 @@ public class SSLCertificateMockServiceTest {
         when(statusLine.getStatusCode()).thenReturn(400);
 
         String[] policyList = {"r_cert_certname"};
-        VaultTokenLookupDetails lookupDetails = null;
+        VaultTokenLookupDetails lookupDetails;
         lookupDetails = new VaultTokenLookupDetails();
         lookupDetails.setUsername("normaluser");
         lookupDetails.setPolicies(policyList);
@@ -3380,7 +3380,7 @@ public class SSLCertificateMockServiceTest {
         when(httpClient1.execute(Mockito.any())).thenThrow(new IOException());
 
         String[] policyList = {"r_cert_certname"};
-        VaultTokenLookupDetails lookupDetails = null;
+        VaultTokenLookupDetails lookupDetails;
         lookupDetails = new VaultTokenLookupDetails();
         lookupDetails.setUsername("normaluser");
         lookupDetails.setPolicies(policyList);
@@ -3425,7 +3425,7 @@ public class SSLCertificateMockServiceTest {
                 "certname", "password", "pembundle", false,"internal");
 
         String[] policyList = {};
-        VaultTokenLookupDetails lookupDetails = null;
+        VaultTokenLookupDetails lookupDetails;
         lookupDetails = new VaultTokenLookupDetails();
         lookupDetails.setUsername("normaluser");
         lookupDetails.setPolicies(policyList);
@@ -3478,7 +3478,7 @@ public class SSLCertificateMockServiceTest {
                 "certname", "password", "pembundle", false,"internal");
 
         String[] policyList = {"r_cert_certname"};
-        VaultTokenLookupDetails lookupDetails = null;
+        VaultTokenLookupDetails lookupDetails;
         lookupDetails = new VaultTokenLookupDetails();
         lookupDetails.setUsername("normaluser");
         lookupDetails.setPolicies(policyList);
@@ -3533,7 +3533,7 @@ public class SSLCertificateMockServiceTest {
         when(statusLine.getStatusCode()).thenReturn(400);
 
         String[] policyList = {"r_cert_certname"};
-        VaultTokenLookupDetails lookupDetails = null;
+        VaultTokenLookupDetails lookupDetails;
         lookupDetails = new VaultTokenLookupDetails();
         lookupDetails.setUsername("normaluser");
         lookupDetails.setPolicies(policyList);
@@ -3589,7 +3589,7 @@ public class SSLCertificateMockServiceTest {
         when(httpResponse.getEntity()).thenReturn(null);
 
         String[] policyList = {"r_cert_certname"};
-        VaultTokenLookupDetails lookupDetails = null;
+        VaultTokenLookupDetails lookupDetails;
         lookupDetails = new VaultTokenLookupDetails();
         lookupDetails.setUsername("normaluser");
         lookupDetails.setPolicies(policyList);
@@ -3636,7 +3636,7 @@ public class SSLCertificateMockServiceTest {
         when(httpClient1.execute(Mockito.any())).thenThrow(new IOException());
 
         String[] policyList = {"r_cert_certname"};
-        VaultTokenLookupDetails lookupDetails = null;
+        VaultTokenLookupDetails lookupDetails;
         lookupDetails = new VaultTokenLookupDetails();
         lookupDetails.setUsername("normaluser");
         lookupDetails.setPolicies(policyList);
@@ -3676,7 +3676,7 @@ public class SSLCertificateMockServiceTest {
         mockNclmLogin();
 
         String[] policyList = {};
-        VaultTokenLookupDetails lookupDetails = null;
+        VaultTokenLookupDetails lookupDetails;
         lookupDetails = new VaultTokenLookupDetails();
         lookupDetails.setUsername("normaluser");
         lookupDetails.setPolicies(policyList);
@@ -3721,7 +3721,7 @@ public class SSLCertificateMockServiceTest {
         when(reqProcessor.processCert(eq("/auth/certmanager/login"), any(), any(), any())).thenReturn(certResponse);
 
         String[] policyList = {};
-        VaultTokenLookupDetails lookupDetails = null;
+        VaultTokenLookupDetails lookupDetails;
         lookupDetails = new VaultTokenLookupDetails();
         lookupDetails.setUsername("normaluser");
         lookupDetails.setPolicies(policyList);
@@ -4533,7 +4533,7 @@ public class SSLCertificateMockServiceTest {
 
     @Test
     public void getListOfCertificates_Succes()throws Exception{
-        String token = "12345";
+        String token;
 
         Response response =getMockResponse(HttpStatus.OK, true, "{  \"keys\": [    {      \"akamid\": \"102463\",      \"applicationName\": \"tvs\", "
                 + "     \"applicationOwnerEmailId\": \"abcdef@mail.com\",      \"applicationTag\": \"TVS\",  "
@@ -5768,7 +5768,7 @@ public class SSLCertificateMockServiceTest {
 
     @Test
     public void getALLCertificate_Succes()throws Exception{
-        String token = "12345";
+        String token;
 
         Response response =getMockResponse(HttpStatus.OK, true, "{  \"data\":{  \"keys\": [    {      \"akamid\": \"102463\",      \"applicationName\": \"tvs\", "
                 + "     \"applicationOwnerEmailId\": \"abcdef@mail.com\",      \"applicationTag\": \"TVS\",  "

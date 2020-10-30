@@ -20,12 +20,7 @@ import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertTrue;
 import static org.mockito.Mockito.when;
 
-import java.util.ArrayList;
-import java.util.Arrays;
-import java.util.HashMap;
-import java.util.LinkedHashMap;
-import java.util.List;
-import java.util.Map;
+import java.util.*;
 
 import org.apache.logging.log4j.LogManager;
 import org.junit.Before;
@@ -85,7 +80,7 @@ public class AuthorizationUtilsTest {
         Response response = new Response();
         response.setHttpstatus(status);
         response.setSuccess(success);
-        if (expectedBody!="") {
+        if (!Objects.equals(expectedBody, "")) {
             response.setResponse(expectedBody);
         }
         return response;

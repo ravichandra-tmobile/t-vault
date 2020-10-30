@@ -46,6 +46,7 @@ import org.springframework.http.ResponseEntity;
 import java.lang.reflect.InvocationTargetException;
 import java.util.HashMap;
 import java.util.Map;
+import java.util.Objects;
 
 import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertTrue;
@@ -83,7 +84,7 @@ public class AWSAuthServiceTest {
         Response response = new Response();
         response.setHttpstatus(status);
         response.setSuccess(success);
-        if (expectedBody != "") {
+        if (!Objects.equals(expectedBody, "")) {
             response.setResponse(expectedBody);
         }
         return response;
@@ -227,12 +228,11 @@ public class AWSAuthServiceTest {
                 "arn:aws:iam::8987887:role/test-role", "arn:aws:iam::877677878:instance-profile/exampleinstanceprofile",
                 "\"[prod, dev\"]");
 
-        ResponseEntity<String> responseEntity = null;
         when(ControllerUtil.areAWSEC2RoleInputsValid(awsLoginRole)).thenReturn(false);
         Response responseNoContent = getMockResponse(HttpStatus.NO_CONTENT, true, "");
         UserDetails userDetails = getMockUser(true);
         when(reqProcessor.process(eq("/write"),Mockito.any(),eq(token))).thenReturn(responseNoContent);
-        responseEntity = awsAuthService.createRole(token, awsLoginRole, userDetails);
+        awsAuthService.createRole(token, awsLoginRole, userDetails);
     }
 
     @Test
@@ -333,9 +333,8 @@ public class AWSAuthServiceTest {
                 "arn:aws:iam::8987887:role/test-role", "arn:aws:iam::877677878:instance-profile/exampleinstanceprofile",
                 "\"[prod, dev\"]");
 
-        ResponseEntity<String> responseEntity = null;
         when(ControllerUtil.areAWSEC2RoleInputsValid(awsLoginRole)).thenReturn(false);
-        responseEntity = awsAuthService.updateRole(token, awsLoginRole);
+        awsAuthService.updateRole(token, awsLoginRole);
     }
 
     @Test

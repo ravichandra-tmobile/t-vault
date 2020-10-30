@@ -22,10 +22,7 @@ import static org.mockito.Matchers.any;
 import static org.mockito.Mockito.when;
 
 import java.lang.reflect.InvocationTargetException;
-import java.util.ArrayList;
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
+import java.util.*;
 
 import com.tmobile.cso.vault.api.model.*;
 
@@ -97,7 +94,7 @@ public class OIDCAuthServiceTest {
         Response response = new Response();
         response.setHttpstatus(status);
         response.setSuccess(success);
-        if (expectedBody != "") {
+        if (!Objects.equals(expectedBody, "")) {
             response.setResponse(expectedBody);
         }
         return response;

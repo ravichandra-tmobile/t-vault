@@ -97,7 +97,7 @@ public class TokenValidatorTest {
         Response response = new Response();
         response.setHttpstatus(status);
         response.setSuccess(success);
-        if (expectedBody!="") {
+        if (!Objects.equals(expectedBody, "")) {
             response.setResponse(expectedBody);
         }
         return response;

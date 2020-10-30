@@ -46,6 +46,7 @@ import org.springframework.http.ResponseEntity;
 import java.io.IOException;
 import java.util.HashMap;
 import java.util.Map;
+import java.util.Objects;
 
 import static org.junit.Assert.assertEquals;
 import static org.mockito.Mockito.when;
@@ -81,7 +82,7 @@ public class VaultAuthServiceTest {
         Response response = new Response();
         response.setHttpstatus(status);
         response.setSuccess(success);
-        if (expectedBody!="") {
+        if (!Objects.equals(expectedBody, "")) {
             response.setResponse(expectedBody);
         }
         return response;
@@ -94,9 +95,8 @@ public class VaultAuthServiceTest {
         UserLogin userLogin = new UserLogin("safeadmin", "safeadmin");
         String responseJson = "{  \"client_token\": \"8766fdhjSAtH2a4MdvMyzWid\",\"admin\": \"yes\",\"access\": {\"users\":[{\"safe1\":\"read\"}], \"svcacct\":[{\"svc1\":\"read\"}], \"cert\":[{\"cert1\":\"read\"}]},\"policies\": [\"default\",\"safeadmin\"],\"lease_duration\": 1800000, \"feature\": {\"adpwdrotation\": \"true\", \"serviceaccount\":\"true\"}}";
         Response response = getMockResponse(HttpStatus.OK, true, responseJson);
-        Map<String, Object> responseMap = null;
         try {
-            responseMap = new ObjectMapper().readValue(response.getResponse(), new TypeReference<Map<String, Object>>(){});
+            new ObjectMapper().readValue(response.getResponse(), new TypeReference<Map<String, Object>>(){});
         } catch (IOException e) {
             e.printStackTrace();
         }
@@ -117,9 +117,8 @@ public class VaultAuthServiceTest {
         UserLogin userLogin = new UserLogin("safeadmin", "safeadmin");
         String responseJson = "{  \"client_token\": \"8766fdhjSAtH2a4MdvMyzWid\",\"admin\": \"yes\",\"access\": {\"users\":[{\"safe1\":\"read\"}], \"svcacct\":[{\"svc1\":\"read\"}], \"externalcerts\":[{\"externalcerts1\":\"read\"}]}, \"policies\": [\"default\",\"safeadmin\"],\"lease_duration\": 1800000, \"feature\": {\"adpwdrotation\": \"true\", \"serviceaccount\":\"true\"}}";
         Response response = getMockResponse(HttpStatus.OK, true, responseJson);
-        Map<String, Object> responseMap = null;
         try {
-            responseMap = new ObjectMapper().readValue(response.getResponse(), new TypeReference<Map<String, Object>>(){});
+            new ObjectMapper().readValue(response.getResponse(), new TypeReference<Map<String, Object>>(){});
         } catch (IOException e) {
             e.printStackTrace();
         }
