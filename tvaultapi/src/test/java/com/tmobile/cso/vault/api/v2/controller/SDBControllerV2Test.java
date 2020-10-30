@@ -57,9 +57,6 @@ public class SDBControllerV2Test {
 
     @InjectMocks
     private SDBControllerV2 sdbControllerV2;
-    
-    @Mock
-    UserDetails userDetails;
 
     @Before
     public void setUp() {

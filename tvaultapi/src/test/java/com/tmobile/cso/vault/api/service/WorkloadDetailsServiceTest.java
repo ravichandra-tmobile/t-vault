@@ -48,13 +48,8 @@ import static org.powermock.api.mockito.PowerMockito.mockStatic;
 @PowerMockIgnore({"javax.management.*", "javax.net.ssl.*"})
 public class WorkloadDetailsServiceTest {
 
-    private MockMvc mockMvc;
-
     @InjectMocks
     WorkloadDetailsService workloadDetailsService;
-
-    @Mock
-    private RequestProcessor reqProcessor;
 
     @Mock
     UserDetails userDetails;

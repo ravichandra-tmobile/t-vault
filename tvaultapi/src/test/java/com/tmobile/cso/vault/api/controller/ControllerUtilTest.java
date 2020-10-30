@@ -103,7 +103,7 @@ public class ControllerUtilTest {
         Response response = new Response();
         response.setHttpstatus(status);
         response.setSuccess(success);
-        if (expectedBody!="") {
+        if (!"".equals(expectedBody)) {
             response.setResponse(expectedBody);
         }
         return response;
@@ -198,6 +198,7 @@ public class ControllerUtilTest {
         when(reqProcessor.process(eq("/write"),Mockito.any(),eq(token))).thenReturn(response);
 
         Response actualResponse = ControllerUtil.updateMetadata(params, token);
+        assert actualResponse != null;
         assertEquals(HttpStatus.CREATED, actualResponse.getHttpstatus());
     }
 
@@ -1031,7 +1032,7 @@ public class ControllerUtilTest {
     
     @Test
     public void test_getPoliciesAsListFromJson() {
-        List<String> policyList = new ArrayList<>();;
+        List<String> policyList = new ArrayList<>();
         List<String> expectedList = new ArrayList<>();
         expectedList.add("s_shared_mysafe01");
         try {

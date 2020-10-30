@@ -89,24 +89,6 @@ public class IAMServiceAccountServiceTest {
 	UserDetails userDetails;
 
 	@Mock
-	LdapTemplate ldapTemplate;
-
-	@Mock
-    StatusLine statusLine;
-
-    @Mock
-    HttpEntity mockHttpEntity;
-
-    @Mock
-    CloseableHttpClient httpClient;
-
-    @Mock
-    CloseableHttpResponse httpResponse;
-
-    @Mock
-    HttpUtils httpUtils;
-    
-    @Mock
     PolicyUtils policyUtils;
     
     @Mock
@@ -1572,15 +1554,6 @@ public class IAMServiceAccountServiceTest {
 		IAMServiceAccountUser iamServiceAccountUser =  new IAMServiceAccountUser(iamServiceAccountName, "normaluser", "read",awsAccountId);
 		ResponseEntity<String> actualResponse = iamServiceAccountsService.addUserToIAMServiceAccount(token, userDetails, iamServiceAccountUser, false);
 		assertEquals(expectedResponse, actualResponse);
-	}
-
-	private IAMServiceAccountMetadataDetails populateIAMSvcAccMetaData(
-			IAMServiceAccountOffboardRequest iamServiceAccount) {
-
-		IAMServiceAccountMetadataDetails iamServiceAccountMetadataDetails = new IAMServiceAccountMetadataDetails();
-		iamServiceAccountMetadataDetails.setUserName(iamServiceAccount.getIamSvcAccName());
-		iamServiceAccountMetadataDetails.setAwsAccountId(iamServiceAccount.getAwsAccountId());
-		return iamServiceAccountMetadataDetails;
 	}
 
 	@Test

@@ -61,19 +61,11 @@ import static org.mockito.Mockito.*;
 @PowerMockIgnore({"javax.management.*", "javax.net.ssl.*"})
 public class SSLCertificateServiceTest {
 
-    private MockMvc mockMvc;
-
     @Mock
     DirectoryService directoryService;
 
-    @Mock
-    LdapTemplate ldapTemplate;
-
     @InjectMocks
     SSLCertificateService sSLCertificateService;
-    
-    @Mock
-    ControllerUtil controllerUtil;
 
     @Mock
     private RequestProcessor reqProcessor;
@@ -106,9 +98,6 @@ public class SSLCertificateServiceTest {
 
     @Mock
     CloseableHttpClient httpClient1;
-
-    @Mock
-    CertificateData certificateData;
 
     @Mock
     private WorkloadDetailsService workloadDetailsService;

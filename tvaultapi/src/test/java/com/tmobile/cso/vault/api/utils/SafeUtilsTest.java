@@ -63,9 +63,6 @@ public class SafeUtilsTest {
     @Mock
     RequestProcessor reqProcessor;
 
-    @Mock
-    Response response;
-
     @Before
     public void setUp() {
         PowerMockito.mockStatic(JSONUtil.class);

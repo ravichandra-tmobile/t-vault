@@ -76,9 +76,6 @@ public class SelfSupportServiceTest {
     PolicyUtils policyUtils;
 
     @Mock
-    VaultAuthService vaultAuthService;
-
-    @Mock
     AWSAuthService awsAuthService;
 
     @Mock
@@ -86,9 +83,6 @@ public class SelfSupportServiceTest {
 
     @Mock
     AppRoleService appRoleService;
-
-    @Mock
-    OIDCUtil OIDCUtil;
 
     @Before
     public void setUp() {
@@ -1540,6 +1534,8 @@ public class SelfSupportServiceTest {
 
     @Test
     public void test_getSafes_successfully() {
+        OIDCUtil oidcUtil = Mockito.mock(OIDCUtil.class);
+        Whitebox.setInternalState(selfSupportService, "oidcUtil", oidcUtil);
         String token = "5PDrOhsy4ig8L3EpsJZSLAMg";
         UserDetails userDetails = getMockUser(false);
         String [] policies = {"r_users_s1", "w_users_s2", "r_shared_s3", "w_shared_s4", "r_apps_s5", "w_apps_s6", "d_apps_s7"};

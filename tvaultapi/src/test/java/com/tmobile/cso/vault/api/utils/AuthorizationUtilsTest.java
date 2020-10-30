@@ -66,11 +66,8 @@ public class AuthorizationUtilsTest {
 
     @Mock
     RequestProcessor reqProcessor;
-    
-    @Mock
-    Response response;
-    
-    @Before
+
+	@Before
     public void setUp() {
         PowerMockito.mockStatic(JSONUtil.class);
 

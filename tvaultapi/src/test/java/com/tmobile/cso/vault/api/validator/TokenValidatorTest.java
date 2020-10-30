@@ -105,17 +105,8 @@ public class TokenValidatorTest {
         }
         return response;
     }
-    
-	private String getJSON(Object obj)  {
-		ObjectMapper mapper = new ObjectMapper();
-		try {
-			return mapper.writeValueAsString(obj);
-		} catch (JsonProcessingException e) {
-			return "{}";
-		}
-	}
 
-	@Test
+    @Test
     public void test_getVaultTokenLookupDetails_successfully() throws TVaultValidationException, IOException {
         String token = "7QPMPIGiyDFlJkrK3jFykUqa";
         Response response = getMockResponse(HttpStatus.OK, true, "{\"id\":\"7DXvbGXxu81LC724cRrrqYyq\",\"last_renewal_time\":null,\"renewable\":false,\"policies\":[\"default\"],\"creation_ttl\":0,\"username\":null}");

@@ -74,19 +74,8 @@ import com.tmobile.cso.vault.api.validator.TokenValidator;
 @PowerMockIgnore({"javax.management.*", "javax.net.ssl.*"})
 public class SSLCertificateAWSRoleServiceTest {
 
-    private MockMvc mockMvc;
-
-    @Mock
-    DirectoryService directoryService;
-
-    @Mock
-    LdapTemplate ldapTemplate;
-
     @InjectMocks
     SSLCertificateAWSRoleService sslCertificateAWSRoleService;
-
-    @Mock
-    ControllerUtil controllerUtil;
 
     @Mock
     private RequestProcessor reqProcessor;
@@ -95,27 +84,12 @@ public class SSLCertificateAWSRoleServiceTest {
     UserDetails userDetails;
 
     @Mock
-    VaultAuthService vaultAuthService;
-
-    @Mock
     PolicyUtils policyUtils;
-
-    @Mock
-    TokenValidator tokenValidator;
 
     String token;
 
     @Mock
-    CertificateData certificateData;
-
-    @Mock
-    private WorkloadDetailsService workloadDetailsService;
-
-    @Mock
     CertificateUtils certificateUtils;
-
-    @Mock
-    ObjectMapper obj;
 
     @Mock
     TokenUtils tokenUtils;

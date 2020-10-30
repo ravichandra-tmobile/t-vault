@@ -33,9 +33,6 @@ public class WorkloadDetailsControllerTest {
 
     private MockMvc mockMvc;
 
-    @Mock
-    RequestProcessor reqProcessor;
-
     @InjectMocks
     public WorkloadDetailsController workloadDetailsController;
 

@@ -85,16 +85,7 @@ public class ServiceAccountsControllerV2Test {
         userDetails.setSelfSupportToken(token);
         return userDetails;
     }
-    
-    private Response getMockResponse(HttpStatus status, boolean success, String expectedBody) {
-        Response response = new Response();
-        response.setHttpstatus(status);
-        response.setSuccess(success);
-        if (expectedBody!="") {
-            response.setResponse(expectedBody);
-        }
-        return response;
-    }
+
     private ADServiceAccount generateADServiceAccount(String  userid) {
         ADServiceAccount adServiceAccount = new ADServiceAccount();
         adServiceAccount.setDisplayName("testacc");

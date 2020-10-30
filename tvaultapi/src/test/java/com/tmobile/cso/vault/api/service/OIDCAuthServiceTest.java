@@ -71,22 +71,7 @@ public class OIDCAuthServiceTest {
 
     @Mock
     private RequestProcessor reqProcessor;
-    
-    @Mock
-    StatusLine statusLine;
 
-    @Mock
-    HttpEntity mockHttpEntity;
-
-    @Mock
-    CloseableHttpClient httpClient;
-
-    @Mock
-    CloseableHttpResponse httpResponse;
-
-    @Mock
-    HttpUtils httpUtils;
-    
     @Mock
     OIDCUtil OIDCUtil;
 

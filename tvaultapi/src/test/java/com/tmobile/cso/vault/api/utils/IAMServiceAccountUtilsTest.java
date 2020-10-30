@@ -120,16 +120,6 @@ public class IAMServiceAccountUtilsTest {
         return response;
     }
 
-    UserDetails getMockUser(boolean isAdmin) {
-        String token = "5PDrOhsy4ig8L3EpsJZSLAMg";
-        UserDetails userDetails = new UserDetails();
-        userDetails.setUsername("normaluser");
-        userDetails.setAdmin(isAdmin);
-        userDetails.setClientToken(token);
-        userDetails.setSelfSupportToken(token);
-        return userDetails;
-    }
-
     @Test
     public void test_getIAMApproleToken_success() throws IOException {
 

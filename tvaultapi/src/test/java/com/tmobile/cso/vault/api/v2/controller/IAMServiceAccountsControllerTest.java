@@ -62,10 +62,7 @@ public class IAMServiceAccountsControllerTest {
 	
 	@InjectMocks
 	private IAMServiceAccountsController iamServiceAccountsController;
-	
-	@Mock
-    HttpServletRequest httpServletRequest;
-	
+
 	@Mock
     UserDetails userDetails;
 	

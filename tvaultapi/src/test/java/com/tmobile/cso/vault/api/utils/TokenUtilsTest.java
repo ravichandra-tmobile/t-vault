@@ -64,10 +64,7 @@ public class TokenUtilsTest {
 
     @Mock
     RequestProcessor reqProcessor;
-    
-    @Mock
-    Response response;
-    
+
     @Before
     public void setUp() {
         PowerMockito.mockStatic(JSONUtil.class);
@@ -91,17 +88,8 @@ public class TokenUtilsTest {
         }
         return response;
     }
-    
-	private String getJSON(Object obj)  {
-		ObjectMapper mapper = new ObjectMapper();
-		try {
-			return mapper.writeValueAsString(obj);
-		} catch (JsonProcessingException e) {
-			return "{}";
-		}
-	}
 
-	@Test
+    @Test
     public void test_getSelfServiceToken_success() throws Exception {
 
         String jsonStr = "{\"username\":\"testadmin\",\"password\":\"testadmin\"}";

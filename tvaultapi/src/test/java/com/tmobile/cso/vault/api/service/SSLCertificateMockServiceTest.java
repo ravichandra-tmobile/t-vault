@@ -65,19 +65,11 @@ import static org.mockito.Mockito.when;
 @PowerMockIgnore({"javax.management.*", "javax.net.ssl.*"})
 public class SSLCertificateMockServiceTest {
 
-    private MockMvc mockMvc;
-
     @Mock
     DirectoryService directoryService;
 
-    @Mock
-    LdapTemplate ldapTemplate;
-
     @InjectMocks
     SSLCertificateService sSLCertificateService;
-
-    @Mock
-    ControllerUtil controllerUtil;
 
     @Mock
     private RequestProcessor reqProcessor;
@@ -110,9 +102,6 @@ public class SSLCertificateMockServiceTest {
 
     @Mock
     CloseableHttpClient httpClient1;
-
-    @Mock
-    CertificateData certificateData;
 
     @Mock
     private WorkloadDetailsService workloadDetailsService;
@@ -353,7 +342,6 @@ public class SSLCertificateMockServiceTest {
 
     /**
      * This return mock certificate data
-     * @param sslCertificateRequest
      * @return
      */
     public CertificateData getMockCertificateData(){
@@ -2020,25 +2008,6 @@ public class SSLCertificateMockServiceTest {
         response.setResponse(enrollCSRResponse);
         response.setSuccess(true);
 
-        return response;
-    }
-
-    private CertResponse getEnrollCSRResponseWithWrongCertificateName() {
-        String enrollCSRResponse = "{\"containsErrors\":true,\"subject\":{\"items\":[{\"typeName\":\"cn\"," +
-                "\"parameterId\":120,\"removable\":false,\"   denyMore\":{\"id\":0,\"value\":false,\"disabled\":false,\"owner\":{\"entityRef\":\"SERVICE\",\"entityId\":15116,\"displayName\":\"\"}},\"required\":{\"id\":0,\"value\":false,\"disabled\":false,\"owner\":{\"entityRef\":\"SERVICE\",\"entityId\":15116,\"displayName\":\"\"}},\"value\":[{\"id\":315441,\"parentId\":null,\"linkId\":46,\"locked\":false,\"value\":\"certtest..dns.t-mobile.com\",\"owner\":{\"entityRef\":\"SERVICE\",\"entityId\":15116,\"displayName\":\"qeqwe\"},\"disabled\":false,\"validationResult\":{\"results\":[{\"category\":\"subject\",\"field\":\"cn\",\"severity\":\"content\",\"severityEnum\":300,\"description\":\"must be a valid DNS name (certtest..dns.t-mobile.com)\"}]}}],\"whitelist\":null,\"blacklist\":null}]},\"subjectAlternativeName\":{\"items\":[{\"typeName\":\"dns\",\"parameterId\":0,\"removable\":true,\"denyMore\":{\"id\":0,\"value\":false,\"disabled\":false,\"owner\":{\"entityRef\":\"SERVICE\",\"entityId\":15116,\"displayName\":\"\"}},\"required\":{\"id\":0,\"value\":false,\"disabled\":false,\"owner\":{\"entityRef\":\"SERVICE\",\"entityId\":15116,\"displayName\":\"\"}},\"value\":[{\"id\":0,\"parentId\":null,\"locked\":false,\"value\":\"certtest..dns1.t-mobile.com\",\"owner\":{\"entityRef\":\"SERVICE\",\"entityId\":15116,\"displayName\":\"Policy\"},\"disabled\":false,\"validationResult\":{\"results\":[{\"category\":\"subjectAlt\",\"field\":\"dns\",\"severity\":\"content\",\"severityEnum\":300,\"description\":\"must be a valid DNS name (certtest..dns1.t-mobile.com)\"}]}},{\"id\":0,\"parentId\":null,\"locked\":false,\"value\":\"certtest..dns2.t-mobile.com\",\"owner\":{\"entityRef\":\"SERVICE\",\"entityId\":15116,\"displayName\":\"Policy\"},\"disabled\":false,\"validationResult\":{\"results\":[{\"category\":\"subjectAlt\",\"field\":\"dns\",\"severity\":\"content\",\"severityEnum\":300,\"description\":\"must be a valid DNS name (certtest..dns2.t-mobile.com)\"}]}}],\"whitelist\":null,\"blacklist\":null}]}}";
-        CertResponse response = new CertResponse();
-        response.setHttpstatus(HttpStatus.OK);
-        response.setResponse(enrollCSRResponse);
-        response.setSuccess(true);
-        return response;
-    }
-    private CertResponse getEnrollCSRResponseWithWrongDNSName() {
-        String enrollCSRResponse = "{\"containsErrors\":true,\"subject\":{\"items\":[{\"typeName\":\"cn\"," +
-                "\"parameterId\":120,\"removable\":false,\"denyMore\":{\"id\":0,\"value\":false,\"disabled\":false,\"owner\":{\"entityRef\":\"SERVICE\",\"entityId\":15116,\"displayName\":\"\"}},\"required\":{\"id\":0,\"value\":false,\"disabled\":false,\"owner\":{\"entityRef\":\"SERVICE\",\"entityId\":15116,\"displayName\":\"\"}},\"value\":[{\"id\":315441,\"parentId\":null,\"linkId\":46,\"locked\":false,\"value\":\"dns1.t-mobile.com\",\"owner\":{\"entityRef\":\"SERVICE\",\"entityId\":15116,\"displayName\":\"qeqwe\"},\"disabled\":false}],\"whitelist\":null,\"blacklist\":null},{\"typeName\":\"l\",\"parameterId\":121,\"removable\":true,\"denyMore\":{\"id\":0,\"value\":false,\"disabled\":false,\"owner\":{\"entityRef\":\"SERVICE\",\"entityId\":15116,\"displayName\":\"\"}},\"required\":{\"id\":0,\"value\":false,\"disabled\":false,\"owner\":{\"entityRef\":\"SERVICE\",\"entityId\":15116,\"displayName\":\"\"}},\"value\":[{\"id\":31218,\"parentId\":null,\"locked\":false,\"value\":\"Bothell\",\"owner\":{\"entityRef\":\"CONTAINER\",\"entityId\":1284,\"displayName\":\"Private Certificates\"},\"disabled\":false}],\"whitelist\":null,\"blacklist\":null},{\"typeName\":\"st\",\"parameterId\":126,\"removable\":true,\"denyMore\":{\"id\":0,\"value\":false,\"disabled\":false,\"owner\":{\"entityRef\":\"SERVICE\",\"entityId\":15116,\"displayName\":\"\"}},\"required\":{\"id\":0,\"value\":false,\"disabled\":false,\"owner\":{\"entityRef\":\"SERVICE\",\"entityId\":15116,\"displayName\":\"\"}},\"value\":[{\"id\":31217,\"parentId\":null,\"locked\":false,\"value\":\"Washington\",\"owner\":{\"entityRef\":\"CONTAINER\",\"entityId\":1284,\"displayName\":\"Private Certificates\"},\"disabled\":false}],\"whitelist\":null,\"blacklist\":null}]},\"subjectAlternativeName\":{\"items\":[{\"typeName\":\"dns\",\"parameterId\":0,\"removable\":true,\"denyMore\":{\"id\":0,\"value\":false,\"disabled\":false,\"owner\":{\"entityRef\":\"SERVICE\",\"entityId\":15116,\"displayName\":\"\"}},\"required\":{\"id\":0,\"value\":false,\"disabled\":false,\"owner\":{\"entityRef\":\"SERVICE\",\"entityId\":15116,\"displayName\":\"\"}},\"value\":[{\"id\":0,\"parentId\":null,\"locked\":false,\"value\":\"dns2..t-mobile.com\",\"owner\":{\"entityRef\":\"SERVICE\",\"entityId\":15116,\"displayName\":\"Policy\"},\"disabled\":false,\"validationResult\":{\"results\":[{\"category\":\"subjectAlt\",\"field\":\"dns\",\"severity\":\"content\",\"severityEnum\":300,\"description\":\"must be a valid DNS name (dns2..t-mobile.com)\"}]}},{\"id\":0,\"parentId\":null,\"locked\":false,\"value\":\"dns3.t-mobile.com\",\"owner\":{\"entityRef\":\"SERVICE\",\"entityId\":15116,\"displayName\":\"Policy\"},\"disabled\":false}],\"whitelist\":null,\"blacklist\":null}]}}";
-        CertResponse response = new CertResponse();
-        response.setHttpstatus(HttpStatus.OK);
-        response.setResponse(enrollCSRResponse);
-        response.setSuccess(true);
         return response;
     }
 

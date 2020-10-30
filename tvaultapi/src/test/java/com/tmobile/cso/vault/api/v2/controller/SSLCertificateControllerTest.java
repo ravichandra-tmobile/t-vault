@@ -43,9 +43,6 @@ public class SSLCertificateControllerTest {
 
     private MockMvc mockMvc;
 
-    @Mock
-    RequestProcessor reqProcessor;
-
     @InjectMocks
     public SSLCertificateController SslCertificateController;
 
