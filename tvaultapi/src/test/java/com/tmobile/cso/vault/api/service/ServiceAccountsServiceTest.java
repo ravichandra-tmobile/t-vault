@@ -439,8 +439,6 @@ public class ServiceAccountsServiceTest {
         String expectedResponse = "{\"errors\":[\"Failed to onboard Service Account. Service account is already onboarded\"]}";
         ResponseEntity<String> responseEntityExpected = ResponseEntity.status(HttpStatus.BAD_REQUEST).body(expectedResponse);
 
-        List<ADServiceAccount> allServiceAccounts = new ArrayList<>();
-        allServiceAccounts.add(generateADServiceAccount("testacc02"));
         ReflectionTestUtils.setField(serviceAccountsService, "ldapTemplate", ldapTemplate);
         when(ldapTemplate.search(Mockito.anyString(), Mockito.any(), Mockito.any(AttributesMapper.class))).thenReturn(null);
 
@@ -2181,10 +2179,6 @@ public class ServiceAccountsServiceTest {
         when(reqProcessor.process(eq("/sdb"),Mockito.any(),eq(token))).thenReturn(getMockResponse(HttpStatus.OK, true, "{\"data\":{\"initialPasswordReset\":true,\"managedBy\":\"smohan11\",\"name\":\"svc_vault_test5\",\"users\":{\"smohan11\":\"sudo\"}}}"));
         
         ReflectionTestUtils.setField(serviceAccountsService, "vaultAuthMethod", "oidc");
-        List<String> policie = new ArrayList<>();
-        policie.add("default");
-        policie.add("w_shared_mysafe02");
-        policie.add("r_shared_mysafe01");
         List<String> currentpolicies = new ArrayList<>();
         currentpolicies.add("default");
         currentpolicies.add("w_shared_mysafe01");
@@ -2378,10 +2372,7 @@ public class ServiceAccountsServiceTest {
 
         
         ReflectionTestUtils.setField(serviceAccountsService, "vaultAuthMethod", "oidc");
-        List<String> policie = new ArrayList<>();
-        policie.add("default");
-        policie.add("w_shared_mysafe02");
-        policie.add("r_shared_mysafe01");
+
         List<String> currentpolicies = new ArrayList<>();
         currentpolicies.add("default");
         currentpolicies.add("w_shared_mysafe01");
@@ -3577,15 +3568,6 @@ public class ServiceAccountsServiceTest {
 
         when(reqProcessor.process("/ad/serviceaccount/details", "{\"role_name\":\"" + svcAccName + "\"}", token)).thenReturn(svcAccDetailsRes);
 
-        String encodedFilter = "(&(userPrincipalName=test*)(objectClass=user)(!(CN=null)))";
-        List<ADUserAccount> list = new ArrayList<>();
-        ADUserAccount adUserAccount = new ADUserAccount();
-        adUserAccount.setUserId("user.user11");
-        adUserAccount.setUserName("user11");
-        adUserAccount.setDisplayName("user user11");
-        adUserAccount.setGivenName("user11");
-        adUserAccount.setUserEmail("user11@abc.com");
-        list.add(adUserAccount);
         ReflectionTestUtils.setField(serviceAccountsService, "ldapTemplate", ldapTemplate);
         when(ldapTemplate.search(Mockito.anyString(), Mockito.anyString(), Mockito.any(AttributesMapper.class))).thenReturn(null);
 

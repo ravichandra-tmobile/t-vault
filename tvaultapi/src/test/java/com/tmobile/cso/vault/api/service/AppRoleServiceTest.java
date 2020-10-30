@@ -858,12 +858,6 @@ public class AppRoleServiceTest {
         when(ControllerUtil.areSafeAppRoleInputsValid(Mockito.anyMap())).thenReturn(true);
         when(ControllerUtil.canAddPermission(Mockito.anyString(), Mockito.anyString())).thenReturn(true);
 
-        Map<String,String> params = new HashMap<String,String>();
-        params.put("type", "app-roles");
-        params.put("name","approle1");
-        params.put("path","shared/mysafe01");
-        params.put("access","write");
-
         //when(ControllerUtil.updateMetadata(Mockito.anyMap(),eq(token))).thenReturn(updateMetadataResponse_404);
         when(ControllerUtil.updateMetadata(Mockito.anyMap(),eq(token))).thenAnswer(new Answer() {
             private int count = 0;
@@ -1824,10 +1818,8 @@ public class AppRoleServiceTest {
         		"}";
         Response accessorIdResponse = getMockResponse(HttpStatus.OK, true, accessorIdResponseJson);
         
-        Map<String, Object> accessorIdResponseMap = new HashMap<>();
         ArrayList<String> accessorIds = new ArrayList<String>();
         accessorIds.add("generated-accessor-id1");
-        accessorIdResponseMap.put("keys", accessorIds);
         when(ControllerUtil.parseJson(accessorIdResponseJson)).thenReturn(responseMap);
         
         when(reqProcessor.process("/auth/approle/role/accessors/list", "{\"role_name\":\""+role_name+"\"}",token)).thenReturn(accessorIdResponse);
@@ -1921,10 +1913,8 @@ public class AppRoleServiceTest {
         		"}";
         Response accessorIdResponse = getMockResponse(HttpStatus.OK, true, accessorIdResponseJson);
         
-        Map<String, Object> accessorIdResponseMap = new HashMap<>();
         ArrayList<String> accessorIds = new ArrayList<String>();
         accessorIds.add("generated-accessor-id1");
-        accessorIdResponseMap.put("keys", accessorIds);
         when(ControllerUtil.parseJson(accessorIdResponseJson)).thenReturn(responseMap);
         
         when(reqProcessor.process("/auth/approle/role/accessors/list", "{\"role_name\":\""+role_name+"\"}",userDetails.getSelfSupportToken())).thenReturn(accessorIdResponse);
@@ -2018,10 +2008,8 @@ public class AppRoleServiceTest {
         		"}";
         Response accessorIdResponse = getMockResponse(HttpStatus.OK, true, accessorIdResponseJson);
         
-        Map<String, Object> accessorIdResponseMap = new HashMap<>();
         ArrayList<String> accessorIds = new ArrayList<String>();
         accessorIds.add("generated-accessor-id1");
-        accessorIdResponseMap.put("keys", accessorIds);
         when(ControllerUtil.parseJson(accessorIdResponseJson)).thenReturn(responseMap);
         
         when(reqProcessor.process("/auth/approle/role/accessors/list", "{\"role_name\":\""+role_name+"\"}",userDetails.getSelfSupportToken())).thenReturn(accessorIdResponse);

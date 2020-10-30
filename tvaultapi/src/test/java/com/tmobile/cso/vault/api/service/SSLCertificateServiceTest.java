@@ -4801,10 +4801,6 @@ public class SSLCertificateServiceTest {
         when(ControllerUtil.updateSslCertificateMetadata(any(),eq(token))).thenReturn(responseNoContent);
 
         ReflectionTestUtils.setField(sSLCertificateService, "vaultAuthMethod", "oidc");
-        List<String> policiess = new ArrayList<>();
-        policiess.add("default");
-        policiess.add("w_shared_mysafe02");
-        policiess.add("r_shared_mysafe01");
         List<String> currentpolicies = new ArrayList<>();
         currentpolicies.add("default");
         currentpolicies.add("w_shared_mysafe01");

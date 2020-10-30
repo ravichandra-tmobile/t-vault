@@ -177,8 +177,6 @@ public class TokenValidatorTest {
         expectedLookupDetails.setToken(token);
         expectedLookupDetails.setUsername(null);
         String [] policies = {"default"};
-        ArrayList<String> adminPolicies = new ArrayList<>();
-        adminPolicies.add("adminpolicy");
         expectedLookupDetails.setPolicies(policies);
 
         when(reqProcessor.process("/auth/tvault/lookup","{}", token)).thenReturn(response);
@@ -201,8 +199,6 @@ public class TokenValidatorTest {
         expectedLookupDetails.setToken(token);
         expectedLookupDetails.setUsername(null);
         String [] policies = {"default"};
-        ArrayList<String> adminPolicies = new ArrayList<>();
-        adminPolicies.add("adminpolicy");
         expectedLookupDetails.setPolicies(policies);
 
         when(reqProcessor.process("/auth/tvault/lookup","{}", token)).thenReturn(response);

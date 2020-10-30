@@ -613,10 +613,6 @@ public class IAMServiceAccountServiceTest {
 				"{\"data\":{\"isActivated\":true,\"managedBy\":\"normaluser\",\"name\":\"svc_vault_test5\",\"users\":{\"normaluser\":\"sudo\"}}}"));
 
 		ReflectionTestUtils.setField(iamServiceAccountsService, "vaultAuthMethod", "oidc");
-		List<String> policie = new ArrayList<>();
-		policie.add("default");
-		policie.add("w_shared_mysafe02");
-		policie.add("r_shared_mysafe01");
 		List<String> currentpolicies = new ArrayList<>();
 		currentpolicies.add("default");
 		currentpolicies.add("w_shared_mysafe01");
@@ -829,10 +825,6 @@ public class IAMServiceAccountServiceTest {
 				"{\"data\":{\"isActivated\":true,\"managedBy\":\"normaluser\",\"name\":\"svc_vault_test5\",\"users\":{\"normaluser\":\"sudo\"}}}"));
 
 		ReflectionTestUtils.setField(iamServiceAccountsService, "vaultAuthMethod", "oidc");
-		List<String> policie = new ArrayList<>();
-		policie.add("default");
-		policie.add("w_shared_mysafe02");
-		policie.add("r_shared_mysafe01");
 		List<String> currentpolicies = new ArrayList<>();
 		currentpolicies.add("default");
 		currentpolicies.add("w_shared_mysafe01");

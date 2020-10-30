@@ -1439,12 +1439,6 @@ public class SafesServiceTest {
         when(ControllerUtil.areSafeAppRoleInputsValid(Mockito.anyMap())).thenReturn(true);
         when(ControllerUtil.canAddPermission(Mockito.anyString(), Mockito.anyString())).thenReturn(true);
 
-        Map<String,String> params = new HashMap<String,String>();
-        params.put("type", "app-roles");
-        params.put("name","approle1");
-        params.put("path","shared/mysafe01");
-        params.put("access","write");
-
         //when(ControllerUtil.updateMetadata(Mockito.anyMap(),eq(token))).thenReturn(updateMetadataResponse_404);
         when(ControllerUtil.updateMetadata(Mockito.anyMap(),eq(token))).thenAnswer(new Answer() {
             private int count = 0;

@@ -774,11 +774,6 @@ public class ControllerUtilTest {
 
     @Test
     public void test_addDefaultSecretKey()  {
-
-        Map<String, Object> requestParams = new LinkedHashMap<>();
-        Map<String, Object> dataParam = new LinkedHashMap<>();
-        requestParams.put("data", dataParam);
-
         String jsonStr = "{\"data\": {}}";
         String jsonStrDefault = "{\"data\": {\"default\":\"default\"}}";
         when(JSONUtil.getJSON(Mockito.any())).thenReturn(jsonStrDefault);
@@ -1140,10 +1135,6 @@ public class ControllerUtilTest {
     @Test
     public void test_updateMetadataOnSvcUpdate_successfully() {
         String token = "7QPMPIGiyDFlJkrK3jFykUqa";
-        Map<String,String> params = new HashMap<String,String>();
-        params.put("type", "initialPasswordReset");
-        params.put("path", TVaultConstants.SVC_ACC_ROLES_PATH + "testacc02");
-        params.put("value","true");
         String path = TVaultConstants.SVC_ACC_ROLES_PATH + "testacc02";
         ServiceAccount serviceAccount = new ServiceAccount();
         serviceAccount.setName("svc_vault_test2");
