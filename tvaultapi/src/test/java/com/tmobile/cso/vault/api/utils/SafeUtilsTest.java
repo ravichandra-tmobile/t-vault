@@ -105,7 +105,7 @@ public class SafeUtilsTest {
     public void test_getPoliciesForManagedSafes_successfully() throws IOException {
         ObjectMapper objMapper = new ObjectMapper();
         Response response = getMockResponse(HttpStatus.OK, true, "{\"client_token\":\"8zyIbj3i9hXJFuIPC5AzeUK3\",\"admin\":\"no\",\"access\":{},\"policies\":[\"approle_normal_user\",\"default\",\"s_users_ert\"],\"lease_duration\":1800000}");
-        JsonNode policiesJsonNode = objMapper.readTree(response.getResponse().toString()).get("policies");
+        JsonNode policiesJsonNode = objMapper.readTree(response.getResponse()).get("policies");
         List<String> expectedAdminPolicies = new ArrayList<>();
         expectedAdminPolicies.add("s_users_ert");
         List<String> adminPolicies = safeUtils.getPoliciesForManagedSafes(policiesJsonNode);
@@ -116,7 +116,7 @@ public class SafeUtilsTest {
     public void test_getManagedSafesFromPolicies_successfully() throws IOException {
         ObjectMapper objMapper = new ObjectMapper();
         Response response = getMockResponse(HttpStatus.OK, true, "{\"client_token\":\"8zyIbj3i9hXJFuIPC5AzeUK3\",\"admin\":\"no\",\"access\":{},\"policies\":[\"approle_normal_user\",\"default\",\"s_users_ert\"],\"lease_duration\":1800000}");
-        JsonNode policiesJsonNode = objMapper.readTree(response.getResponse().toString()).get("policies");
+        JsonNode policiesJsonNode = objMapper.readTree(response.getResponse()).get("policies");
         String[] expectedList = {"ert"};
         String[] policies = {"s_users_ert"};
         String[] policiesRes = safeUtils.getManagedSafes(policies, "users");

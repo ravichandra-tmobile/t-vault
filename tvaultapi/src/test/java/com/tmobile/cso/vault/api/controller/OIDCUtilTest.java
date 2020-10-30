@@ -612,7 +612,7 @@ public class OIDCUtilTest {
          when(directoryService.searchByUPN(directoryUser.getUserEmail())).thenReturn(responseEntity1);
 
 		String originalUserName = oidcUtil.getUserName(email);
-		assertEquals(originalUserName, responsemock.getResponse().toString());
+		assertEquals(originalUserName, responsemock.getResponse());
     }
 
     @Test

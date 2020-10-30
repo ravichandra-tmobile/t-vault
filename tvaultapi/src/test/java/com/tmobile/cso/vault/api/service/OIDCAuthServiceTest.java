@@ -390,7 +390,7 @@ public class OIDCAuthServiceTest {
         String state = "teststatecode";
         String code = "testauthcode";
         String pathStr = "?code="+code+"&state="+state;
-        String responseJson = "{\"errors\":[\"Failed to get process callback\"]}";;
+        String responseJson = "{\"errors\":[\"Failed to get process callback\"]}";
 
         Response response = getMockResponse(HttpStatus.BAD_REQUEST, true, responseJson);
 

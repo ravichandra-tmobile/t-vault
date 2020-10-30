@@ -1106,7 +1106,7 @@ public class AppRoleServiceTest {
         when(reqProcessor.process("/auth/approle/role/accessors/list", "{\"role_name\":\""+role_name+"\"}",token)).thenReturn(response);
         List<String> actualAccessorIds = appRoleService.readAccessorIds(token, role_name);
         assertNotNull(actualAccessorIds);
-        assertEquals("generated-accessor-id1", (String)actualAccessorIds.get(0));
+        assertEquals("generated-accessor-id1", actualAccessorIds.get(0));
     }
     
     @Test

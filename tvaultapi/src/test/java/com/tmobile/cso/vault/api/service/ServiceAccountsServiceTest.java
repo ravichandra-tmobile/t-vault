@@ -484,7 +484,7 @@ public class ServiceAccountsServiceTest {
         Response response = getMockResponse(HttpStatus.OK, true, "{\"keys\":[\"testacc03\"]}");
         when(reqProcessor.process(Mockito.anyString(),Mockito.anyObject(),Mockito.anyString())).thenReturn(response);
         
-        when(JSONUtil.getJSON((ServiceAccountTTL)Mockito.any())).thenReturn(getJSON(serviceAccountTTL));
+        when(JSONUtil.getJSON(Mockito.any())).thenReturn(getJSON(serviceAccountTTL));
         List<ADServiceAccount> allServiceAccounts = new ArrayList<>();
         allServiceAccounts.add(generateADServiceAccount("testacc02"));
         ReflectionTestUtils.setField(serviceAccountsService, "ldapTemplate", ldapTemplate);
@@ -3398,7 +3398,7 @@ public class ServiceAccountsServiceTest {
 
         Response response = getMockResponse(HttpStatus.OK, true, "{\"keys\":[\"testacc02\"]}");
         when(reqProcessor.process(Mockito.anyString(),Mockito.anyObject(),Mockito.anyString())).thenReturn(response);
-        when(JSONUtil.getJSON((ServiceAccountTTL)Mockito.any())).thenReturn(getJSON(serviceAccountTTL));
+        when(JSONUtil.getJSON(Mockito.any())).thenReturn(getJSON(serviceAccountTTL));
         List<ADServiceAccount> allServiceAccounts = new ArrayList<>();
         allServiceAccounts.add(generateADServiceAccount("testacc02"));
         ReflectionTestUtils.setField(serviceAccountsService, "ldapTemplate", ldapTemplate);

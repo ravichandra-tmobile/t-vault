@@ -118,7 +118,7 @@ public class SecretServiceTest {
         String path ="shared/mysafe01/myfolder";
         when(ControllerUtil.getSafeType(path)).thenReturn("shared");
         when(ControllerUtil.getSafeName(path)).thenReturn("mysafe01");
-        String policies[] = {"w_shared_mysafe01"};
+        String[] policies = {"w_shared_mysafe01"};
         UserDetails userDetails = getMockUser(false);
         userDetails.setPolicies(policies);
 
@@ -147,7 +147,7 @@ public class SecretServiceTest {
         String path ="shared/mysafe01/myfolder";
         when(ControllerUtil.getSafeType(path)).thenReturn("shared");
         when(ControllerUtil.getSafeName(path)).thenReturn("mysafe01");
-        String policies[] = {"s_shared_mysafe01"};
+        String[] policies = {"s_shared_mysafe01"};
         UserDetails userDetails = getMockUser(false);
         userDetails.setPolicies(policies);
 
