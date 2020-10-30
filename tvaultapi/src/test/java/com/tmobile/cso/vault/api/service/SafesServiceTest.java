@@ -1634,7 +1634,7 @@ public class SafesServiceTest {
     }
 
     @Test
-    public void test_createNestedfolder_successfully() {
+    public void test_createNestedfolder_successfully() throws TVaultValidationException {
 
         String responseJson = "{\"messages\":[\"Folder created \"]}";
         String path = "shared/mysafe01";
@@ -1650,9 +1650,7 @@ public class SafesServiceTest {
         vaultTokenLookupDetails.setPolicies(new String[] {"w_shared_mysafe01"});
         when(ControllerUtil.getSafeType(path)).thenReturn("shared");
         when(ControllerUtil.getSafeName(path)).thenReturn("mysafe01");
-        try {
-            when(tokenValidator.getVaultTokenLookupDetails(token)).thenReturn(vaultTokenLookupDetails);
-        } catch (TVaultValidationException e) {}
+        when(tokenValidator.getVaultTokenLookupDetails(token)).thenReturn(vaultTokenLookupDetails);
         ResponseEntity<String> responseEntity = safesService.createNestedfolder(token, path, userDetails);
         assertEquals(HttpStatus.OK, responseEntity.getStatusCode());
     }
