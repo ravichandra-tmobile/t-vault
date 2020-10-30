@@ -43,11 +43,8 @@ import org.powermock.reflect.Whitebox;
 import org.springframework.context.annotation.ComponentScan;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
-import org.springframework.ldap.core.LdapTemplate;
 import org.springframework.test.util.ReflectionTestUtils;
-import org.springframework.test.web.servlet.MockMvc;
 
-import com.fasterxml.jackson.databind.ObjectMapper;
 import com.google.common.collect.ImmutableMap;
 import com.tmobile.cso.vault.api.common.SSLCertificateConstants;
 import com.tmobile.cso.vault.api.controller.ControllerUtil;
@@ -56,7 +53,6 @@ import com.tmobile.cso.vault.api.model.AWSIAMRole;
 import com.tmobile.cso.vault.api.model.AWSLoginRole;
 import com.tmobile.cso.vault.api.model.CertificateAWSRole;
 import com.tmobile.cso.vault.api.model.CertificateAWSRoleRequest;
-import com.tmobile.cso.vault.api.model.CertificateData;
 import com.tmobile.cso.vault.api.model.SSLCertificateMetadataDetails;
 import com.tmobile.cso.vault.api.model.UserDetails;
 import com.tmobile.cso.vault.api.process.RequestProcessor;
@@ -66,7 +62,6 @@ import com.tmobile.cso.vault.api.utils.JSONUtil;
 import com.tmobile.cso.vault.api.utils.PolicyUtils;
 import com.tmobile.cso.vault.api.utils.ThreadLocalContext;
 import com.tmobile.cso.vault.api.utils.TokenUtils;
-import com.tmobile.cso.vault.api.validator.TokenValidator;
 
 @RunWith(PowerMockRunner.class)
 @ComponentScan(basePackages = {"com.tmobile.cso.vault.api"})

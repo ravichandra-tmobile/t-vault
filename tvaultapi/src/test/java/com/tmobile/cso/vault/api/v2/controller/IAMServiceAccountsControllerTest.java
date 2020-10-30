@@ -26,8 +26,6 @@ import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.
 import java.util.ArrayList;
 import java.util.List;
 
-import javax.servlet.http.HttpServletRequest;
-
 import com.tmobile.cso.vault.api.model.*;
 import org.junit.Before;
 import org.junit.Test;
@@ -49,7 +47,6 @@ import com.fasterxml.jackson.core.JsonProcessingException;
 import com.tmobile.cso.vault.api.common.TVaultConstants;
 
 import com.tmobile.cso.vault.api.service.IAMServiceAccountsService;
-import com.tmobile.cso.vault.api.utils.JSONUtil;
 
 @RunWith(SpringJUnit4ClassRunner.class)
 @WebAppConfiguration

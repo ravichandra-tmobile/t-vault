@@ -28,10 +28,6 @@ import com.tmobile.cso.vault.api.model.*;
 
 import com.tmobile.cso.vault.api.utils.*;
 
-import org.apache.http.HttpEntity;
-import org.apache.http.StatusLine;
-import org.apache.http.client.methods.CloseableHttpResponse;
-import org.apache.http.impl.client.CloseableHttpClient;
 import org.apache.logging.log4j.LogManager;
 import org.junit.Before;
 import org.junit.FixMethodOrder;

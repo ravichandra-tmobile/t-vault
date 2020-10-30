@@ -17,6 +17,8 @@
 package com.tmobile.cso.vault.api.service;
 
 import static org.junit.Assert.assertEquals;
+import static org.junit.Assert.assertFalse;
+import static org.junit.Assert.assertTrue;
 import static org.mockito.Matchers.any;
 import static org.mockito.Matchers.eq;
 import static org.mockito.Mockito.when;
@@ -30,7 +32,6 @@ import org.apache.commons.collections.CollectionUtils;
 import org.apache.logging.log4j.LogManager;
 import org.junit.Before;
 import org.junit.FixMethodOrder;
-import org.junit.Ignore;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.junit.runners.MethodSorters;
@@ -2049,7 +2050,7 @@ public class ServiceAccountsServiceTest {
     	boolean expected = true;
     	// System under test
     	boolean actual = serviceAccountsService.canAddOrRemoveUser(userDetails, serviceAccountUser, action);
-    	assertEquals(true, actual);
+        assertTrue(actual);
     }
 
     @Test
@@ -2060,7 +2061,7 @@ public class ServiceAccountsServiceTest {
     	boolean expected = false;
     	// System under test
     	boolean actual = serviceAccountsService.canAddOrRemoveUser(userDetails, serviceAccountUser, action);
-    	assertEquals(false, actual);
+        assertFalse(actual);
     }
 
     @Test

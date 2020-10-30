@@ -19,7 +19,6 @@ package com.tmobile.cso.vault.api.v2.controller;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.tmobile.cso.vault.api.main.Application;
 import com.tmobile.cso.vault.api.model.*;
-import com.tmobile.cso.vault.api.service.DirectoryService;
 import com.tmobile.cso.vault.api.service.LDAPAuthService;
 import org.junit.Before;
 import org.junit.Test;
@@ -38,13 +37,9 @@ import org.springframework.test.web.servlet.MockMvc;
 import org.springframework.test.web.servlet.request.MockMvcRequestBuilders;
 import org.springframework.test.web.servlet.setup.MockMvcBuilders;
 
-import java.util.ArrayList;
-import java.util.List;
-
 import static org.hamcrest.Matchers.containsString;
 import static org.mockito.Matchers.eq;
 import static org.mockito.Mockito.when;
-import static org.springframework.test.web.servlet.result.MockMvcResultHandlers.print;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.content;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
 

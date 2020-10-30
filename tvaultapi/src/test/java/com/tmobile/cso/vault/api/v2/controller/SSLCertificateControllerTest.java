@@ -4,7 +4,6 @@ import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.tmobile.cso.vault.api.common.TVaultConstants;
 import com.tmobile.cso.vault.api.model.*;
-import com.tmobile.cso.vault.api.process.RequestProcessor;
 import com.tmobile.cso.vault.api.service.SSLCertificateAWSRoleService;
 import com.tmobile.cso.vault.api.service.SSLCertificateService;
 import org.junit.Before;

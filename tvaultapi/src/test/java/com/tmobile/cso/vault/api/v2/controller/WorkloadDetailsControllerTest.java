@@ -1,7 +1,6 @@
 package com.tmobile.cso.vault.api.v2.controller;
 
 import com.tmobile.cso.vault.api.model.UserDetails;
-import com.tmobile.cso.vault.api.process.RequestProcessor;
 import com.tmobile.cso.vault.api.service.WorkloadDetailsService;
 import org.junit.Before;
 import org.junit.Test;
@@ -19,7 +18,6 @@ import org.springframework.test.web.servlet.setup.MockMvcBuilders;
 
 import static org.hamcrest.CoreMatchers.containsString;
 import static org.junit.Assert.assertEquals;
-import static org.junit.Assert.assertNull;
 import static org.mockito.Matchers.anyString;
 import static org.mockito.Mockito.when;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.content;
