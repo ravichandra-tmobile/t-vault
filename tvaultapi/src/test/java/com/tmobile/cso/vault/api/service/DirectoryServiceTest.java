@@ -22,7 +22,6 @@ import com.tmobile.cso.vault.api.model.DirectoryGroup;
 import com.tmobile.cso.vault.api.model.DirectoryObjects;
 import com.tmobile.cso.vault.api.model.DirectoryObjectsList;
 import com.tmobile.cso.vault.api.model.DirectoryUser;
-import com.tmobile.cso.vault.api.process.Response;
 import com.tmobile.cso.vault.api.utils.JSONUtil;
 import com.tmobile.cso.vault.api.utils.ThreadLocalContext;
 import org.apache.logging.log4j.LogManager;
@@ -54,9 +53,9 @@ import java.util.List;
 import java.util.Map;
 
 import static org.junit.Assert.assertEquals;
-import static org.mockito.Matchers.eq;
 import static org.mockito.Mockito.when;
 
+@SuppressWarnings("unchecked")
 @RunWith(PowerMockRunner.class)
 @ComponentScan(basePackages={"com.tmobile.cso.vault.api"})
 @FixMethodOrder(MethodSorters.NAME_ASCENDING)

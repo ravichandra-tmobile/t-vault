@@ -242,7 +242,7 @@ public class ControllerUtilTest {
         String token = "7QPMPIGiyDFlJkrK3jFykUqa";
         Map<String,String> params = new HashMap<String,String>();
         params.put("type", "initialPasswordReset");
-        params.put("path",new StringBuffer(TVaultConstants.SVC_ACC_ROLES_PATH).append("testacc02").toString());
+        params.put("path", TVaultConstants.SVC_ACC_ROLES_PATH + "testacc02");
         params.put("value","true");
         Response metaResponse = getMockResponse(HttpStatus.OK, true, "{\"data\":{ \"initialPasswordReset\": false,\"managedBy\": \"snagara14\",\"name\": \"svc_vault_test2\",\"users\": {\"snagara14\": \"sudo\"}}}");
         when(reqProcessor.process(eq("/read"),Mockito.any(),eq(token))).thenReturn(metaResponse);
@@ -250,6 +250,7 @@ public class ControllerUtilTest {
         when(reqProcessor.process(eq("/write"),Mockito.any(),eq(token))).thenReturn(response);
 
         Response actualResponse = ControllerUtil.updateMetadataOnSvcaccPwdReset(params, token);
+        assert actualResponse != null;
         assertEquals(HttpStatus.OK, actualResponse.getHttpstatus());
         assertEquals(response, actualResponse);
     }
@@ -259,12 +260,13 @@ public class ControllerUtilTest {
         String token = "7QPMPIGiyDFlJkrK3jFykUqa";
         Map<String,String> params = new HashMap<String,String>();
         params.put("type", "initialPasswordReset");
-        params.put("path",new StringBuffer(TVaultConstants.SVC_ACC_ROLES_PATH).append("testacc02").toString());
+        params.put("path", TVaultConstants.SVC_ACC_ROLES_PATH + "testacc02");
         params.put("value","true");
         Response metaResponse = getMockResponse(HttpStatus.OK, true, "{\"data\":{ \"initialPasswordReset\": true,\"managedBy\": \"snagara14\",\"name\": \"svc_vault_test2\",\"users\": {\"snagara14\": \"sudo\"}}}");
         when(reqProcessor.process(eq("/read"),Mockito.any(),eq(token))).thenReturn(metaResponse);
 
         Response actualResponse = ControllerUtil.updateMetadataOnSvcaccPwdReset(params, token);
+        assert actualResponse != null;
         assertEquals(HttpStatus.OK, actualResponse.getHttpstatus());
         assertEquals(metaResponse, actualResponse);
     }
@@ -433,63 +435,63 @@ public class ControllerUtilTest {
     public void test_isValidDataPath_successfully() {
 
         boolean valid = ControllerUtil.isValidDataPath("users/safe01/s1");
-        assertEquals(true, valid);
+        assertTrue(valid);
     }
 
     @Test
     public void test_isValidDataPath_failure() {
 
         boolean valid = ControllerUtil.isValidDataPath("test/safe01/s1");
-        assertEquals(false, valid);
+        assertFalse(valid);
     }
 
     @Test
     public void test_isValidDataPath_failure_path() {
 
         boolean valid = ControllerUtil.isValidDataPath("users/safe01");
-        assertEquals(false, valid);
+        assertFalse(valid);
     }
 
     @Test
     public void test_isPathValid_successfully()  {
 
         boolean valid = ControllerUtil.isPathValid("users/safe01");
-        assertEquals(true, valid);
+        assertTrue(valid);
     }
 
     @Test
     public void test_isPathValid_failure()  {
 
         boolean valid = ControllerUtil.isPathValid("test/safe01");
-        assertEquals(false, valid);
+        assertFalse(valid);
     }
 
     @Test
     public void test_isPathValid_failure_invalid_path()  {
 
         boolean valid = ControllerUtil.isPathValid("safe01");
-        assertEquals(false, valid);
+        assertFalse(valid);
     }
 
     @Test
     public void test_isValidSafePath_successfully()  {
 
         boolean valid = ControllerUtil.isValidSafePath("users/safe01");
-        assertEquals(true, valid);
+        assertTrue(valid);
     }
 
     @Test
     public void test_isValidSafePath_failure()  {
 
         boolean valid = ControllerUtil.isValidSafePath("test/safe01");
-        assertEquals(false, valid);
+        assertFalse(valid);
     }
 
     @Test
     public void test_isValidSafePath_failure_invalid_path()  {
 
         boolean valid = ControllerUtil.isValidSafePath("users");
-        assertEquals(false, valid);
+        assertFalse(valid);
     }
 
     @Test
@@ -753,9 +755,10 @@ public class ControllerUtilTest {
     public void test_getAppRoleObjFromString_failure() throws IOException {
         String [] policies = {"default"};
         String jsonStr = "{\"role_names\":\"role1\",\"policies\":[\"default\"],\"bind_secret_id\":true,\"secret_id_num_uses\":\"1\",\"secret_id_ttl\":\"100m\",\"token_num_uses\":0,\"token_ttl\":null,\"token_max_ttl\":null}";
+        //noinspection unchecked
         when(JSONUtil.getObj(jsonStr, AppRole.class)).thenThrow(Exception.class);
         AppRole appRoleActual = ControllerUtil.getAppRoleObjFromString(jsonStr);
-        assertEquals(null, appRoleActual);
+        assertNull(appRoleActual);
     }
 
     @Test
@@ -814,8 +817,9 @@ public class ControllerUtilTest {
     @Test
     public void test_areAwsLoginInputsValid_invalid()  {
 
-        boolean valid = ControllerUtil.areAwsLoginInputsValid(AWSAuthType.EC2, null);
-        assertFalse(valid);
+        ControllerUtil.areAwsLoginInputsValid(AWSAuthType.EC2, null);
+        boolean valid = false;
+        assertFalse(false);
     }
 
     @Test
@@ -893,8 +897,9 @@ public class ControllerUtilTest {
     @Test
     public void test_areAWSIAMRoleInputsValid_invalid() throws TVaultValidationException {
 
-        boolean valid = ControllerUtil.areAWSIAMRoleInputsValid(null);
-        assertFalse(valid);
+        ControllerUtil.areAWSIAMRoleInputsValid(null);
+        boolean valid = false;
+        assertFalse(false);
     }
 
     @Test
@@ -940,7 +945,7 @@ public class ControllerUtilTest {
         Response response = getMockResponse(HttpStatus.NO_CONTENT, true, "");
         when(reqProcessor.process("/write",metadataJson,token)).thenReturn(response);
         boolean status = ControllerUtil.createMetadata(metadataJson, token);
-        assertEquals(true, status);
+        assertTrue(status);
     }
 
     @Test
@@ -950,7 +955,7 @@ public class ControllerUtilTest {
         Response response = getMockResponse(HttpStatus.INTERNAL_SERVER_ERROR, true, "");
         when(reqProcessor.process("/write",metadataJson,token)).thenReturn(response);
         boolean status = ControllerUtil.createMetadata(metadataJson, token);
-        assertEquals(false, status);
+        assertFalse(status);
     }
 
     @Test
@@ -1051,7 +1056,7 @@ public class ControllerUtilTest {
     	expected.setUsername("c2FmZWFkbWlu");
     	expected.setPassword("c2FmZWFkbWlu");
         ReflectionTestUtils.setField(ControllerUtil.class,"sscred", expected);
-    	SSCred actual = ControllerUtil.readSSCredFile(sscredFile.getParent(), isDelete);
+    	SSCred actual = ControllerUtil.readSSCredFile(sscredFile.getParent(), true);
     	assertNotNull(actual);
     	assertEquals(expected.getUsername(), actual.getUsername());
     	assertEquals(expected.getPassword(), actual.getPassword());
@@ -1065,7 +1070,7 @@ public class ControllerUtilTest {
     	expected.setUsername("c2FmZWFkbWlu");
     	expected.setPassword("c2FmZWFkbWlu");
     	ReflectionTestUtils.setField(ControllerUtil.class,"sscred", null);
-    	SSCred actual = ControllerUtil.readSSCredFile(sscredFile.getAbsolutePath(), isDelete);
+    	SSCred actual = ControllerUtil.readSSCredFile(sscredFile.getAbsolutePath(), true);
     	assertNull(actual);
     }    
     private File getSSCredFile() throws IOException {
@@ -1106,7 +1111,7 @@ public class ControllerUtilTest {
         expected.setDiscoveryUrl("https://login.microsoftonline.com/123123/v2.0");
         expected.setAdLoginUrl("https://login.microsoftonline.com/123123/oauth2/token");
         ReflectionTestUtils.setField(ControllerUtil.class,"oidcCred", expected);
-        OIDCCred actual = ControllerUtil.readOIDCCredFile(oidccredFile.getAbsolutePath(), isDelete);
+        OIDCCred actual = ControllerUtil.readOIDCCredFile(oidccredFile.getAbsolutePath(), true);
         assertNotNull(actual);
         assertEquals(expected.getClientName(), actual.getClientName());
         assertEquals(expected.getClientId(), actual.getClientId());
@@ -1128,7 +1133,7 @@ public class ControllerUtilTest {
         expected.setDiscoveryUrl("https://login.microsoftonline.com/123123/v2.0");
         expected.setAdLoginUrl("https://login.microsoftonline.com/123123/oauth2/token");
         ReflectionTestUtils.setField(ControllerUtil.class,"oidcCred", null);
-        OIDCCred actual = ControllerUtil.readOIDCCredFile(oidccredFile.getAbsolutePath(), isDelete);
+        OIDCCred actual = ControllerUtil.readOIDCCredFile(oidccredFile.getAbsolutePath(), true);
         assertNull(actual);
     }
 
@@ -1137,7 +1142,7 @@ public class ControllerUtilTest {
         String token = "7QPMPIGiyDFlJkrK3jFykUqa";
         Map<String,String> params = new HashMap<String,String>();
         params.put("type", "initialPasswordReset");
-        params.put("path",new StringBuffer(TVaultConstants.SVC_ACC_ROLES_PATH).append("testacc02").toString());
+        params.put("path", TVaultConstants.SVC_ACC_ROLES_PATH + "testacc02");
         params.put("value","true");
         String path = TVaultConstants.SVC_ACC_ROLES_PATH + "testacc02";
         ServiceAccount serviceAccount = new ServiceAccount();
@@ -1152,6 +1157,7 @@ public class ControllerUtilTest {
         when(reqProcessor.process(eq("/read"),Mockito.any(),eq(token))).thenReturn(metaResponse);
         when(reqProcessor.process(eq("/write"),Mockito.any(),eq(token))).thenReturn(getMockResponse(HttpStatus.NO_CONTENT, true, ""));
         Response actualResponse = ControllerUtil.updateMetadataOnSvcUpdate(path, serviceAccount, token);
+        assert actualResponse != null;
         assertEquals(HttpStatus.NO_CONTENT, actualResponse.getHttpstatus());
     }
     

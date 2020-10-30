@@ -114,15 +114,15 @@ public class AuthorizationUtilsTest {
     	String safeOwner = "owner@someorg.com";
     	String safeOwnerId = "normaluser";
     	
-    	UserDetails userDetails = createUserDetails(username, powerToken, userToken, admin);
+    	UserDetails userDetails = createUserDetails(username, powerToken, userToken, true);
     	Safe safeMetaData = createSafe(safename, safeType, path, safeOwner, safeOwnerId);
     	String[] latestPolicies = createLatestPolicies(latestPoliciesStr);
     	ArrayList<String> policiesTobeChecked = createPoliciesTobeChecked(policiesTobeCheckedStr);
     	
     	boolean forceCapabilityCheck = true;
     	
-    	boolean actual = authorizationUtils.isAuthorized(userDetails, safeMetaData, latestPolicies, policiesTobeChecked, forceCapabilityCheck);
-    	assertEquals(actual, true);
+    	boolean actual = authorizationUtils.isAuthorized(userDetails, safeMetaData, latestPolicies, policiesTobeChecked, true);
+		assertTrue(actual);
     }
     
     
@@ -140,15 +140,15 @@ public class AuthorizationUtilsTest {
     	String latestPoliciesStr = "s_shared_mysafe01, safeadmin";
     	String policiesTobeCheckedStr = "s_shared_mysafe01";
     	
-    	UserDetails userDetails = createUserDetails(username, powerToken, userToken, admin);
+    	UserDetails userDetails = createUserDetails(username, powerToken, userToken, false);
     	Safe safeMetaData = createSafe(safename, safeType, path, safeOwner, safeOwnerId);
     	String[] latestPolicies = createLatestPolicies(latestPoliciesStr);
     	ArrayList<String> policiesTobeChecked = createPoliciesTobeChecked(policiesTobeCheckedStr);
     	
     	boolean forceCapabilityCheck = false;
     	
-    	boolean actual = authorizationUtils.isAuthorized(userDetails, safeMetaData, latestPolicies, policiesTobeChecked, forceCapabilityCheck);
-    	assertEquals(actual, true);
+    	boolean actual = authorizationUtils.isAuthorized(userDetails, safeMetaData, latestPolicies, policiesTobeChecked, false);
+		assertTrue(actual);
     }
     
     @Test
@@ -165,7 +165,7 @@ public class AuthorizationUtilsTest {
     	String latestPoliciesStr = "s_shared_mysafe01, safeadmin";
     	String policiesTobeCheckedStr = "s_shared_mysafe01";
     	boolean forceCapabilityCheck = true;
-    	UserDetails userDetails = createUserDetails(username, powerToken, userToken, admin);
+    	UserDetails userDetails = createUserDetails(username, powerToken, userToken, false);
     	Safe safeMetaData = createSafe(safename, safeType, path, safeOwner, safeOwnerId);
     	String[] latestPolicies = createLatestPolicies(latestPoliciesStr);
     	ArrayList<String> policiesTobeChecked = createPoliciesTobeChecked(policiesTobeCheckedStr);
@@ -185,8 +185,8 @@ public class AuthorizationUtilsTest {
     	
     	when(reqProcessor.process("/access","{\"accessid\":\""+"s_shared_mysafe01"+"\"}",powerToken)).thenReturn(capabilitiesResponse);
     	
-    	boolean actual = authorizationUtils.isAuthorized(userDetails, safeMetaData, latestPolicies, policiesTobeChecked, forceCapabilityCheck);
-    	assertEquals(actual, true);
+    	boolean actual = authorizationUtils.isAuthorized(userDetails, safeMetaData, latestPolicies, policiesTobeChecked, true);
+		assertTrue(actual);
     }
     
     private UserDetails createUserDetails(String username, String powerToken, String userToken, boolean admin) {
@@ -246,7 +246,7 @@ public class AuthorizationUtilsTest {
 		String latestPoliciesStr = "s_shared_mysafe01, safeadmin";
 		String policiesTobeCheckedStr = "s_shared_mysafe01";
 		boolean forceCapabilityCheck = true;
-		UserDetails userDetails = createUserDetails(username, powerToken, userToken, admin);
+		UserDetails userDetails = createUserDetails(username, powerToken, userToken, false);
 		Safe safeMetaData = createSafe(safename, safeType, path, safeOwner, safeOwnerId);
 		String[] latestPolicies = createLatestPolicies(latestPoliciesStr);
 		ArrayList<String> policiesTobeChecked = createPoliciesTobeChecked(policiesTobeCheckedStr);
@@ -268,7 +268,7 @@ public class AuthorizationUtilsTest {
 
 		when(reqProcessor.process("/access","{\"accessid\":\""+"s_shared_mysafe01"+"\"}",powerToken)).thenReturn(capabilitiesResponse);
 
-		boolean actual = authorizationUtils.isAuthorized(userDetails, safeMetaData, latestPolicies, policiesTobeChecked, forceCapabilityCheck);
-		assertEquals(actual, true);
+		boolean actual = authorizationUtils.isAuthorized(userDetails, safeMetaData, latestPolicies, policiesTobeChecked, true);
+		assertTrue(actual);
 	}
 }

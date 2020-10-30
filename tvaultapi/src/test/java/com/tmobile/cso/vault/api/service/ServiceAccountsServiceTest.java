@@ -207,7 +207,7 @@ public class ServiceAccountsServiceTest {
         Response response = getMockResponse(HttpStatus.OK, true, "{\"keys\":[\"testacc02\"]}");
         when(reqProcessor.process("/ad/serviceaccount/onboardedlist","{}",token)).thenReturn(response);
 
-        ResponseEntity<ADServiceAccountObjects> responseEntity = serviceAccountsService.getADServiceAccounts(token, userDetails, userPrincipalName, excludeOnboarded);
+        ResponseEntity<ADServiceAccountObjects> responseEntity = serviceAccountsService.getADServiceAccounts(token, userDetails, userPrincipalName, true);
 
 
         assertEquals(HttpStatus.OK, responseEntity.getStatusCode());
@@ -231,7 +231,7 @@ public class ServiceAccountsServiceTest {
 
         Response response = getMockResponse(HttpStatus.OK, true, "{\"keys\":[]}");
         when(reqProcessor.process("/ad/serviceaccount/onboardedlist","{}",token)).thenReturn(response);
-        ResponseEntity<ADServiceAccountObjects> responseEntity = serviceAccountsService.getADServiceAccounts(token, userDetails, userPrincipalName, excludeOnboarded);
+        ResponseEntity<ADServiceAccountObjects> responseEntity = serviceAccountsService.getADServiceAccounts(token, userDetails, userPrincipalName, true);
         assertEquals(HttpStatus.OK, responseEntity.getStatusCode());
         assertEquals(0, responseEntity.getBody().getData().getValues().length);
 
@@ -263,7 +263,7 @@ public class ServiceAccountsServiceTest {
 
         Response response = getMockResponse(HttpStatus.NOT_FOUND, true, "{\"keys\":[]}");
         when(reqProcessor.process("/ad/serviceaccount/onboardedlist","{}",token)).thenReturn(response);
-        ResponseEntity<ADServiceAccountObjects> responseEntity = serviceAccountsService.getADServiceAccounts(token, userDetails, userPrincipalName, excludeOnboarded);
+        ResponseEntity<ADServiceAccountObjects> responseEntity = serviceAccountsService.getADServiceAccounts(token, userDetails, userPrincipalName, true);
         assertEquals(HttpStatus.OK, responseEntity.getStatusCode());
         assertEquals(3, responseEntity.getBody().getData().getValues().length);
 
@@ -276,7 +276,7 @@ public class ServiceAccountsServiceTest {
     	String userPrincipalName = "test";
     	boolean excludeOnboarded = false;
         List<ADServiceAccount> allServiceAccounts = null;
-        ResponseEntity<ADServiceAccountObjects> responseEntityExpected = ResponseEntity.status(HttpStatus.OK).body(generateADServiceAccountObjects(allServiceAccounts));
+        ResponseEntity<ADServiceAccountObjects> responseEntityExpected = ResponseEntity.status(HttpStatus.OK).body(generateADServiceAccountObjects(null));
         List<ADUserAccount> list = new ArrayList<>();
         ADUserAccount adUserAccount = new ADUserAccount();
         adUserAccount.setUserId("user.user11");
@@ -290,7 +290,7 @@ public class ServiceAccountsServiceTest {
         when(ldapTemplate.search(Mockito.anyString(), Mockito.anyString(), Mockito.any(AttributesMapper.class))).thenReturn(list);
         ReflectionTestUtils.setField(serviceAccountsService, "adUserLdapTemplate", ldapTemplate);
         when(ldapTemplate.search(Mockito.anyString(), Mockito.eq(encodedFilter), Mockito.any(AttributesMapper.class))).thenReturn(null);
-        ResponseEntity<ADServiceAccountObjects> responseEntity = serviceAccountsService.getADServiceAccounts(token, userDetails, userPrincipalName, excludeOnboarded);
+        ResponseEntity<ADServiceAccountObjects> responseEntity = serviceAccountsService.getADServiceAccounts(token, userDetails, userPrincipalName, false);
 
         assertEquals(HttpStatus.OK, responseEntity.getStatusCode());
         assertEquals(0, responseEntity.getBody().getData().getValues().length);
@@ -319,7 +319,7 @@ public class ServiceAccountsServiceTest {
         ReflectionTestUtils.setField(serviceAccountsService, "adUserLdapTemplate", ldapTemplate);
         when(ldapTemplate.search(Mockito.anyString(), Mockito.eq(encodedFilter), Mockito.any(AttributesMapper.class))).thenReturn(allServiceAccounts);
 
-        ResponseEntity<ADServiceAccountObjects> responseEntity = serviceAccountsService.getADServiceAccounts(token, userDetails, userPrincipalName, excludeOnboarded);
+        ResponseEntity<ADServiceAccountObjects> responseEntity = serviceAccountsService.getADServiceAccounts(token, userDetails, userPrincipalName, false);
 
         assertEquals(HttpStatus.OK, responseEntity.getStatusCode());
         assertEquals(responseEntityExpected.getBody().getData().getValues()[0].toString(), responseEntity.getBody().getData().getValues()[0].toString());
@@ -2051,7 +2051,7 @@ public class ServiceAccountsServiceTest {
     	boolean expected = true;
     	// System under test
     	boolean actual = serviceAccountsService.canAddOrRemoveUser(userDetails, serviceAccountUser, action);
-    	assertEquals(expected, actual);
+    	assertEquals(true, actual);
     }
 
     @Test
@@ -2062,7 +2062,7 @@ public class ServiceAccountsServiceTest {
     	boolean expected = false;
     	// System under test
     	boolean actual = serviceAccountsService.canAddOrRemoveUser(userDetails, serviceAccountUser, action);
-    	assertEquals(expected, actual);
+    	assertEquals(false, actual);
     }
 
     @Test

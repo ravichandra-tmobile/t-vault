@@ -18,6 +18,7 @@ package com.tmobile.cso.vault.api.utils;
 
 import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertFalse;
+import static org.junit.Assert.assertNull;
 import static org.junit.Assert.assertTrue;
 import static org.mockito.Mockito.when;
 
@@ -172,7 +173,7 @@ public class CertificateUtilsTest {
     public void testHasAddOrRemovePermissionForEmptyMetadata() {
         UserDetails userDetails = getMockUser(false);
         SSLCertificateMetadataDetails certificateMetadata = null;
-        boolean canAdd = certificateUtils.hasAddOrRemovePermission(userDetails, certificateMetadata);
+        boolean canAdd = certificateUtils.hasAddOrRemovePermission(userDetails, null);
         assertFalse(canAdd);
     }
     
@@ -272,7 +273,7 @@ public class CertificateUtilsTest {
         Response responseObj = getMockResponse(HttpStatus.INTERNAL_SERVER_ERROR, true, "{}");         
         when(ControllerUtil.getReqProcessor().process(GET_CERT_DETAIL, GET_CERT_DETAIL_VAL +certificatePath+"\"}",userDetails.getClientToken())).thenReturn(responseObj);
         SSLCertificateMetadataDetails certificateMetadataObj = certificateUtils.getCertificateMetaData(userDetails.getClientToken(),CERT_NAME,certType);
-        assertEquals(certificateMetadataObj, null);
+        assertNull(certificateMetadataObj);
     }
     
 }

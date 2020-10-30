@@ -18,6 +18,7 @@ package com.tmobile.cso.vault.api.service;
 
 import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertNotNull;
+import static org.junit.Assert.assertNull;
 import static org.junit.Assert.assertTrue;
 import static org.mockito.Matchers.any;
 import static org.mockito.Matchers.eq;
@@ -71,6 +72,7 @@ import com.tmobile.cso.vault.api.process.Response;
 import com.tmobile.cso.vault.api.utils.JSONUtil;
 import com.tmobile.cso.vault.api.utils.ThreadLocalContext;
 
+@SuppressWarnings("unchecked")
 @RunWith(PowerMockRunner.class)
 @ComponentScan(basePackages={"com.tmobile.cso.vault.api"})
 @FixMethodOrder(MethodSorters.NAME_ASCENDING)
@@ -1083,7 +1085,7 @@ public class AppRoleServiceTest {
         
         when(reqProcessor.process("/auth/approle/role/readRoleID", "{\"role_name\":\""+role_name+"\"}",token)).thenReturn(response);
         String actualRoleId = appRoleService.readRoleId(token, role_name);
-        assertEquals(null, actualRoleId);
+        assertNull(actualRoleId);
     }
     
     @Test
@@ -1128,7 +1130,7 @@ public class AppRoleServiceTest {
         
         when(reqProcessor.process("/auth/approle/role/accessors/list", "{\"role_name\":\""+role_name+"\"}",token)).thenReturn(response);
         List<String> actualAccessorIds = appRoleService.readAccessorIds(token, role_name);
-        assertEquals(null, actualAccessorIds);
+        assertNull(actualAccessorIds);
     }
     
     @Test
@@ -1181,7 +1183,7 @@ public class AppRoleServiceTest {
         
         when(reqProcessor.process("/read", "{\"path\":\""+_path+"\"}",token)).thenReturn(response);
         AppRoleMetadata appRoleMetadataExpected = appRoleService.readAppRoleMetadata(token, role_name);
-        assertEquals(null, appRoleMetadataExpected);
+        assertNull(appRoleMetadataExpected);
     }
     
     @Test
@@ -1245,7 +1247,7 @@ public class AppRoleServiceTest {
         
         when(reqProcessor.process("/auth/approle/role/read", "{\"role_name\":\""+role_name+"\"}",token)).thenReturn(response);
         AppRole approleActual = appRoleService.readAppRoleBasicDetails(token, role_name);
-        assertEquals(null, approleActual);
+        assertNull(approleActual);
     }
     
     @Test
@@ -1473,7 +1475,7 @@ public class AppRoleServiceTest {
         // START - AppRole exists
 
         AppRole appRole = null;
-        String appRoleResponseJson = new ObjectMapper().writeValueAsString(appRole);
+        String appRoleResponseJson = new ObjectMapper().writeValueAsString(null);
         Response appRoleResponse = getMockResponse(HttpStatus.NOT_FOUND, true, appRoleResponseJson);
         Map<String, Object> appRoleResponseMap = new HashMap<>();
         Map<String, Object> dataMap = new HashMap<>();

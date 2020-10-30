@@ -2495,16 +2495,7 @@ public class SSLCertificateServiceTest {
 
         when(ControllerUtil.configureLDAPUser(eq("testuser2"),any(),any(),eq(token))).thenReturn(idapConfigureResponse);
         when(ControllerUtil.configureUserpassUser(eq("testuser2"),any(),eq(token))).thenReturn(idapConfigureResponse);
-        when(ControllerUtil.updateMetadata(any(),eq(token))).thenAnswer(new Answer() {
-            private int count = 0;
-
-            public Object answer(InvocationOnMock invocation) {
-                if (count++ == 1)
-                    return response_404;
-
-                return response_404;
-            }
-        });
+        when(ControllerUtil.updateMetadata(any(),eq(token))).thenAnswer(invocation -> response_404);
 
         when(certificateUtils.getCertificateMetaData(token, "certtest250630.t-mobile.com", "internal")).thenReturn(certificateMetadata);
         when(certificateUtils.hasAddOrRemovePermission(userDetail, certificateMetadata)).thenReturn(true);
@@ -2610,8 +2601,8 @@ public class SSLCertificateServiceTest {
         UserDetails userDetail = getMockUser(true);
         userDetail.setUsername("testuser1");
         ResponseEntity<String> responseEntityExpected = ResponseEntity.status(HttpStatus.BAD_REQUEST).body("{\"errors\":[\"Access denied: No permission to add users to this certificate\"]}");
-        when(certificateUtils.getCertificateMetaData(token, "certificatename.t-mobile.com", "internal")).thenReturn(certificateMetadata);
-        when(certificateUtils.hasAddOrRemovePermission(userDetail, certificateMetadata)).thenReturn(false);
+        when(certificateUtils.getCertificateMetaData(token, "certificatename.t-mobile.com", "internal")).thenReturn(null);
+        when(certificateUtils.hasAddOrRemovePermission(userDetail, null)).thenReturn(false);
 
         ResponseEntity<String> responseEntity = sSLCertificateService.addUserToCertificate(certUser, userDetail, false);
         assertEquals(HttpStatus.BAD_REQUEST, responseEntity.getStatusCode());
@@ -3215,7 +3206,7 @@ public class SSLCertificateServiceTest {
         when(certificateUtils.getCertificateMetaData(token, "certificatename.t-mobile.com", "internal")).thenReturn(certificateMetadata);
         when(certificateUtils.hasAddOrRemovePermission(userDetails, certificateMetadata)).thenReturn(true);
 
-        ResponseEntity<String> responseEntityActual =  sSLCertificateService.associateApproletoCertificate(certificateApprole, userDetails);
+        ResponseEntity<String> responseEntityActual =  sSLCertificateService.associateApproletoCertificate(null, userDetails);
 
         assertEquals(HttpStatus.BAD_REQUEST, responseEntityActual.getStatusCode());
         assertEquals(responseEntityExpected, responseEntityActual);
@@ -3477,7 +3468,7 @@ public class SSLCertificateServiceTest {
 
         InputStreamResource resource = null;
         ResponseEntity<InputStreamResource> responseEntityExpected =
-                ResponseEntity.status(HttpStatus.BAD_REQUEST).body(resource);
+                ResponseEntity.status(HttpStatus.BAD_REQUEST).body(null);
 
         ResponseEntity<InputStreamResource> responseEntityActual =
                 sSLCertificateService.downloadCertificateWithPrivateKey(token, certificateDownloadRequest, userDetails);
@@ -3529,7 +3520,7 @@ public class SSLCertificateServiceTest {
 
         InputStreamResource resource = null;
         ResponseEntity<InputStreamResource> responseEntityExpected =
-                ResponseEntity.status(HttpStatus.BAD_REQUEST).body(resource);
+                ResponseEntity.status(HttpStatus.BAD_REQUEST).body(null);
 
         ResponseEntity<InputStreamResource> responseEntityActual =
                 sSLCertificateService.downloadCertificateWithPrivateKey(token, certificateDownloadRequest, userDetails);
@@ -3580,7 +3571,7 @@ public class SSLCertificateServiceTest {
 
         InputStreamResource resource = null;
         ResponseEntity<InputStreamResource> responseEntityExpected =
-                ResponseEntity.status(HttpStatus.BAD_REQUEST).body(resource);
+                ResponseEntity.status(HttpStatus.BAD_REQUEST).body(null);
 
         ResponseEntity<InputStreamResource> responseEntityActual =
                 sSLCertificateService.downloadCertificateWithPrivateKey(token, certificateDownloadRequest, userDetails);
@@ -4492,8 +4483,8 @@ public class SSLCertificateServiceTest {
         String expectedResponse = "{\"errors\":[\"Access denied: No permission to remove user from this certificate\"]}";
         ResponseEntity<String> responseEntityExpected = ResponseEntity.status(HttpStatus.BAD_REQUEST).body(expectedResponse);
 
-        when(certificateUtils.getCertificateMetaData(token, "certificatename.t-mobile.com", "internal")).thenReturn(certificateMetadata);
-        when(certificateUtils.hasAddOrRemovePermission(userDetail, certificateMetadata)).thenReturn(false);
+        when(certificateUtils.getCertificateMetaData(token, "certificatename.t-mobile.com", "internal")).thenReturn(null);
+        when(certificateUtils.hasAddOrRemovePermission(userDetail, null)).thenReturn(false);
 
         ResponseEntity<String> responseEntity = sSLCertificateService.removeUserFromCertificate(certUser, userDetail);
         assertEquals(HttpStatus.BAD_REQUEST, responseEntity.getStatusCode());
@@ -4520,7 +4511,7 @@ public class SSLCertificateServiceTest {
         String expectedResponse = "{\"errors\":[\"Access denied: No permission to remove user from this certificate\"]}";
         ResponseEntity<String> responseEntityExpected = ResponseEntity.status(HttpStatus.BAD_REQUEST).body(expectedResponse);
 
-        ResponseEntity<String> responseEntity = sSLCertificateService.removeUserFromCertificate(certUser, userDetail);
+        ResponseEntity<String> responseEntity = sSLCertificateService.removeUserFromCertificate(certUser, null);
         assertEquals(HttpStatus.BAD_REQUEST, responseEntity.getStatusCode());
         assertEquals(responseEntityExpected, responseEntity);
     }
@@ -4638,8 +4629,8 @@ public class SSLCertificateServiceTest {
         String expectedResponse = "{\"errors\":[\"Access denied: No permission to remove groups from this certificate\"]}";
         ResponseEntity<String> responseEntityExpected = ResponseEntity.status(HttpStatus.BAD_REQUEST).body(expectedResponse);
 
-        when(certificateUtils.getCertificateMetaData(token, "certificatename.t-mobile.com","internal")).thenReturn(certificateMetadata);
-        when(certificateUtils.hasAddOrRemovePermission(userDetail, certificateMetadata)).thenReturn(false);
+        when(certificateUtils.getCertificateMetaData(token, "certificatename.t-mobile.com","internal")).thenReturn(null);
+        when(certificateUtils.hasAddOrRemovePermission(userDetail, null)).thenReturn(false);
 
         ResponseEntity<String> responseEntity = sSLCertificateService.removeGroupFromCertificate(certGroup, userDetail);
         assertEquals(HttpStatus.BAD_REQUEST, responseEntity.getStatusCode());
@@ -4668,7 +4659,7 @@ public class SSLCertificateServiceTest {
         String expectedResponse = "{\"errors\":[\"Access denied: No permission to remove group from this certificate\"]}";
         ResponseEntity<String> responseEntityExpected = ResponseEntity.status(HttpStatus.BAD_REQUEST).body(expectedResponse);
 
-        ResponseEntity<String> responseEntity = sSLCertificateService.removeGroupFromCertificate(certGroup, userDetail);
+        ResponseEntity<String> responseEntity = sSLCertificateService.removeGroupFromCertificate(certGroup, null);
         assertEquals(HttpStatus.BAD_REQUEST, responseEntity.getStatusCode());
         assertEquals(responseEntityExpected, responseEntity);
     }
@@ -4967,7 +4958,7 @@ public class SSLCertificateServiceTest {
         user.setDisplayName("name");
         user.setUserName("213");
         Object[] values = null;
-        objList.setValues(values);
+        objList.setValues(null);
         obj.setData(objList);
         
         when(directoryService.searchByUPN(anyString())).
@@ -5104,7 +5095,7 @@ public class SSLCertificateServiceTest {
         user.setDisplayName("name");
         user.setUserName("213");
         Object[] values = null;
-        objList.setValues(values);
+        objList.setValues(null);
         obj.setData(objList);
         
         when(directoryService.searchByUPN(anyString())).
@@ -5165,7 +5156,7 @@ public class SSLCertificateServiceTest {
         user.setDisplayName("name");
         user.setUserName("213");
         Object[] values = null;
-        objList.setValues(values);
+        objList.setValues(null);
         obj.setData(objList);
         
         when(directoryService.searchByUPN(anyString())).

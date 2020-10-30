@@ -132,6 +132,7 @@ public class AWSAuthServiceTest {
         } catch (TVaultValidationException e) {
             e.printStackTrace();
         }
+        assert responseEntity != null;
         assertEquals(HttpStatus.OK, responseEntity.getStatusCode());
         assertEquals(responseEntityExpected, responseEntity);
     }
@@ -170,6 +171,7 @@ public class AWSAuthServiceTest {
         } catch (TVaultValidationException e) {
             e.printStackTrace();
         }
+        assert responseEntity != null;
         assertEquals(HttpStatus.INTERNAL_SERVER_ERROR, responseEntity.getStatusCode());
         assertEquals(responseEntityExpected, responseEntity);
     }
@@ -209,6 +211,7 @@ public class AWSAuthServiceTest {
         } catch (TVaultValidationException e) {
             e.printStackTrace();
         }
+        assert responseEntity != null;
         assertEquals(HttpStatus.OK, responseEntity.getStatusCode());
         assertEquals(responseEntityExpected, responseEntity);
     }
@@ -266,6 +269,7 @@ public class AWSAuthServiceTest {
         } catch (TVaultValidationException e) {
             e.printStackTrace();
         }
+        assert responseEntity != null;
         assertEquals(HttpStatus.INTERNAL_SERVER_ERROR, responseEntity.getStatusCode());
         assertEquals(responseEntityExpected, responseEntity);
     }
@@ -313,6 +317,7 @@ public class AWSAuthServiceTest {
         } catch (TVaultValidationException e) {
             e.printStackTrace();
         }
+        assert responseEntity != null;
         assertEquals(HttpStatus.OK, responseEntity.getStatusCode());
         assertEquals(responseEntityExpected, responseEntity);
     }
@@ -366,6 +371,7 @@ public class AWSAuthServiceTest {
         } catch (TVaultValidationException e) {
             e.printStackTrace();
         }
+        assert responseEntity != null;
         assertEquals(HttpStatus.BAD_REQUEST, responseEntity.getStatusCode());
         assertEquals(responseEntityExpected, responseEntity);
     }

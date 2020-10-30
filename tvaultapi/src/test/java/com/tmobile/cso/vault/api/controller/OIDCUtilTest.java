@@ -152,7 +152,7 @@ public class OIDCUtilTest {
 
         when(reqProcessor.process("/identity/group/name", "{\"group\":\""+group+"\"}", token)).thenReturn(responsemock);
         OIDCGroup oidcGroup = oidcUtil.getIdentityGroupDetails(group, token);
-        assertEquals(null, oidcGroup);
+        assertNull(oidcGroup);
     }
 
     @Test
@@ -201,7 +201,7 @@ public class OIDCUtilTest {
         String responseJson = "{\"errors\":[\"Failed to get SSO token for Azure AD access\"]}";
         ResponseEntity<String> responseEntityExpected = ResponseEntity.status(HttpStatus.BAD_REQUEST).body(responseJson);
         String actualToken = oidcUtil.getSSOToken();
-        assertEquals(null, actualToken);
+        assertNull(actualToken);
 
     }
 
@@ -297,7 +297,7 @@ public class OIDCUtilTest {
 
         ReflectionTestUtils.setField(oidcUtil, "ssoGroupsEndpoint", "testgroupurl");
         String actualResponse = oidcUtil.getGroupObjectResponse(token, group);
-        assertEquals(null, actualResponse);
+        assertNull(actualResponse);
 
     }
     
@@ -513,16 +513,8 @@ public class OIDCUtilTest {
         String groupResponseString = "{\"value\": [ {\"id\": \"abcdefg\", \"onPremisesSyncEnabled\":null}], \"access_token\": \"abcd\"}";
         //when(mockHttpEntity.getContent()).thenReturn( new ByteArrayInputStream(groupResponseString.getBytes()));
         ReflectionTestUtils.setField(oidcUtil, "ssoGroupsEndpoint", "testgroupurl");
-        when(mockHttpEntity.getContent()).thenReturn( new ByteArrayInputStream(groupResponseString.getBytes())).thenAnswer(new Answer() {
-            private int count = 0;
-
-            public Object answer(InvocationOnMock invocation) {
-                if (count++ == 1)
-                    return new ByteArrayInputStream(groupResponseString.getBytes());
-
-                return new ByteArrayInputStream(groupResponseString.getBytes());
-            }
-        });
+        when(mockHttpEntity.getContent()).thenReturn(new ByteArrayInputStream(groupResponseString.getBytes()))
+                .thenAnswer(invocation -> new ByteArrayInputStream(groupResponseString.getBytes()));
         String dataOutput = "{\"data\":{\"oidc/\":{\"accessor\":\"auth_oidc_8b51f292\",\"config\":{\"default_lease_ttl\":0,\"force_no_cache\":false,\"max_lease_ttl\":0,\"token_type\":\"default-service\"},\"description\":\"\",\"external_entropy_access\":false,\"local\":false,\"options\":null,\"seal_wrap\":false,\"type\":\"oidc\",\"uuid\":\"fbd45cc4-d6b6-8b49-6d1a-d4d931345df9\"}}}";
         Response responsemock = getMockResponse(HttpStatus.OK, true, dataOutput);
         when(reqProcessor.process(eq("/sys/list"),Mockito.any(),eq(token))).thenReturn(responsemock);
@@ -722,7 +714,7 @@ public class OIDCUtilTest {
 		ReflectionTestUtils.setField(oidcUtil, "sprintMailTailText", "sprint.com");
 
 		String userId = oidcUtil.getIdOfTheUser("testssotoken", userEmail);
-		assertEquals(null, userId);
+        assertNull(userId);
 	}
 
 	@Test
@@ -827,7 +819,7 @@ public class OIDCUtilTest {
         ReflectionTestUtils.setField(oidcUtil, "sprintMailTailText", "sprint.com");
 
         AADUserObject aadUserObject = oidcUtil.getAzureUserObject(userEmail);
-        assertEquals(null, aadUserObject.getUserId());
-        assertEquals(null, aadUserObject.getEmail());
+        assertNull(aadUserObject.getUserId());
+        assertNull(aadUserObject.getEmail());
     }
 }

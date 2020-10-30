@@ -429,6 +429,7 @@ public class SafesServiceTest {
         }
 
         when(ControllerUtil.parseJson(any())).thenReturn(reqparams);
+        assert reqparams != null;
         when(ControllerUtil.areSDBInputsValidForUpdate(reqparams)).thenReturn(true);
         when(ControllerUtil.getSafeName("shared/mysafe01")).thenReturn("mysafe01");
         when(ControllerUtil.getSafeType("shared/mysafe01")).thenReturn("shared");
@@ -471,6 +472,7 @@ public class SafesServiceTest {
         }
 
         when(ControllerUtil.parseJson(any())).thenReturn(reqparams);
+        assert reqparams != null;
         when(ControllerUtil.areSDBInputsValidForUpdate(reqparams)).thenReturn(true);
 
         ResponseEntity<String> responseEntity = safesService.updateSafe(token, safe);
@@ -495,6 +497,7 @@ public class SafesServiceTest {
         }
 
         when(ControllerUtil.parseJson(any())).thenReturn(reqparams);
+        assert reqparams != null;
         when(ControllerUtil.areSDBInputsValidForUpdate(reqparams)).thenReturn(true);
         when(ControllerUtil.getSafeName("shared/mysafe01")).thenReturn("mysafe01");
         when(ControllerUtil.getSafeType("shared/mysafe01")).thenReturn("shared");
@@ -524,6 +527,7 @@ public class SafesServiceTest {
         }
 
         when(ControllerUtil.parseJson(any())).thenReturn(reqparams);
+        assert reqparams != null;
         when(ControllerUtil.areSDBInputsValidForUpdate(reqparams)).thenReturn(true);
         when(ControllerUtil.getSafeName("shared/mysafe01")).thenReturn("mysafe01");
         when(ControllerUtil.getSafeType("shared/mysafe01")).thenReturn("shared");
@@ -554,6 +558,7 @@ public class SafesServiceTest {
         }
 
         when(ControllerUtil.parseJson(any())).thenReturn(reqparams);
+        assert reqparams != null;
         when(ControllerUtil.areSDBInputsValid(reqparams)).thenReturn(false);
         ResponseEntity<String> responseEntity = safesService.updateSafe(token, safe);
         assertEquals(HttpStatus.BAD_REQUEST, responseEntity.getStatusCode());
@@ -1606,16 +1611,7 @@ public class SafesServiceTest {
         Response appRoleResponse = getMockResponse(HttpStatus.OK, true, "{\"data\": {\"policies\":\"w_shared_mysafe01\"}}");
         when(reqProcessor.process("/auth/approle/role/read","{\"role_name\":\"approle1\"}",token)).thenReturn(appRoleResponse);
         when(appRoleService.configureApprole(Mockito.any(),Mockito.any(),Mockito.any())).thenReturn(response);
-        when(ControllerUtil.updateMetadata(Mockito.anyMap(), eq(token))).thenAnswer(new Answer() {
-            private int count = 0;
-
-            public Object answer(InvocationOnMock invocation) {
-                if (count++ == 1)
-                    return response_404;
-
-                return response_404;
-            }
-        });
+        when(ControllerUtil.updateMetadata(Mockito.anyMap(), eq(token))).thenAnswer(invocation -> response_404);
         when(ControllerUtil.getSafeType(path)).thenReturn("users");
         when(ControllerUtil.getSafeName(path)).thenReturn("safe1");
         List<String> safeNames = new ArrayList<>();
@@ -2033,20 +2029,11 @@ public class SafesServiceTest {
 
      when(ControllerUtil.configureLDAPUser(eq("testuser1"),any(),any(),eq(token))).thenReturn(idapConfigureResponse);
      //when(ControllerUtil.updateMetadata(Mockito.any(),eq(token))).thenReturn(responseNoContent);
-     when(ControllerUtil.updateMetadata(any(),eq(token))).thenAnswer(new Answer() {
-         private int count = 0;
-
-         public Object answer(InvocationOnMock invocation) {
-             if (count++ == 1)
-                 return response_404;
-
-             return response_404;
-         }
-     });
+     when(ControllerUtil.updateMetadata(any(),eq(token))).thenAnswer(invocation -> response_404);
      //ReflectionTestUtils.setField(safeUtils, "vaultAuthMethod", "userpass");
      when(ControllerUtil.getSafeType("shared/mysafe01")).thenReturn("shared");
      when(ControllerUtil.getSafeName("shared/mysafe01")).thenReturn("mysafe01");
-     when(ControllerUtil.getAllExistingSafeNames("shared", token)).thenReturn(Arrays.asList("mysafe02"));
+     when(ControllerUtil.getAllExistingSafeNames("shared", token)).thenReturn(Collections.singletonList("mysafe02"));
 
      when(safeUtils.canAddOrRemoveUser(userDetails, safeUser, "addUser")).thenReturn(true);
    //oidc test cases

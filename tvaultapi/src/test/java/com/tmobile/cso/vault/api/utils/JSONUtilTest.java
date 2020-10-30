@@ -79,7 +79,7 @@ public class JSONUtilTest {
         UserLogin userLogin = new UserLogin("testuser", "testuser");
         Object ob = JSONUtil.getObj(str, UserLogin.class);
 
-        assertTrue(UserLogin.class.equals(((UserLogin)ob).getClass()));
+        assertEquals(UserLogin.class, ((UserLogin) ob).getClass());
     }
 
 }
