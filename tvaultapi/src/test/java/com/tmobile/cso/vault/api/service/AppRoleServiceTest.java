@@ -867,7 +867,7 @@ public class AppRoleServiceTest {
         });
         when(ControllerUtil.getSafeType("shared/mysafe01")).thenReturn("shared");
         when(ControllerUtil.getSafeName("shared/mysafe01")).thenReturn("mysafe01");
-        when(ControllerUtil.getAllExistingSafeNames("shared", token)).thenReturn(Arrays.asList("mysafe02"));
+        when(ControllerUtil.getAllExistingSafeNames("shared", token)).thenReturn(Collections.singletonList("mysafe02"));
         Response appRoleResponse = getMockResponse(HttpStatus.OK, true, "{\"data\": {\"policies\":\"w_shared_mysafe01\"}}");
         when(reqProcessor.process("/auth/approle/role/read","{\"role_name\":\"approle1\"}",token)).thenReturn(appRoleResponse);
         ResponseEntity<String> responseEntityActual =  appRoleService.associateApprole(token, safeAppRoleAccess);
@@ -908,7 +908,7 @@ public class AppRoleServiceTest {
         when(ControllerUtil.updateMetadata(Mockito.anyMap(),eq(token))).thenReturn(updateMetadataResponse_404);
         when(ControllerUtil.getSafeType("shared/mysafe01")).thenReturn("shared");
         when(ControllerUtil.getSafeName("shared/mysafe01")).thenReturn("mysafe01");
-        when(ControllerUtil.getAllExistingSafeNames("shared", token)).thenReturn(Arrays.asList("mysafe02"));
+        when(ControllerUtil.getAllExistingSafeNames("shared", token)).thenReturn(Collections.singletonList("mysafe02"));
         params.put("path","shared/mysafe02");
         when(ControllerUtil.updateMetadata(params,token)).thenReturn(updateMetadataResponse);
         Response appRoleResponse = getMockResponse(HttpStatus.OK, true, "{\"data\": {\"policies\":\"w_shared_mysafe01\"}}");
@@ -1182,7 +1182,7 @@ public class AppRoleServiceTest {
         String role_name = "testapprole01";
         ArrayList<String> policiesList = new ArrayList<String>();
         policiesList.add("r_shared_safe01");
-        String[] policies = policiesList.toArray(new String[policiesList.size()]);
+        String[] policies = policiesList.toArray(new String[0]);
         
         AppRole appRoleExpected = new AppRole(role_name, policies, true, 0, 0, 0);
         
@@ -1193,7 +1193,7 @@ public class AppRoleServiceTest {
         Map<String, Object> dataMap = new HashMap<>();
         responseMap.put("data", dataMap);
         dataMap.put("policies",policiesList);
-        dataMap.put("bind_secret_id",new Boolean(true));
+        dataMap.put("bind_secret_id", Boolean.TRUE);
         dataMap.put("secret_id_num_uses", new Integer(0));
         dataMap.put("secret_id_ttl", new Integer(0));
         dataMap.put("token_num_uses", new Integer(0));
@@ -1215,7 +1215,7 @@ public class AppRoleServiceTest {
         String role_name = "testapprole01";
         ArrayList<String> policiesList = new ArrayList<String>();
         policiesList.add("r_shared_safe01");
-        String[] policies = policiesList.toArray(new String[policiesList.size()]);
+        String[] policies = policiesList.toArray(new String[0]);
         
         AppRole appRoleExpected = new AppRole(role_name, policies, true, 0, 0, 0);
         
@@ -1226,7 +1226,7 @@ public class AppRoleServiceTest {
         Map<String, Object> dataMap = new HashMap<>();
         responseMap.put("data", dataMap);
         dataMap.put("policies",policiesList);
-        dataMap.put("bind_secret_id",new Boolean(true));
+        dataMap.put("bind_secret_id", Boolean.TRUE);
         dataMap.put("secret_id_num_uses", new Integer(0));
         dataMap.put("secret_id_ttl", new Integer(0));
         dataMap.put("token_num_uses", new Integer(0));
@@ -1344,7 +1344,7 @@ public class AppRoleServiceTest {
         // START - AppRole exists
         ArrayList<String> policiesList = new ArrayList<String>();
         policiesList.add("r_shared_safe01");
-        String[] policies = policiesList.toArray(new String[policiesList.size()]);
+        String[] policies = policiesList.toArray(new String[0]);
         AppRole appRole = new AppRole(role_name, policies, true, 0, 0, 0);
         String appRoleResponseJson = new ObjectMapper().writeValueAsString(appRole);
         Response appRoleResponse = getMockResponse(HttpStatus.OK, true, appRoleResponseJson);
@@ -1352,7 +1352,7 @@ public class AppRoleServiceTest {
         Map<String, Object> dataMap = new HashMap<>();
         appRoleResponseMap.put("data", dataMap);
         dataMap.put("policies",policiesList);
-        dataMap.put("bind_secret_id",new Boolean(true));
+        dataMap.put("bind_secret_id", Boolean.TRUE);
         dataMap.put("secret_id_num_uses", new Integer(0));
         dataMap.put("secret_id_ttl", new Integer(0));
         dataMap.put("token_num_uses", new Integer(0));
@@ -1399,7 +1399,7 @@ public class AppRoleServiceTest {
         // START - AppRole exists
         ArrayList<String> policiesList = new ArrayList<String>();
         policiesList.add("r_shared_safe01");
-        String[] policies = policiesList.toArray(new String[policiesList.size()]);
+        String[] policies = policiesList.toArray(new String[0]);
         AppRole appRole = new AppRole(role_name, policies, true, 0, 0, 0);
         String appRoleResponseJson = new ObjectMapper().writeValueAsString(appRole);
         Response appRoleResponse = getMockResponse(HttpStatus.OK, true, appRoleResponseJson);
@@ -1407,7 +1407,7 @@ public class AppRoleServiceTest {
         Map<String, Object> dataMap = new HashMap<>();
         appRoleResponseMap.put("data", dataMap);
         dataMap.put("policies",policiesList);
-        dataMap.put("bind_secret_id",new Boolean(true));
+        dataMap.put("bind_secret_id", Boolean.TRUE);
         dataMap.put("secret_id_num_uses", new Integer(0));
         dataMap.put("secret_id_ttl", new Integer(0));
         dataMap.put("token_num_uses", new Integer(0));
@@ -1471,7 +1471,7 @@ public class AppRoleServiceTest {
         Map<String, Object> dataMap = new HashMap<>();
         appRoleResponseMap.put("data", dataMap);
         dataMap.put("policies",null);
-        dataMap.put("bind_secret_id",new Boolean(true));
+        dataMap.put("bind_secret_id", Boolean.TRUE);
         dataMap.put("secret_id_num_uses", new Integer(0));
         dataMap.put("secret_id_ttl", new Integer(0));
         dataMap.put("token_num_uses", new Integer(0));
@@ -1530,7 +1530,7 @@ public class AppRoleServiceTest {
         // START - AppRole exists
         ArrayList<String> policiesList = new ArrayList<String>();
         policiesList.add("r_shared_safe01");
-        String[] policies = policiesList.toArray(new String[policiesList.size()]);
+        String[] policies = policiesList.toArray(new String[0]);
         AppRole appRole = new AppRole(role_name, policies, true, 0, 0, 0);
         String appRoleResponseJson = new ObjectMapper().writeValueAsString(appRole);
         Response appRoleResponse = getMockResponse(HttpStatus.OK, true, appRoleResponseJson);
@@ -1538,7 +1538,7 @@ public class AppRoleServiceTest {
         Map<String, Object> dataMap = new HashMap<>();
         appRoleResponseMap.put("data", dataMap);
         dataMap.put("policies",policiesList);
-        dataMap.put("bind_secret_id",new Boolean(true));
+        dataMap.put("bind_secret_id", Boolean.TRUE);
         dataMap.put("secret_id_num_uses", new Integer(0));
         dataMap.put("secret_id_ttl", new Integer(0));
         dataMap.put("token_num_uses", new Integer(0));
@@ -1587,7 +1587,7 @@ public class AppRoleServiceTest {
         // START - AppRole exists
         ArrayList<String> policiesList = new ArrayList<String>();
         policiesList.add("r_shared_safe01");
-        String[] policies = policiesList.toArray(new String[policiesList.size()]);
+        String[] policies = policiesList.toArray(new String[0]);
         AppRole appRole = new AppRole(role_name, policies, true, 0, 0, 0);
         String appRoleResponseJson = new ObjectMapper().writeValueAsString(appRole);
         Response appRoleResponse = getMockResponse(HttpStatus.OK, true, appRoleResponseJson);
@@ -1595,7 +1595,7 @@ public class AppRoleServiceTest {
         Map<String, Object> dataMap = new HashMap<>();
         appRoleResponseMap.put("data", dataMap);
         dataMap.put("policies",policiesList);
-        dataMap.put("bind_secret_id",new Boolean(true));
+        dataMap.put("bind_secret_id", Boolean.TRUE);
         dataMap.put("secret_id_num_uses", new Integer(0));
         dataMap.put("secret_id_ttl", new Integer(0));
         dataMap.put("token_num_uses", new Integer(0));
@@ -1759,7 +1759,7 @@ public class AppRoleServiceTest {
         
         ArrayList<String> policiesList = new ArrayList<String>();
         policiesList.add("r_shared_safe01");
-        String[] policies = policiesList.toArray(new String[policiesList.size()]);
+        String[] policies = policiesList.toArray(new String[0]);
         AppRole appRole = new AppRole(role_name, policies, true, 0, 0, 0);
         
         String appRoleResponseJson = new ObjectMapper().writeValueAsString(appRole);
@@ -1769,7 +1769,7 @@ public class AppRoleServiceTest {
         Map<String, Object> dataMap = new HashMap<>();
         appRoleResponseMap.put("data", dataMap);
         dataMap.put("policies",policiesList);
-        dataMap.put("bind_secret_id",new Boolean(true));
+        dataMap.put("bind_secret_id", Boolean.TRUE);
         dataMap.put("secret_id_num_uses", new Integer(0));
         dataMap.put("secret_id_ttl", new Integer(0));
         dataMap.put("token_num_uses", new Integer(0));
@@ -1825,7 +1825,7 @@ public class AppRoleServiceTest {
 		appRoleDetails.setRole_id(roleId);
 		appRoleDetails.setAppRoleMetadata(approleMetadata);
 		if (!CollectionUtils.isEmpty(accessorIds)) {
-			appRoleDetails.setAccessorIds(accessorIds.toArray(new String[accessorIds.size()]));
+			appRoleDetails.setAccessorIds(accessorIds.toArray(new String[0]));
 		}
 		String appRoleDetailsJson = objMapper.writeValueAsString(appRoleDetails);
         String appRoleDetailsResponseJson = objMapper.writeValueAsString(appRoleDetails);
@@ -1854,7 +1854,7 @@ public class AppRoleServiceTest {
         
         ArrayList<String> policiesList = new ArrayList<String>();
         policiesList.add("r_shared_safe01");
-        String[] policies = policiesList.toArray(new String[policiesList.size()]);
+        String[] policies = policiesList.toArray(new String[0]);
         AppRole appRole = new AppRole(role_name, policies, true, 0, 0, 0);
         
         String appRoleResponseJson = new ObjectMapper().writeValueAsString(appRole);
@@ -1864,7 +1864,7 @@ public class AppRoleServiceTest {
         Map<String, Object> dataMap = new HashMap<>();
         appRoleResponseMap.put("data", dataMap);
         dataMap.put("policies",policiesList);
-        dataMap.put("bind_secret_id",new Boolean(true));
+        dataMap.put("bind_secret_id", Boolean.TRUE);
         dataMap.put("secret_id_num_uses", new Integer(0));
         dataMap.put("secret_id_ttl", new Integer(0));
         dataMap.put("token_num_uses", new Integer(0));
@@ -1920,7 +1920,7 @@ public class AppRoleServiceTest {
 		appRoleDetails.setRole_id(roleId);
 		appRoleDetails.setAppRoleMetadata(approleMetadata);
 		if (!CollectionUtils.isEmpty(accessorIds)) {
-			appRoleDetails.setAccessorIds(accessorIds.toArray(new String[accessorIds.size()]));
+			appRoleDetails.setAccessorIds(accessorIds.toArray(new String[0]));
 		}
 		String appRoleDetailsJson = objMapper.writeValueAsString(appRoleDetails);
         String appRoleDetailsResponseJson = objMapper.writeValueAsString(appRoleDetails);
@@ -1949,7 +1949,7 @@ public class AppRoleServiceTest {
         
         ArrayList<String> policiesList = new ArrayList<String>();
         policiesList.add("r_shared_safe01");
-        String[] policies = policiesList.toArray(new String[policiesList.size()]);
+        String[] policies = policiesList.toArray(new String[0]);
         AppRole appRole = new AppRole(role_name, policies, true, 0, 0, 0);
         
         String appRoleResponseJson = new ObjectMapper().writeValueAsString(appRole);
@@ -1959,7 +1959,7 @@ public class AppRoleServiceTest {
         Map<String, Object> dataMap = new HashMap<>();
         appRoleResponseMap.put("data", dataMap);
         dataMap.put("policies",policiesList);
-        dataMap.put("bind_secret_id",new Boolean(true));
+        dataMap.put("bind_secret_id", Boolean.TRUE);
         dataMap.put("secret_id_num_uses", new Integer(0));
         dataMap.put("secret_id_ttl", new Integer(0));
         dataMap.put("token_num_uses", new Integer(0));
@@ -2015,7 +2015,7 @@ public class AppRoleServiceTest {
 		appRoleDetails.setRole_id(roleId);
 		appRoleDetails.setAppRoleMetadata(approleMetadata);
 		if (!CollectionUtils.isEmpty(accessorIds)) {
-			appRoleDetails.setAccessorIds(accessorIds.toArray(new String[accessorIds.size()]));
+			appRoleDetails.setAccessorIds(accessorIds.toArray(new String[0]));
 		}
         String appRoleDetailsResponseJson = "{\"errors\":[\"Access denied: You don't have enough permission to read the secret_id associated with the AppRole\"]}";
         Response appRoleDetailsResponse =getMockResponse(HttpStatus.BAD_REQUEST, true, appRoleDetailsResponseJson);
@@ -2040,7 +2040,7 @@ public class AppRoleServiceTest {
         // START - AppRole exists
         ArrayList<String> policiesList = new ArrayList<String>();
         policiesList.add("r_shared_safe01");
-        String[] policies = policiesList.toArray(new String[policiesList.size()]);
+        String[] policies = policiesList.toArray(new String[0]);
         AppRole appRole = new AppRole(role_name, policies, true, 0, 0, 0);
         String appRoleResponseJson = new ObjectMapper().writeValueAsString(appRole);
         Response appRoleResponse = getMockResponse(HttpStatus.OK, true, appRoleResponseJson);
@@ -2048,7 +2048,7 @@ public class AppRoleServiceTest {
         Map<String, Object> dataMap = new HashMap<>();
         appRoleResponseMap.put("data", dataMap);
         dataMap.put("policies",policiesList);
-        dataMap.put("bind_secret_id",new Boolean(true));
+        dataMap.put("bind_secret_id", Boolean.TRUE);
         dataMap.put("secret_id_num_uses", new Integer(0));
         dataMap.put("secret_id_ttl", new Integer(0));
         dataMap.put("token_num_uses", new Integer(0));
@@ -2094,7 +2094,7 @@ public class AppRoleServiceTest {
         // START - AppRole exists
         ArrayList<String> policiesList = new ArrayList<String>();
         policiesList.add("r_shared_safe01");
-        String[] policies = policiesList.toArray(new String[policiesList.size()]);
+        String[] policies = policiesList.toArray(new String[0]);
         AppRole appRole = new AppRole(role_name, policies, true, 0, 0, 0);
         String appRoleResponseJson = new ObjectMapper().writeValueAsString(appRole);
         Response appRoleResponse = getMockResponse(HttpStatus.OK, true, appRoleResponseJson);
@@ -2102,7 +2102,7 @@ public class AppRoleServiceTest {
         Map<String, Object> dataMap = new HashMap<>();
         appRoleResponseMap.put("data", dataMap);
         dataMap.put("policies",policiesList);
-        dataMap.put("bind_secret_id",new Boolean(true));
+        dataMap.put("bind_secret_id", Boolean.TRUE);
         dataMap.put("secret_id_num_uses", new Integer(0));
         dataMap.put("secret_id_ttl", new Integer(0));
         dataMap.put("token_num_uses", new Integer(0));

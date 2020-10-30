@@ -176,7 +176,7 @@ public class ServiceAccountsServiceTest {
 		ADServiceAccountObjects adServiceAccountObjects = new ADServiceAccountObjects();
 		ADServiceAccountObjectsList adServiceAccountObjectsList = new ADServiceAccountObjectsList();
 		if (!CollectionUtils.isEmpty(allServiceAccounts)) {
-			adServiceAccountObjectsList.setValues(allServiceAccounts.toArray(new ADServiceAccount[allServiceAccounts.size()]));
+			adServiceAccountObjectsList.setValues(allServiceAccounts.toArray(new ADServiceAccount[0]));
 		}
 		adServiceAccountObjects.setData(adServiceAccountObjectsList);
 		return adServiceAccountObjects;
@@ -1167,7 +1167,7 @@ public class ServiceAccountsServiceTest {
 
         DirectoryObjects users = new DirectoryObjects();
         DirectoryObjectsList usersList = new DirectoryObjectsList();
-        usersList.setValues(persons.toArray(new DirectoryUser[persons.size()]));
+        usersList.setValues(persons.toArray(new DirectoryUser[0]));
         users.setData(usersList);
         
    			OIDCLookupEntityRequest oidcLookupEntityRequest = new OIDCLookupEntityRequest();
@@ -1375,7 +1375,7 @@ public class ServiceAccountsServiceTest {
 
         DirectoryObjects users = new DirectoryObjects();
         DirectoryObjectsList usersList = new DirectoryObjectsList();
-        usersList.setValues(persons.toArray(new DirectoryUser[persons.size()]));
+        usersList.setValues(persons.toArray(new DirectoryUser[0]));
         users.setData(usersList);
         
    			OIDCLookupEntityRequest oidcLookupEntityRequest = new OIDCLookupEntityRequest();

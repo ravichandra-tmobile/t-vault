@@ -151,7 +151,7 @@ public class TokenValidatorTest {
 
         DirectoryObjects users = new DirectoryObjects();
         DirectoryObjectsList usersList = new DirectoryObjectsList();
-        usersList.setValues(persons.toArray(new DirectoryUser[persons.size()]));
+        usersList.setValues(persons.toArray(new DirectoryUser[0]));
         users.setData(usersList);
         ResponseEntity<DirectoryObjects> directoryObjectsResponseEntity = ResponseEntity.status(HttpStatus.OK).body(users);
         when(directoryService.searchByUPN("user1@company.com")).thenReturn(directoryObjectsResponseEntity);

@@ -487,7 +487,7 @@ public class OIDCAuthServiceTest {
         directoryGroup2.setGroupName("testgroup1");
         directoryGroup2.setEmail(null);
         allGroups.add(directoryGroup1);
-        groupsList.setValues(allGroups.toArray(new DirectoryGroup[allGroups.size()]));
+        groupsList.setValues(allGroups.toArray(new DirectoryGroup[0]));
         groups.setData(groupsList);
 
         when(OIDCUtil.getGroupsFromAAD(ssoToken, groupName)).thenReturn(allGroups);

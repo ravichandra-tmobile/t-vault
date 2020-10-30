@@ -99,7 +99,7 @@ public class DirectoryServiceTest {
 
         DirectoryObjects users = new DirectoryObjects();
         DirectoryObjectsList usersList = new DirectoryObjectsList();
-        usersList.setValues(persons.toArray(new DirectoryUser[persons.size()]));
+        usersList.setValues(persons.toArray(new DirectoryUser[0]));
         users.setData(usersList);
         ResponseEntity<DirectoryObjects> responseEntityExpected = ResponseEntity.status(HttpStatus.OK).body(users);
 
@@ -126,7 +126,7 @@ public class DirectoryServiceTest {
 
         DirectoryObjects users = new DirectoryObjects();
         DirectoryObjectsList usersList = new DirectoryObjectsList();
-        usersList.setValues(persons.toArray(new DirectoryUser[persons.size()]));
+        usersList.setValues(persons.toArray(new DirectoryUser[0]));
         users.setData(usersList);
         ResponseEntity<DirectoryObjects> responseEntityExpected = ResponseEntity.status(HttpStatus.OK).body(users);
 
@@ -151,7 +151,7 @@ public class DirectoryServiceTest {
 
         DirectoryObjects groups = new DirectoryObjects();
         DirectoryObjectsList groupsList = new DirectoryObjectsList();
-        groupsList.setValues(allGroups.toArray(new DirectoryGroup[allGroups.size()]));
+        groupsList.setValues(allGroups.toArray(new DirectoryGroup[0]));
         groups.setData(groupsList);
 
         ResponseEntity<DirectoryObjects> responseEntityExpected = ResponseEntity.status(HttpStatus.OK).body(groups);
@@ -179,7 +179,7 @@ public class DirectoryServiceTest {
 
         DirectoryObjects users = new DirectoryObjects();
         DirectoryObjectsList usersList = new DirectoryObjectsList();
-        usersList.setValues(persons.toArray(new DirectoryUser[persons.size()]));
+        usersList.setValues(persons.toArray(new DirectoryUser[0]));
         users.setData(usersList);
         ResponseEntity<DirectoryObjects> responseEntityExpected = ResponseEntity.status(HttpStatus.OK).body(users);
 
@@ -207,7 +207,7 @@ public class DirectoryServiceTest {
 
         DirectoryObjects users = new DirectoryObjects();
         DirectoryObjectsList usersList = new DirectoryObjectsList();
-        usersList.setValues(persons.toArray(new DirectoryUser[persons.size()]));
+        usersList.setValues(persons.toArray(new DirectoryUser[0]));
         users.setData(usersList);
         ResponseEntity<DirectoryObjects> responseEntityExpected = ResponseEntity.status(HttpStatus.OK).body(users);
 

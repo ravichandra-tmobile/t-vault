@@ -312,7 +312,7 @@ public class IAMServiceAccountServiceTest {
         persons.add(directoryUser);
         DirectoryObjects users = new DirectoryObjects();
         DirectoryObjectsList usersList = new DirectoryObjectsList();
-        usersList.setValues(persons.toArray(new DirectoryUser[persons.size()]));
+        usersList.setValues(persons.toArray(new DirectoryUser[0]));
         users.setData(usersList);
 
         ResponseEntity<DirectoryObjects> responseEntityCorpExpected = ResponseEntity.status(HttpStatus.OK).body(users);
@@ -415,7 +415,7 @@ public class IAMServiceAccountServiceTest {
 
 		DirectoryObjects users = new DirectoryObjects();
 		DirectoryObjectsList usersList = new DirectoryObjectsList();
-		usersList.setValues(persons.toArray(new DirectoryUser[persons.size()]));
+		usersList.setValues(persons.toArray(new DirectoryUser[0]));
 		users.setData(usersList);
 
 		OIDCLookupEntityRequest oidcLookupEntityRequest = new OIDCLookupEntityRequest();

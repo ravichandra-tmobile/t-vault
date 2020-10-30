@@ -219,7 +219,7 @@ public class SSLCertificateServiceTest {
         persons.add(directoryUser);
         DirectoryObjects users = new DirectoryObjects();
         DirectoryObjectsList usersList = new DirectoryObjectsList();
-        usersList.setValues(persons.toArray(new DirectoryUser[persons.size()]));
+        usersList.setValues(persons.toArray(new DirectoryUser[0]));
         users.setData(usersList);
         String responseMessage =new ObjectMapper().writeValueAsString(users);
 
@@ -2438,7 +2438,7 @@ public class SSLCertificateServiceTest {
 
         DirectoryObjects users = new DirectoryObjects();
         DirectoryObjectsList usersList = new DirectoryObjectsList();
-        usersList.setValues(persons.toArray(new DirectoryUser[persons.size()]));
+        usersList.setValues(persons.toArray(new DirectoryUser[0]));
         users.setData(usersList);
         
 			OIDCLookupEntityRequest oidcLookupEntityRequest = new OIDCLookupEntityRequest();
@@ -4413,7 +4413,7 @@ public class SSLCertificateServiceTest {
 
         DirectoryObjects users = new DirectoryObjects();
         DirectoryObjectsList usersList = new DirectoryObjectsList();
-        usersList.setValues(persons.toArray(new DirectoryUser[persons.size()]));
+        usersList.setValues(persons.toArray(new DirectoryUser[0]));
         users.setData(usersList);
         
 			OIDCLookupEntityRequest oidcLookupEntityRequest = new OIDCLookupEntityRequest();
@@ -5026,7 +5026,7 @@ public class SSLCertificateServiceTest {
         persons.add(directoryUser);
         DirectoryObjects users = new DirectoryObjects();
         DirectoryObjectsList usersList = new DirectoryObjectsList();
-        usersList.setValues(persons.toArray(new DirectoryUser[persons.size()]));
+        usersList.setValues(persons.toArray(new DirectoryUser[0]));
         users.setData(usersList);
         Mockito.doNothing().when(emailUtils).sendTransferEmail(Mockito.any(),Mockito.any(),Mockito.any());
         when(directoryService.searchByUPN(anyString())).

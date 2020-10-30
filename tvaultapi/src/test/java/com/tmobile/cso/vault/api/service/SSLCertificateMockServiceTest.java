@@ -225,7 +225,7 @@ public class SSLCertificateMockServiceTest {
         persons.add(directoryUser);
         DirectoryObjects users = new DirectoryObjects();
         DirectoryObjectsList usersList = new DirectoryObjectsList();
-        usersList.setValues(persons.toArray(new DirectoryUser[persons.size()]));
+        usersList.setValues(persons.toArray(new DirectoryUser[0]));
         users.setData(usersList);
         String responseMessage =new ObjectMapper().writeValueAsString(users);
 
@@ -356,7 +356,7 @@ public class SSLCertificateMockServiceTest {
         certificateData.setExpiryDate(endYear +fromDate.substring(4));
         certificateData.setContainerName("T-Vault-Test");
         certificateData.setAuthority("T-Mobile Issuing CA 01 - SHA2");
-        certificateData.setDnsNames(Arrays.asList("dns1.t-mobile.com"));
+        certificateData.setDnsNames(Collections.singletonList("dns1.t-mobile.com"));
         return certificateData;
     }
 
@@ -2441,7 +2441,7 @@ public class SSLCertificateMockServiceTest {
 
         DirectoryObjects users = new DirectoryObjects();
         DirectoryObjectsList usersList = new DirectoryObjectsList();
-        usersList.setValues(persons.toArray(new DirectoryUser[persons.size()]));
+        usersList.setValues(persons.toArray(new DirectoryUser[0]));
         users.setData(usersList);
 
         OIDCLookupEntityRequest oidcLookupEntityRequest = new OIDCLookupEntityRequest();
@@ -4070,7 +4070,7 @@ public class SSLCertificateMockServiceTest {
 
         DirectoryObjects users = new DirectoryObjects();
         DirectoryObjectsList usersList = new DirectoryObjectsList();
-        usersList.setValues(persons.toArray(new DirectoryUser[persons.size()]));
+        usersList.setValues(persons.toArray(new DirectoryUser[0]));
         users.setData(usersList);
 
         OIDCLookupEntityRequest oidcLookupEntityRequest = new OIDCLookupEntityRequest();
@@ -4684,7 +4684,7 @@ public class SSLCertificateMockServiceTest {
         persons.add(directoryUser);
         DirectoryObjects users = new DirectoryObjects();
         DirectoryObjectsList usersList = new DirectoryObjectsList();
-        usersList.setValues(persons.toArray(new DirectoryUser[persons.size()]));
+        usersList.setValues(persons.toArray(new DirectoryUser[0]));
         users.setData(usersList);
         Mockito.doNothing().when(emailUtils).sendTransferEmail(Mockito.any(),Mockito.any(),Mockito.any());
         when(directoryService.searchByUPN(anyString())).

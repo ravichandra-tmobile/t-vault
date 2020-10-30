@@ -319,7 +319,7 @@ public class OIDCAuthControllerTest {
 		directoryGroup2.setEmail(null);
 		allGroups.add(directoryGroup1);
 
-		groupsList.setValues(allGroups.toArray(new DirectoryGroup[allGroups.size()]));
+		groupsList.setValues(allGroups.toArray(new DirectoryGroup[0]));
 		groups.setData(groupsList);
 
 		ResponseEntity<DirectoryObjects> responseEntityExpected = ResponseEntity.status(HttpStatus.OK).body(groups);

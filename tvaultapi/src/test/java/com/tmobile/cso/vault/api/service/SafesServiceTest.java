@@ -631,7 +631,7 @@ public class SafesServiceTest {
 
         DirectoryObjects users = new DirectoryObjects();
         DirectoryObjectsList usersList = new DirectoryObjectsList();
-        usersList.setValues(persons.toArray(new DirectoryUser[persons.size()]));
+        usersList.setValues(persons.toArray(new DirectoryUser[0]));
         users.setData(usersList);
         
 			OIDCLookupEntityRequest oidcLookupEntityRequest = new OIDCLookupEntityRequest();
@@ -750,7 +750,7 @@ public class SafesServiceTest {
 
         DirectoryObjects users = new DirectoryObjects();
         DirectoryObjectsList usersList = new DirectoryObjectsList();
-        usersList.setValues(persons.toArray(new DirectoryUser[persons.size()]));
+        usersList.setValues(persons.toArray(new DirectoryUser[0]));
         users.setData(usersList);
         
 			OIDCLookupEntityRequest oidcLookupEntityRequest = new OIDCLookupEntityRequest();
@@ -822,7 +822,7 @@ public class SafesServiceTest {
 
         DirectoryObjects users = new DirectoryObjects();
         DirectoryObjectsList usersList = new DirectoryObjectsList();
-        usersList.setValues(persons.toArray(new DirectoryUser[persons.size()]));
+        usersList.setValues(persons.toArray(new DirectoryUser[0]));
         users.setData(usersList);
         
 			OIDCLookupEntityRequest oidcLookupEntityRequest = new OIDCLookupEntityRequest();
@@ -1064,7 +1064,7 @@ public class SafesServiceTest {
         });
         when(ControllerUtil.getSafeType(path)).thenReturn("shared");
         when(ControllerUtil.getSafeName(path)).thenReturn("mysafe01");
-        when(ControllerUtil.getAllExistingSafeNames("shared", token)).thenReturn(Arrays.asList("mysafe02"));
+        when(ControllerUtil.getAllExistingSafeNames("shared", token)).thenReturn(Collections.singletonList("mysafe02"));
 
         ReflectionTestUtils.setField(safesService, "vaultAuthMethod", "oidc");
         List<String> policies = new ArrayList<>();
@@ -1123,7 +1123,7 @@ public class SafesServiceTest {
         when(ControllerUtil.updateMetadata(any(),eq(token))).thenReturn(response_404);
         when(ControllerUtil.getSafeType(path)).thenReturn("shared");
         when(ControllerUtil.getSafeName(path)).thenReturn("mysafe01");
-        when(ControllerUtil.getAllExistingSafeNames("shared", token)).thenReturn(Arrays.asList("mysafe02"));
+        when(ControllerUtil.getAllExistingSafeNames("shared", token)).thenReturn(Collections.singletonList("mysafe02"));
 
         ReflectionTestUtils.setField(safesService, "vaultAuthMethod", "oidc");
         List<String> policies = new ArrayList<>();
@@ -1452,7 +1452,7 @@ public class SafesServiceTest {
         });
         when(ControllerUtil.getSafeType("shared/mysafe01")).thenReturn("shared");
         when(ControllerUtil.getSafeName("shared/mysafe01")).thenReturn("mysafe01");
-        when(ControllerUtil.getAllExistingSafeNames("shared", token)).thenReturn(Arrays.asList("mysafe02"));
+        when(ControllerUtil.getAllExistingSafeNames("shared", token)).thenReturn(Collections.singletonList("mysafe02"));
         SafeAppRoleAccess safeAppRoleAccess = new SafeAppRoleAccess("approle1", "shared/mysafe01", "write");
         when(JSONUtil.getJSON(safeAppRoleAccess)).thenReturn(jsonStr);
         Response appRoleResponse = getMockResponse(HttpStatus.OK, true, "{\"data\": {\"policies\":\"w_shared_mysafe01\"}}");
@@ -1494,7 +1494,7 @@ public class SafesServiceTest {
         when(ControllerUtil.updateMetadata(Mockito.anyMap(),eq(token))).thenReturn(updateMetadataResponse_404);
         when(ControllerUtil.getSafeType("shared/mysafe01")).thenReturn("shared");
         when(ControllerUtil.getSafeName("shared/mysafe01")).thenReturn("mysafe01");
-        when(ControllerUtil.getAllExistingSafeNames("shared", token)).thenReturn(Arrays.asList("mysafe02"));
+        when(ControllerUtil.getAllExistingSafeNames("shared", token)).thenReturn(Collections.singletonList("mysafe02"));
         params.put("path","shared/mysafe02");
         when(ControllerUtil.updateMetadata(params,token)).thenReturn(updateMetadataResponse);
         SafeAppRoleAccess safeAppRoleAccess = new SafeAppRoleAccess("approle1", "shared/mysafe01", "write");
@@ -1733,7 +1733,7 @@ public class SafesServiceTest {
 
         DirectoryObjects users = new DirectoryObjects();
         DirectoryObjectsList usersList = new DirectoryObjectsList();
-        usersList.setValues(persons.toArray(new DirectoryUser[persons.size()]));
+        usersList.setValues(persons.toArray(new DirectoryUser[0]));
         users.setData(usersList);
         
 			OIDCLookupEntityRequest oidcLookupEntityRequest = new OIDCLookupEntityRequest();
@@ -1822,7 +1822,7 @@ public class SafesServiceTest {
 
      DirectoryObjects users = new DirectoryObjects();
      DirectoryObjectsList usersList = new DirectoryObjectsList();
-     usersList.setValues(persons.toArray(new DirectoryUser[persons.size()]));
+     usersList.setValues(persons.toArray(new DirectoryUser[0]));
      users.setData(usersList);
      
 			OIDCLookupEntityRequest oidcLookupEntityRequest = new OIDCLookupEntityRequest();
@@ -1937,7 +1937,7 @@ public class SafesServiceTest {
      });
      when(ControllerUtil.getSafeType("shared/mysafe01")).thenReturn("shared");
      when(ControllerUtil.getSafeName("shared/mysafe01")).thenReturn("mysafe01");
-     when(ControllerUtil.getAllExistingSafeNames("shared", token)).thenReturn(Arrays.asList("mysafe02"));
+     when(ControllerUtil.getAllExistingSafeNames("shared", token)).thenReturn(Collections.singletonList("mysafe02"));
 
      when(safeUtils.canAddOrRemoveUser(userDetails, safeUser, "addUser")).thenReturn(true);
      
@@ -1959,7 +1959,7 @@ public class SafesServiceTest {
 
      DirectoryObjects users = new DirectoryObjects();
      DirectoryObjectsList usersList = new DirectoryObjectsList();
-     usersList.setValues(persons.toArray(new DirectoryUser[persons.size()]));
+     usersList.setValues(persons.toArray(new DirectoryUser[0]));
      users.setData(usersList);
      
 			OIDCLookupEntityRequest oidcLookupEntityRequest = new OIDCLookupEntityRequest();
@@ -2044,7 +2044,7 @@ public class SafesServiceTest {
 
      DirectoryObjects users = new DirectoryObjects();
      DirectoryObjectsList usersList = new DirectoryObjectsList();
-     usersList.setValues(persons.toArray(new DirectoryUser[persons.size()]));
+     usersList.setValues(persons.toArray(new DirectoryUser[0]));
      users.setData(usersList);
      
 			OIDCLookupEntityRequest oidcLookupEntityRequest = new OIDCLookupEntityRequest();

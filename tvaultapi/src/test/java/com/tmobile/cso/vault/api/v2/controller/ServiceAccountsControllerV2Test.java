@@ -108,7 +108,7 @@ public class ServiceAccountsControllerV2Test {
 		ADServiceAccountObjects adServiceAccountObjects = new ADServiceAccountObjects();
 		ADServiceAccountObjectsList adServiceAccountObjectsList = new ADServiceAccountObjectsList();
 		if (!CollectionUtils.isEmpty(allServiceAccounts)) {
-			adServiceAccountObjectsList.setValues(allServiceAccounts.toArray(new ADServiceAccount[allServiceAccounts.size()]));
+			adServiceAccountObjectsList.setValues(allServiceAccounts.toArray(new ADServiceAccount[0]));
 		}
 		adServiceAccountObjects.setData(adServiceAccountObjectsList);
 		return adServiceAccountObjects;

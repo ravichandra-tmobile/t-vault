@@ -78,7 +78,7 @@ public class DirectoryServiceControllerV2Test {
         persons.add(directoryUser);
         DirectoryObjects users = new DirectoryObjects();
         DirectoryObjectsList usersList = new DirectoryObjectsList();
-        usersList.setValues(persons.toArray(new DirectoryUser[persons.size()]));
+        usersList.setValues(persons.toArray(new DirectoryUser[0]));
         users.setData(usersList);
         String responseMessage =new ObjectMapper().writeValueAsString(users);
 
@@ -105,7 +105,7 @@ public class DirectoryServiceControllerV2Test {
         persons.add(directoryUser);
         DirectoryObjects users = new DirectoryObjects();
         DirectoryObjectsList usersList = new DirectoryObjectsList();
-        usersList.setValues(persons.toArray(new DirectoryUser[persons.size()]));
+        usersList.setValues(persons.toArray(new DirectoryUser[0]));
         users.setData(usersList);
         String responseMessage =new ObjectMapper().writeValueAsString(users);
 
@@ -131,7 +131,7 @@ public class DirectoryServiceControllerV2Test {
 
         DirectoryObjects groups = new DirectoryObjects();
         DirectoryObjectsList groupsList = new DirectoryObjectsList();
-        groupsList.setValues(allGroups.toArray(new DirectoryGroup[allGroups.size()]));
+        groupsList.setValues(allGroups.toArray(new DirectoryGroup[0]));
         groups.setData(groupsList);
         String responseMessage =new ObjectMapper().writeValueAsString(groups);
 
@@ -158,7 +158,7 @@ public class DirectoryServiceControllerV2Test {
         persons.add(directoryUser);
         DirectoryObjects users = new DirectoryObjects();
         DirectoryObjectsList usersList = new DirectoryObjectsList();
-        usersList.setValues(persons.toArray(new DirectoryUser[persons.size()]));
+        usersList.setValues(persons.toArray(new DirectoryUser[0]));
         users.setData(usersList);
         String responseMessage =new ObjectMapper().writeValueAsString(users);
 

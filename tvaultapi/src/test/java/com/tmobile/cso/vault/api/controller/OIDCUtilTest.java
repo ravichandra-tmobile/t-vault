@@ -328,7 +328,7 @@ public class OIDCUtilTest {
 
            DirectoryObjects users = new DirectoryObjects();
            DirectoryObjectsList usersList = new DirectoryObjectsList();
-           usersList.setValues(persons.toArray(new DirectoryUser[persons.size()]));
+           usersList.setValues(persons.toArray(new DirectoryUser[0]));
            users.setData(usersList);
            ResponseEntity<DirectoryObjects> responseEntity1 = ResponseEntity.status(HttpStatus.OK).body(users);
            String dataOutput = "{\"data\":{\"oidc/\":{\"accessor\":\"auth_oidc_8b51f292\",\"config\":{\"default_lease_ttl\":0,\"force_no_cache\":false,\"max_lease_ttl\":0,\"token_type\":\"default-service\"},\"description\":\"\",\"external_entropy_access\":false,\"local\":false,\"options\":null,\"seal_wrap\":false,\"type\":\"oidc\",\"uuid\":\"fbd45cc4-d6b6-8b49-6d1a-d4d931345df9\"}}}";
@@ -365,7 +365,7 @@ public class OIDCUtilTest {
 
         DirectoryObjects users = new DirectoryObjects();
         DirectoryObjectsList usersList = new DirectoryObjectsList();
-        usersList.setValues(persons.toArray(new DirectoryUser[persons.size()]));
+        usersList.setValues(persons.toArray(new DirectoryUser[0]));
         users.setData(usersList);
         ResponseEntity<DirectoryObjects> responseEntity1 = ResponseEntity.status(HttpStatus.OK).body(users);
         String dataOutput = "{\"data\":{\"oidc/\":{\"accessor\":\"auth_oidc_8b51f292\",\"config\":{\"default_lease_ttl\":0,\"force_no_cache\":false,\"max_lease_ttl\":0,\"token_type\":\"default-service\"},\"description\":\"\",\"external_entropy_access\":false,\"local\":false,\"options\":null,\"seal_wrap\":false,\"type\":\"oidc\",\"uuid\":\"fbd45cc4-d6b6-8b49-6d1a-d4d931345df9\"}}}";
@@ -594,7 +594,7 @@ public class OIDCUtilTest {
 
          DirectoryObjects users = new DirectoryObjects();
          DirectoryObjectsList usersList = new DirectoryObjectsList();
-         usersList.setValues(persons.toArray(new DirectoryUser[persons.size()]));
+         usersList.setValues(persons.toArray(new DirectoryUser[0]));
          users.setData(usersList);
          ResponseEntity<DirectoryObjects> responseEntity1 = ResponseEntity.status(HttpStatus.OK).body(users);
 
