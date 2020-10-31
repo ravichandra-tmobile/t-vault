@@ -380,16 +380,7 @@ public class OIDCUtilTest {
         Response response404 = getMockResponse(HttpStatus.NOT_FOUND, true, "");
         //when(reqProcessor.process("/identity/lookup/entity", jsonStr, token)).thenReturn(response);
 
-        when(reqProcessor.process("/identity/lookup/entity", jsonStr, token)).thenAnswer(new Answer() {
-            private int count = 0;
-
-            public Object answer(InvocationOnMock invocation) {
-                if (count++ == 1)
-                    return response;
-
-                return response404;
-            }
-        });
+        when(reqProcessor.process("/identity/lookup/entity", jsonStr, token)).thenReturn(response404).thenReturn(response);
         when(reqProcessor.process("/identity/entity-alias", jsonStr, token)).thenReturn(getMockResponse(HttpStatus.OK, true, ""));
         when(reqProcessor.process("/auth/tvault/lookup", "{}", token)).thenReturn(response);
         when(directoryService.getUserDetailsByCorpId(username)).thenReturn(directoryUser);
@@ -777,19 +768,8 @@ public class OIDCUtilTest {
         when(statusLine.getStatusCode()).thenReturn(200);
         when(httpResponse.getEntity()).thenReturn(mockHttpEntity);
         when(ControllerUtil.getOidcADLoginUrl()).thenReturn("testurl");
-        when(mockHttpEntity.getContent()).thenAnswer(new Answer() {
-            private int count = 0;
-
-            public Object answer(InvocationOnMock invocation) {
-                if (count++ == 1) {
-                    String userIdResponseString = "{\"id\": \"abcdefg\", \"onPremisesSyncEnabled\":null, \"displayName\":\"testgroup1\", \"mail\": \"TestUser@T-Mobile.com\"}";
-                    return new ByteArrayInputStream(userIdResponseString.getBytes());
-                }
-                String responseString = "{\"access_token\": \"abcd\"}";
-                return new ByteArrayInputStream(responseString.getBytes());
-            }
-        });
-
+        when(mockHttpEntity.getContent()).thenReturn(new ByteArrayInputStream("{\"access_token\": \"abcd\"}".getBytes()))
+                .thenReturn(new ByteArrayInputStream("{\"id\": \"abcdefg\", \"onPremisesSyncEnabled\":null, \"displayName\":\"testgroup1\", \"mail\": \"TestUser@T-Mobile.com\"}".getBytes()));
 
         ReflectionTestUtils.setField(oidcUtil, "ssoGetUserEndpoint", "testgroupurl");
         ReflectionTestUtils.setField(oidcUtil, "sprintMailTailText", "sprint.com");

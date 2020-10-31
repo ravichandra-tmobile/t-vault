@@ -1041,16 +1041,7 @@ public class IAMServiceAccountServiceTest {
 		when(tokenUtils.getSelfServiceToken()).thenReturn(token);
 		when(policyUtils.getCurrentPolicies(token, userDetails.getUsername(), userDetails)).thenReturn(policies);
 
-		when(reqProcessor.process(eq("/sdb"), Mockito.any(), eq(token))).thenAnswer(new Answer() {
-			private int count = 0;
-
-			public Object answer(InvocationOnMock invocation) {
-				if (count++ == 1)
-					return metaActivatedResponse;
-
-				return metaResponse;
-			}
-		});
+		when(reqProcessor.process(eq("/sdb"), Mockito.any(), eq(token))).thenReturn(metaResponse).thenReturn(metaActivatedResponse);
 
 		when(reqProcessor.process("/read", "{\"path\":\""+path+"\"}", token)).thenReturn(getMockResponse(HttpStatus.OK, true,
 				iamMetaDataStr));
@@ -1138,16 +1129,7 @@ public class IAMServiceAccountServiceTest {
 		when(tokenUtils.getSelfServiceToken()).thenReturn(token);
 		when(policyUtils.getCurrentPolicies(token, userDetails.getUsername(), userDetails)).thenReturn(policies);
 
-		when(reqProcessor.process(eq("/sdb"), Mockito.any(), eq(token))).thenAnswer(new Answer() {
-			private int count = 0;
-
-			public Object answer(InvocationOnMock invocation) {
-				if (count++ == 1)
-					return metaActivatedResponse;
-
-				return metaResponse;
-			}
-		});
+		when(reqProcessor.process(eq("/sdb"), Mockito.any(), eq(token))).thenReturn(metaResponse).thenReturn(metaActivatedResponse);
 
 		when(reqProcessor.process("/read", "{\"path\":\""+path+"\"}", token)).thenReturn(getMockResponse(HttpStatus.OK, true,
 				iamMetaDataStr));
@@ -1182,16 +1164,7 @@ public class IAMServiceAccountServiceTest {
 		when(tokenUtils.getSelfServiceToken()).thenReturn(token);
 		when(policyUtils.getCurrentPolicies(token, userDetails.getUsername(), userDetails)).thenReturn(policies);
 
-		when(reqProcessor.process(eq("/sdb"), Mockito.any(), eq(token))).thenAnswer(new Answer() {
-			private int count = 0;
-
-			public Object answer(InvocationOnMock invocation) {
-				if (count++ == 1)
-					return metaActivatedResponse;
-
-				return metaResponse;
-			}
-		});
+		when(reqProcessor.process(eq("/sdb"), Mockito.any(), eq(token))).thenReturn(metaResponse).thenReturn(metaActivatedResponse);
 
 		when(reqProcessor.process("/read", "{\"path\":\""+path+"\"}", token)).thenReturn(getMockResponse(HttpStatus.OK, true,
 				iamMetaDataStr));
@@ -1241,16 +1214,7 @@ public class IAMServiceAccountServiceTest {
 		when(tokenUtils.getSelfServiceToken()).thenReturn(token);
 		when(policyUtils.getCurrentPolicies(token, userDetails.getUsername(), userDetails)).thenReturn(policies);
 
-		when(reqProcessor.process(eq("/sdb"), Mockito.any(), eq(token))).thenAnswer(new Answer() {
-			private int count = 0;
-
-			public Object answer(InvocationOnMock invocation) {
-				if (count++ == 1)
-					return metaActivatedResponse;
-
-				return metaResponse;
-			}
-		});
+		when(reqProcessor.process(eq("/sdb"), Mockito.any(), eq(token))).thenReturn(metaResponse).thenReturn(metaActivatedResponse);
 
 		when(reqProcessor.process("/read", "{\"path\":\""+path+"\"}", token)).thenReturn(getMockResponse(HttpStatus.OK, true,
 				iamMetaDataStr));
@@ -1282,16 +1246,7 @@ public class IAMServiceAccountServiceTest {
 		when(tokenUtils.getSelfServiceToken()).thenReturn(token);
 		when(policyUtils.getCurrentPolicies(token, userDetails.getUsername(), userDetails)).thenReturn(policies);
 
-		when(reqProcessor.process(eq("/sdb"), Mockito.any(), eq(token))).thenAnswer(new Answer() {
-			private int count = 0;
-
-			public Object answer(InvocationOnMock invocation) {
-				if (count++ == 1)
-					return metaActivatedResponse;
-
-				return metaResponse;
-			}
-		});
+		when(reqProcessor.process(eq("/sdb"), Mockito.any(), eq(token))).thenReturn(metaResponse).thenReturn(metaActivatedResponse);
 
 		when(reqProcessor.process("/read", "{\"path\":\""+path+"\"}", token)).thenReturn(getMockResponse(HttpStatus.OK, true,
 				iamMetaDataStr));
@@ -1944,17 +1899,10 @@ public class IAMServiceAccountServiceTest {
 		String iamMetaDataStr = "{ \"data\": {\"userName\": \"svc_vault_test5\", \"awsAccountId\": \"1234567890\", \"awsAccountName\": \"testaccount1\", \"createdAtEpoch\": 1609754282000, \"owner_ntid\": \"normaluser\", \"owner_email\": \"normaluser@testmail.com\", \"application_id\": \"app1\", \"application_name\": \"App1\", \"application_tag\": \"App1\", \"isActivated\": false, \"secret\":[{\"accessKeyId\":\"testaccesskey\", \"expiryDuration\":12345}]}, \"path\": \"iamsvcacc/1234567890_svc_vault_test5\"}";
 		when(reqProcessor.process(eq("/read"), Mockito.any(), eq(token))).thenReturn(getMockResponse(HttpStatus.OK, true,
 				iamMetaDataStr));
-
-		when(reqProcessor.process(eq("/delete"), Mockito.any(), eq(token))).thenAnswer(new Answer() {
-			private int count = 0;
-
-			public Object answer(InvocationOnMock invocation) {
-				if (count++ == 2)
-					return getMockResponse(HttpStatus.MULTI_STATUS, true,"");
-
-				return getMockResponse(HttpStatus.NO_CONTENT, true,"");
-			}
-		});
+		when(reqProcessor.process(eq("/delete"), Mockito.any(), eq(token)))
+				.thenReturn(getMockResponse(HttpStatus.NO_CONTENT, true,""))
+				.thenReturn(getMockResponse(HttpStatus.NO_CONTENT, true,""))
+				.thenReturn(getMockResponse(HttpStatus.MULTI_STATUS, true,""));
 
 		ResponseEntity<String> responseEntity = iamServiceAccountsService.offboardIAMServiceAccount(token,
 				serviceAccount, userDetails);
@@ -2042,16 +1990,9 @@ public class IAMServiceAccountServiceTest {
 		when(reqProcessor.process(eq("/read"), Mockito.any(), eq(token))).thenReturn(getMockResponse(HttpStatus.OK, true,
 				iamMetaDataStr));
 
-		when(reqProcessor.process(eq("/delete"), Mockito.any(), eq(token))).thenAnswer(new Answer() {
-			private int count = 0;
-
-			public Object answer(InvocationOnMock invocation) {
-				if (count++ == 1)
-					return getMockResponse(HttpStatus.MULTI_STATUS, true,"");
-
-				return getMockResponse(HttpStatus.NO_CONTENT, true,"");
-			}
-		});
+		when(reqProcessor.process(eq("/delete"), Mockito.any(), eq(token)))
+				.thenReturn(getMockResponse(HttpStatus.NO_CONTENT, true,""))
+				.thenReturn(getMockResponse(HttpStatus.MULTI_STATUS, true,""));
 
 		ResponseEntity<String> responseEntity = iamServiceAccountsService.offboardIAMServiceAccount(token,
 				serviceAccount, userDetails);

@@ -1052,16 +1052,7 @@ public class SafesServiceTest {
         }
         when(ControllerUtil.configureLDAPGroup(any(),any(),eq(token))).thenReturn(idapConfigureResponse);
 
-        when(ControllerUtil.updateMetadata(any(),eq(token))).thenAnswer(new Answer() {
-            private int count = 0;
-
-            public Object answer(InvocationOnMock invocation) {
-                if (count++ == 1)
-                    return responseNoContent;
-
-                return response_404;
-            }
-        });
+        when(ControllerUtil.updateMetadata(any(),eq(token))).thenReturn(response_404).thenReturn(responseNoContent);
         when(ControllerUtil.getSafeType(path)).thenReturn("shared");
         when(ControllerUtil.getSafeName(path)).thenReturn("mysafe01");
         when(ControllerUtil.getAllExistingSafeNames("shared", token)).thenReturn(Collections.singletonList("mysafe02"));
@@ -1439,17 +1430,7 @@ public class SafesServiceTest {
         when(ControllerUtil.areSafeAppRoleInputsValid(Mockito.anyMap())).thenReturn(true);
         when(ControllerUtil.canAddPermission(Mockito.anyString(), Mockito.anyString())).thenReturn(true);
 
-        //when(ControllerUtil.updateMetadata(Mockito.anyMap(),eq(token))).thenReturn(updateMetadataResponse_404);
-        when(ControllerUtil.updateMetadata(Mockito.anyMap(),eq(token))).thenAnswer(new Answer() {
-            private int count = 0;
-
-            public Object answer(InvocationOnMock invocation) {
-                if (count++ == 1)
-                    return updateMetadataResponse;
-
-                return updateMetadataResponse_404;
-            }
-        });
+        when(ControllerUtil.updateMetadata(Mockito.anyMap(),eq(token))).thenReturn(updateMetadataResponse_404).thenReturn(updateMetadataResponse);
         when(ControllerUtil.getSafeType("shared/mysafe01")).thenReturn("shared");
         when(ControllerUtil.getSafeName("shared/mysafe01")).thenReturn("mysafe01");
         when(ControllerUtil.getAllExistingSafeNames("shared", token)).thenReturn(Collections.singletonList("mysafe02"));
@@ -1569,16 +1550,7 @@ public class SafesServiceTest {
         when(reqProcessor.process("/auth/approle/role/read","{\"role_name\":\"approle1\"}",token)).thenReturn(appRoleResponse);
         when(appRoleService.configureApprole(Mockito.any(),Mockito.any(),Mockito.any())).thenReturn(response);
 
-        when(ControllerUtil.updateMetadata(Mockito.anyMap(), eq(token))).thenAnswer(new Answer() {
-            private int count = 0;
-
-            public Object answer(InvocationOnMock invocation) {
-                if (count++ == 1)
-                    return response;
-
-                return response_404;
-            }
-        });
+        when(ControllerUtil.updateMetadata(Mockito.anyMap(), eq(token))).thenReturn(response_404).thenReturn(response);
         when(ControllerUtil.getSafeType(path)).thenReturn("users");
         when(ControllerUtil.getSafeName(path)).thenReturn("safe1");
         List<String> safeNames = new ArrayList<>();
@@ -1924,17 +1896,7 @@ public class SafesServiceTest {
      }
 
      when(ControllerUtil.configureLDAPUser(eq("testuser1"),any(),any(),eq(token))).thenReturn(idapConfigureResponse);
-     //when(ControllerUtil.updateMetadata(Mockito.any(),eq(token))).thenReturn(responseNoContent);
-     when(ControllerUtil.updateMetadata(any(),eq(token))).thenAnswer(new Answer() {
-         private int count = 0;
-
-         public Object answer(InvocationOnMock invocation) {
-             if (count++ == 1)
-                 return responseNoContent;
-
-             return response_404;
-         }
-     });
+     when(ControllerUtil.updateMetadata(any(),eq(token))).thenReturn(response_404).thenReturn(responseNoContent);
      when(ControllerUtil.getSafeType("shared/mysafe01")).thenReturn("shared");
      when(ControllerUtil.getSafeName("shared/mysafe01")).thenReturn("mysafe01");
      when(ControllerUtil.getAllExistingSafeNames("shared", token)).thenReturn(Collections.singletonList("mysafe02"));

@@ -211,16 +211,7 @@ public class DirectoryServiceTest {
         users.setData(usersList);
         ResponseEntity<DirectoryObjects> responseEntityExpected = ResponseEntity.status(HttpStatus.OK).body(users);
 
-        when(ldapTemplate.search(Mockito.anyString(), Mockito.anyString(), Mockito.any(AttributesMapper.class))).thenAnswer(new Answer() {
-            private int count = 0;
-
-            public Object answer(InvocationOnMock invocation) {
-                if (count++ == 1)
-                    return persons;
-
-                return personsEmpty;
-            }
-        });
+        when(ldapTemplate.search(Mockito.anyString(), Mockito.anyString(), Mockito.any(AttributesMapper.class))).thenReturn(persons).thenReturn(personsEmpty);
 
         ResponseEntity<DirectoryObjects> responseEntity = directoryService.searchByDisplayNameAndId("test_corpid");
 

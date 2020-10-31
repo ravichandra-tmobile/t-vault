@@ -855,17 +855,7 @@ public class AppRoleServiceTest {
         when(ControllerUtil.areSafeAppRoleInputsValid(Mockito.anyMap())).thenReturn(true);
         when(ControllerUtil.canAddPermission(Mockito.anyString(), Mockito.anyString())).thenReturn(true);
 
-        //when(ControllerUtil.updateMetadata(Mockito.anyMap(),eq(token))).thenReturn(updateMetadataResponse_404);
-        when(ControllerUtil.updateMetadata(Mockito.anyMap(),eq(token))).thenAnswer(new Answer() {
-            private int count = 0;
-
-            public Object answer(InvocationOnMock invocation) {
-                if (count++ == 1)
-                    return updateMetadataResponse;
-
-                return updateMetadataResponse_404;
-            }
-        });
+        when(ControllerUtil.updateMetadata(Mockito.anyMap(),eq(token))).thenReturn(updateMetadataResponse_404).thenReturn(updateMetadataResponse);
         when(ControllerUtil.getSafeType("shared/mysafe01")).thenReturn("shared");
         when(ControllerUtil.getSafeName("shared/mysafe01")).thenReturn("mysafe01");
         when(ControllerUtil.getAllExistingSafeNames("shared", token)).thenReturn(Collections.singletonList("mysafe02"));

@@ -3072,16 +3072,8 @@ public class SSLCertificateServiceTest {
         Response configureAppRoleResponse = getMockResponse(HttpStatus.OK, true, "");
         Response configureAppRoleResponse404 = getMockResponse(HttpStatus.NOT_FOUND, true, "");
 
-        when(appRoleService.configureApprole(Mockito.anyString(), Mockito.anyString(), Mockito.anyString())).thenAnswer(new Answer() {
-            private int count = 0;
-
-            public Object answer(InvocationOnMock invocation) {
-                if (count++ == 1)
-                    return configureAppRoleResponse404;
-
-                return configureAppRoleResponse;
-            }
-        });
+        when(appRoleService.configureApprole(Mockito.anyString(), Mockito.anyString(), Mockito.anyString()))
+                .thenReturn(configureAppRoleResponse).thenReturn(configureAppRoleResponse404);
         Response updateMetadataResponse = getMockResponse(HttpStatus.NOT_FOUND, true, "");
         when(ControllerUtil.updateMetadata(Mockito.anyMap(),Mockito.anyString())).thenReturn(updateMetadataResponse);
 

@@ -1879,16 +1879,8 @@ public class ServiceAccountsServiceTest {
         String svc_account_payload = getJSON(serviceAccountTTL);
         when(JSONUtil.getJSON(Mockito.any(ServiceAccount.class))).thenReturn(svc_account_payload);
         Response onboardResponse = getMockResponse(HttpStatus.OK, true, "{\"messages\":[\"Successfully created service account role.\"]}");
-        when(reqProcessor.process(Mockito.eq("/ad/serviceaccount/onboard"), Mockito.anyString(), Mockito.eq(token))).thenAnswer(new Answer() {
-            private int count = 0;
-
-            public Object answer(InvocationOnMock invocation) {
-                if (count++ == 1)
-                    return getMockResponse(HttpStatus.BAD_REQUEST, false, "");
-
-                return onboardResponse;
-            }
-        });
+        when(reqProcessor.process(Mockito.eq("/ad/serviceaccount/onboard"), Mockito.anyString(), Mockito.eq(token)))
+                .thenReturn(onboardResponse).thenAnswer(invocationOnMock -> getMockResponse(HttpStatus.BAD_REQUEST, false, ""));
 
         // for getOnboarderdServiceAccountDetails
         Map<String,Object> rqstParams = new HashMap<>();
@@ -2645,16 +2637,8 @@ public class ServiceAccountsServiceTest {
         Response configureAppRoleResponse = getMockResponse(HttpStatus.OK, true, "");
         Response configureAppRoleResponse_404 = getMockResponse(HttpStatus.NOT_FOUND, true, "");
 
-        when(appRoleService.configureApprole(Mockito.anyString(), Mockito.anyString(), Mockito.anyString())).thenAnswer(new Answer() {
-            private int count = 0;
-
-            public Object answer(InvocationOnMock invocation) {
-                if (count++ == 1)
-                    return configureAppRoleResponse_404;
-
-                return configureAppRoleResponse;
-            }
-        });
+        when(appRoleService.configureApprole(Mockito.anyString(), Mockito.anyString(), Mockito.anyString()))
+                .thenReturn(configureAppRoleResponse).thenReturn(configureAppRoleResponse_404);
         Response updateMetadataResponse = getMockResponse(HttpStatus.NOT_FOUND, true, "");
         when(ControllerUtil.updateMetadata(Mockito.anyMap(),Mockito.anyString())).thenReturn(updateMetadataResponse);
 
@@ -2795,16 +2779,8 @@ public class ServiceAccountsServiceTest {
         Response configureAppRoleResponse = getMockResponse(HttpStatus.OK, true, "");
         Response configureAppRoleResponse_404 = getMockResponse(HttpStatus.NOT_FOUND, true, "");
 
-        when(appRoleService.configureApprole(Mockito.anyString(), Mockito.anyString(), Mockito.anyString())).thenAnswer(new Answer() {
-            private int count = 0;
-
-            public Object answer(InvocationOnMock invocation) {
-                if (count++ == 1)
-                    return configureAppRoleResponse_404;
-
-                return configureAppRoleResponse;
-            }
-        });
+        when(appRoleService.configureApprole(Mockito.anyString(), Mockito.anyString(), Mockito.anyString()))
+                .thenReturn(configureAppRoleResponse).thenReturn(configureAppRoleResponse_404);
         Response updateMetadataResponse = getMockResponse(HttpStatus.NOT_FOUND, true, "");
         when(ControllerUtil.updateMetadata(Mockito.anyMap(),Mockito.anyString())).thenReturn(updateMetadataResponse);
 

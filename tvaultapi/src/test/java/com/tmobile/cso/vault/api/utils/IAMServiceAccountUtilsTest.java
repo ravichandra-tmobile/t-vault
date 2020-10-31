@@ -165,16 +165,7 @@ public class IAMServiceAccountUtilsTest {
 
         String responseString = "{\"accessKeyId\": \"testaccesskey\", \"userName\": \"svc_vault_test5\", \"accessKeySecret\": \"abcdefgh\", \"expiryDateEpoch\": \"1609754282000\"}";
         String responseStringToken = "{\"auth\": {\"client_token\": \""+token+"\"}}";
-        when(mockHttpEntity.getContent()).thenAnswer(new Answer() {
-            private int count = 0;
-
-            public Object answer(InvocationOnMock invocation) {
-                if (count++ == 1)
-                    return new ByteArrayInputStream(responseString.getBytes());
-
-                return new ByteArrayInputStream(responseStringToken.getBytes());
-            }
-        });
+        when(mockHttpEntity.getContent()).thenReturn(new ByteArrayInputStream(responseStringToken.getBytes())).thenReturn(new ByteArrayInputStream(responseString.getBytes()));
 
         IAMServiceAccountSecret expectedIamServiceAccountSecret = new IAMServiceAccountSecret(iamServiceAccountName, accessKeyId, iamSecret, 1609754282000L, awsAccountId);
         IAMServiceAccountRotateRequest iamServiceAccountRotateRequest = new IAMServiceAccountRotateRequest(accessKeyId, iamServiceAccountName, awsAccountId);
