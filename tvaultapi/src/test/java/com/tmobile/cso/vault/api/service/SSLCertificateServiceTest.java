@@ -28,8 +28,6 @@ import org.junit.runners.MethodSorters;
 import org.mockito.InjectMocks;
 import org.mockito.Mock;
 import org.mockito.Mockito;
-import org.mockito.invocation.InvocationOnMock;
-import org.mockito.stubbing.Answer;
 import org.powermock.api.mockito.PowerMockito;
 import org.powermock.core.classloader.annotations.PowerMockIgnore;
 import org.powermock.core.classloader.annotations.PrepareForTest;
@@ -6251,8 +6249,7 @@ public class SSLCertificateServiceTest {
 	        when(httpResponse.getStatusLine()).thenReturn(statusLine);
 	        when(statusLine.getStatusCode()).thenReturn(200);
 	        when(httpResponse.getEntity()).thenReturn(mockHttpEntity);
-	        String responseDataStr = certResponseStr;
-	        when(EntityUtils.toString(mockHttpEntity, "UTF-8")).thenReturn(responseDataStr);
+            when(EntityUtils.toString(mockHttpEntity, "UTF-8")).thenReturn(certResponseStr);
 
 	        SSLCertificateRequest sslCertificateRequest = getSSLCertificateRequest();
 	        sslCertificateRequest.setCertificateName("certificatename");
@@ -6367,8 +6364,7 @@ public class SSLCertificateServiceTest {
 	        when(httpResponse.getStatusLine()).thenReturn(statusLine);
 	        when(statusLine.getStatusCode()).thenReturn(200);
 	        when(httpResponse.getEntity()).thenReturn(mockHttpEntity);
-	        String responseDataStr = certResponseStr;
-	        when(EntityUtils.toString(mockHttpEntity, "UTF-8")).thenReturn(responseDataStr);
+         when(EntityUtils.toString(mockHttpEntity, "UTF-8")).thenReturn(certResponseStr);
 
 	        SSLCertificateRequest sslCertificateRequest = getSSLCertificateRequest();
 	        sslCertificateRequest.setCertificateName("certificatename");

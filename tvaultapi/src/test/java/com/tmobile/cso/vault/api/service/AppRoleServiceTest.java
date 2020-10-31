@@ -37,9 +37,6 @@ import org.junit.runners.MethodSorters;
 import org.mockito.InjectMocks;
 import org.mockito.Mock;
 import org.mockito.Mockito;
-import org.mockito.invocation.InvocationOnMock;
-import org.mockito.stubbing.Answer;
-import org.mockito.stubbing.OngoingStubbing;
 import org.powermock.api.mockito.PowerMockito;
 import org.powermock.core.classloader.annotations.PowerMockIgnore;
 import org.powermock.core.classloader.annotations.PrepareForTest;
@@ -1001,11 +998,10 @@ public class AppRoleServiceTest {
         ResponseEntity<String> responseEntityExpected = ResponseEntity.status(HttpStatus.OK).body(responseJson);
         UserDetails userDetails = getMockUser("testuser1", false);
         Response response =getMockResponse(HttpStatus.OK, true, responseJson);
-        Response responseAfterHide = response;
         String _path = "metadata/approle_users/" + userDetails.getUsername();
         String jsonStr = "{\"path\":\""+_path+"\"}";
         when(reqProcessor.process("/auth/approles/rolesbyuser/list", jsonStr,userDetails.getSelfSupportToken())).thenReturn(response);
-        when(ControllerUtil.hideMasterAppRoleFromResponse(Mockito.any())).thenReturn(responseAfterHide);
+        when(ControllerUtil.hideMasterAppRoleFromResponse(Mockito.any())).thenReturn(response);
         ResponseEntity<String> responseEntityActual = appRoleService.listAppRoles(token, userDetails);
         assertEquals(HttpStatus.OK, responseEntityActual.getStatusCode());
         assertEquals(responseEntityExpected, responseEntityActual);
@@ -1353,8 +1349,7 @@ public class AppRoleServiceTest {
         when(ControllerUtil.parseJson(appRoleResponseJson)).thenReturn(appRoleResponseMap);
         // END - AppRole exists
         // START - isAllowed
-        String approleusername=username;
-        Response approleMetadataResponse = getMockResponse(HttpStatus.OK, true, getAppRoleMetadataJSON(path, approleusername, role_name));
+        Response approleMetadataResponse = getMockResponse(HttpStatus.OK, true, getAppRoleMetadataJSON(path, username, role_name));
         when(reqProcessor.process("/read","{\"path\":\""+path+"\"}",userDetails.getSelfSupportToken())).thenReturn(approleMetadataResponse);
         // END - isAllowed
         
@@ -1472,8 +1467,7 @@ public class AppRoleServiceTest {
         when(ControllerUtil.parseJson(appRoleResponseJson)).thenReturn(appRoleResponseMap);
         // END - AppRole exists
         // START - isAllowed
-        String approleusername=username;
-        Response approleMetadataResponse = getMockResponse(HttpStatus.BAD_REQUEST, true, getAppRoleMetadataJSON(path, approleusername, role_name));
+        Response approleMetadataResponse = getMockResponse(HttpStatus.BAD_REQUEST, true, getAppRoleMetadataJSON(path, username, role_name));
         when(reqProcessor.process("/read","{\"path\":\""+path+"\"}",userDetails.getSelfSupportToken())).thenReturn(approleMetadataResponse);
         // END - isAllowed
         
@@ -1539,8 +1533,7 @@ public class AppRoleServiceTest {
         when(ControllerUtil.parseJson(appRoleResponseJson)).thenReturn(appRoleResponseMap);
         // END - AppRole exists
         // START - isAllowed
-        String approleusername=username;
-        Response approleMetadataResponse = getMockResponse(HttpStatus.OK, true, getAppRoleMetadataJSON(path, approleusername, role_name));
+        Response approleMetadataResponse = getMockResponse(HttpStatus.OK, true, getAppRoleMetadataJSON(path, username, role_name));
         when(reqProcessor.process("/read","{\"path\":\""+path+"\"}",userDetails.getSelfSupportToken())).thenReturn(approleMetadataResponse);
         // END - isAllowed
         
