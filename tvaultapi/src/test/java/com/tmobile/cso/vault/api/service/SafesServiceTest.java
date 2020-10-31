@@ -60,6 +60,7 @@ import com.tmobile.cso.vault.api.utils.ThreadLocalContext;
 import com.tmobile.cso.vault.api.utils.TokenUtils;
 
 
+@SuppressWarnings("unchecked")
 @RunWith(PowerMockRunner.class)
 @ComponentScan(basePackages={"com.tmobile.cso.vault.api"})
 @FixMethodOrder(MethodSorters.NAME_ASCENDING)
