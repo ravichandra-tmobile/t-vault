@@ -78,10 +78,10 @@ public class VaultAuthServiceTest {
         ThreadLocalContext.setCurrentMap(currentMap);
     }
 
-    Response getMockResponse(HttpStatus status, boolean success, String expectedBody) {
+    Response getMockResponse(HttpStatus status, String expectedBody) {
         Response response = new Response();
         response.setHttpstatus(status);
-        response.setSuccess(success);
+        response.setSuccess(true);
         if (!Objects.equals(expectedBody, "")) {
             response.setResponse(expectedBody);
         }
@@ -94,7 +94,7 @@ public class VaultAuthServiceTest {
         String jsonStr = "{  \"username\": \"safeadmin\",  \"password\": \"safeadmin\"}";
         UserLogin userLogin = new UserLogin("safeadmin", "safeadmin");
         String responseJson = "{  \"client_token\": \"8766fdhjSAtH2a4MdvMyzWid\",\"admin\": \"yes\",\"access\": {\"users\":[{\"safe1\":\"read\"}], \"svcacct\":[{\"svc1\":\"read\"}], \"cert\":[{\"cert1\":\"read\"}]},\"policies\": [\"default\",\"safeadmin\"],\"lease_duration\": 1800000, \"feature\": {\"adpwdrotation\": \"true\", \"serviceaccount\":\"true\"}}";
-        Response response = getMockResponse(HttpStatus.OK, true, responseJson);
+        Response response = getMockResponse(HttpStatus.OK, responseJson);
         try {
             new ObjectMapper().readValue(response.getResponse(), new TypeReference<Map<String, Object>>(){});
         } catch (IOException e) {
@@ -116,7 +116,7 @@ public class VaultAuthServiceTest {
         String jsonStr = "{  \"username\": \"safeadmin\",  \"password\": \"safeadmin\"}";
         UserLogin userLogin = new UserLogin("safeadmin", "safeadmin");
         String responseJson = "{  \"client_token\": \"8766fdhjSAtH2a4MdvMyzWid\",\"admin\": \"yes\",\"access\": {\"users\":[{\"safe1\":\"read\"}], \"svcacct\":[{\"svc1\":\"read\"}], \"externalcerts\":[{\"externalcerts1\":\"read\"}]}, \"policies\": [\"default\",\"safeadmin\"],\"lease_duration\": 1800000, \"feature\": {\"adpwdrotation\": \"true\", \"serviceaccount\":\"true\"}}";
-        Response response = getMockResponse(HttpStatus.OK, true, responseJson);
+        Response response = getMockResponse(HttpStatus.OK, responseJson);
         try {
             new ObjectMapper().readValue(response.getResponse(), new TypeReference<Map<String, Object>>(){});
         } catch (IOException e) {
@@ -138,7 +138,7 @@ public class VaultAuthServiceTest {
         UserLogin userLogin = new UserLogin("safeadmin", "safeadmin");
         String responseJson = "{\"errors\": [\"User Authentication failed\", \"Invalid username or password. Please retry again after correcting username or password.\"]}";
 
-        Response response = getMockResponse(HttpStatus.BAD_REQUEST, true, responseJson);
+        Response response = getMockResponse(HttpStatus.BAD_REQUEST, responseJson);
         ResponseEntity<String> responseEntityExpected = ResponseEntity.status(HttpStatus.BAD_REQUEST).body(responseJson);
 
         when(JSONUtil.getJSON(Mockito.any(UserLogin.class))).thenReturn(jsonStr);
@@ -155,7 +155,7 @@ public class VaultAuthServiceTest {
         UserLogin userLogin = new UserLogin("safeadmin", "safeadmin");
         String responseJson = "{\"errors\": [\"User Authentication failed\", \"This may be due to vault services are down or vault services are not reachable\"]}";
 
-        Response response = getMockResponse(HttpStatus.INTERNAL_SERVER_ERROR, true, responseJson);
+        Response response = getMockResponse(HttpStatus.INTERNAL_SERVER_ERROR, responseJson);
         ResponseEntity<String> responseEntityExpected = ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body(responseJson);
 
         when(JSONUtil.getJSON(Mockito.any(UserLogin.class))).thenReturn(jsonStr);
@@ -171,7 +171,7 @@ public class VaultAuthServiceTest {
 
         String responseJson = "{\"client_token\": \"18oVRlB3ft88S6U9raoEDnKn\",\"policies\": [\"safeadmin\"],\"lease_duration\": 1800000}";
 
-        Response response = getMockResponse(HttpStatus.OK, true, responseJson);
+        Response response = getMockResponse(HttpStatus.OK, responseJson);
         ResponseEntity<String> responseEntityExpected = ResponseEntity.status(HttpStatus.OK).body(responseJson);
 
         when(reqProcessor.process("/auth/tvault/renew","{}", token)).thenReturn(response);
@@ -186,7 +186,7 @@ public class VaultAuthServiceTest {
 
         String responseJson ="{\"errors\":[\"Self renewal of token Failed.\"]}";
 
-        Response response = getMockResponse(HttpStatus.FORBIDDEN, true, responseJson);
+        Response response = getMockResponse(HttpStatus.FORBIDDEN, responseJson);
         ResponseEntity<String> responseEntityExpected = ResponseEntity.status(HttpStatus.FORBIDDEN).body(responseJson);
 
         when(reqProcessor.process("/auth/tvault/renew","{}", token)).thenReturn(response);
@@ -201,7 +201,7 @@ public class VaultAuthServiceTest {
 
         String responseJson ="{\"id\": \"18oVRlB3ft88S6U9raoEDnKn\",\"last_renewal_time\": 1542013233,\"renewable\": false,\"policies\": [\"default\",\"safeadmin\"],\"creation_ttl\": 1800000}";
 
-        Response response = getMockResponse(HttpStatus.OK, true, responseJson);
+        Response response = getMockResponse(HttpStatus.OK, responseJson);
         ResponseEntity<String> responseEntityExpected = ResponseEntity.status(HttpStatus.OK).body(responseJson);
 
         when(reqProcessor.process("/auth/tvault/lookup","{}", token)).thenReturn(response);
@@ -216,7 +216,7 @@ public class VaultAuthServiceTest {
 
         String responseJson ="{\"errors\":[\"Token Lookup Failed.\"]}";
 
-        Response response = getMockResponse(HttpStatus.FORBIDDEN, true, responseJson);
+        Response response = getMockResponse(HttpStatus.FORBIDDEN, responseJson);
         ResponseEntity<String> responseEntityExpected = ResponseEntity.status(HttpStatus.FORBIDDEN).body(responseJson);
 
         when(reqProcessor.process("/auth/tvault/lookup","{}", token)).thenReturn(response);
@@ -231,7 +231,7 @@ public class VaultAuthServiceTest {
 
         String responseJson ="{\"messages\":[\"Revoked Successfully\"]}";
 
-        Response response = getMockResponse(HttpStatus.OK, true, responseJson);
+        Response response = getMockResponse(HttpStatus.OK, responseJson);
         ResponseEntity<String> responseEntityExpected = ResponseEntity.status(HttpStatus.OK).body(responseJson);
 
         when(reqProcessor.process("/auth/tvault/revoke","{}", token)).thenReturn(response);
@@ -246,7 +246,7 @@ public class VaultAuthServiceTest {
 
         String responseJson ="{\"errors\":[\"Token revoke Failed.\"]}";
 
-        Response response = getMockResponse(HttpStatus.FORBIDDEN, true, "");
+        Response response = getMockResponse(HttpStatus.FORBIDDEN, "");
         ResponseEntity<String> responseEntityExpected = ResponseEntity.status(HttpStatus.FORBIDDEN).body(responseJson);
 
         when(reqProcessor.process("/auth/tvault/revoke","{}", token)).thenReturn(response);

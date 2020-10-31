@@ -233,11 +233,11 @@ public class SSLCertificateControllerTest {
                 .andExpect(content().string(containsString(responseJson)));
     }
 
-    UserDetails getMockUser(boolean isAdmin) {
+    UserDetails getMockUser() {
         String token = "5PDrOhsy4ig8L3EpsJZSLAMg";
         UserDetails userDetails = new UserDetails();
         userDetails.setUsername("normaluser");
-        userDetails.setAdmin(isAdmin);
+        userDetails.setAdmin(true);
         userDetails.setClientToken(token);
         userDetails.setSelfSupportToken(token);
         return userDetails;
@@ -252,7 +252,7 @@ public class SSLCertificateControllerTest {
         InputStreamResource resource = null;
         ResponseEntity<InputStreamResource> responseEntityExpected = ResponseEntity.status(HttpStatus.OK).body(null);
 
-        UserDetails userDetails = getMockUser(true);
+        UserDetails userDetails = getMockUser();
         when(sslCertificateService.downloadCertificateWithPrivateKey(eq("5PDrOhsy4ig8L3EpsJZSLAMg"), Mockito.any(), eq(userDetails))).thenReturn(responseEntityExpected);
 
         mockMvc.perform(MockMvcRequestBuilders.post("/v2/sslcert/certificates/download").requestAttr("UserDetails", userDetails)

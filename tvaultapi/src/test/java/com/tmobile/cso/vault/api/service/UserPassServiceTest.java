@@ -76,10 +76,10 @@ public class UserPassServiceTest {
         ThreadLocalContext.setCurrentMap(currentMap);
     }
 
-    Response getMockResponse(HttpStatus status, boolean success, String expectedBody) {
+    Response getMockResponse(HttpStatus status, String expectedBody) {
         Response response = new Response();
         response.setHttpstatus(status);
-        response.setSuccess(success);
+        response.setSuccess(true);
         if (!Objects.equals(expectedBody, "")) {
             response.setResponse(expectedBody);
         }
@@ -91,7 +91,7 @@ public class UserPassServiceTest {
         String token = "5PDrOhsy4ig8L3EpsJZSLAMg";
         UserpassUser user = new UserpassUser("testuser", "testuser", "default");
         String jsonStr = "{  \"username\": \"testuser\",  \"password\": \"testuser\",  \"policies\": \"default\"}";
-        Response response = getMockResponse(HttpStatus.NO_CONTENT, true, "");
+        Response response = getMockResponse(HttpStatus.NO_CONTENT, "");
 
         ResponseEntity<String> responseEntityExpected = ResponseEntity.status(HttpStatus.OK).body("{\"messages\":[\"Username User created\"]}");
 
@@ -108,7 +108,7 @@ public class UserPassServiceTest {
         String token = "5PDrOhsy4ig8L3EpsJZSLAMg";
         UserpassUser user = new UserpassUser("testuser", "testuser", "default");
         String jsonStr = "{  \"username\": \"testuser\",  \"password\": \"testuser\",  \"policies\": \"default\"}";
-        Response response = getMockResponse(HttpStatus.INTERNAL_SERVER_ERROR, true, "{\"errors\":[\"Created username failed\"]}");
+        Response response = getMockResponse(HttpStatus.INTERNAL_SERVER_ERROR, "{\"errors\":[\"Created username failed\"]}");
 
         ResponseEntity<String> responseEntityExpected = ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body("{\"errors\":[\"Created username failed\"]}");
 
@@ -124,7 +124,7 @@ public class UserPassServiceTest {
     public void test_readUser_successfully() {
         String token = "5PDrOhsy4ig8L3EpsJZSLAMg";
         String responseJson = "\"{  \\\"data\\\": { \\\"bound_cidrs\\\": [], \\\"max_ttl\\\": 0,\\\"policies\\\": [  \\\"default\\\" ], \\\"ttl\\\": 0  }}\"";
-        Response response = getMockResponse(HttpStatus.OK, true, responseJson);
+        Response response = getMockResponse(HttpStatus.OK, responseJson);
         ResponseEntity<String> responseEntityExpected = ResponseEntity.status(HttpStatus.OK).body(responseJson);
         when(reqProcessor.process("/auth/userpass/read","{\"username\":\"testuser\"}",token)).thenReturn(response);
 
@@ -140,7 +140,7 @@ public class UserPassServiceTest {
         user.setUsername("testuser");
         String jsonStr = "{\"username\":\"testuser\",\"password\":null}";
 
-        Response response = getMockResponse(HttpStatus.NO_CONTENT, true, "");
+        Response response = getMockResponse(HttpStatus.NO_CONTENT, "");
         ResponseEntity<String> responseEntityExpected = ResponseEntity.status(HttpStatus.OK).body("{\"messages\":[\"Username User deleted\"]}");
 
         when(JSONUtil.getJSON(Mockito.any(UserLogin.class))).thenReturn(jsonStr);
@@ -158,7 +158,7 @@ public class UserPassServiceTest {
         user.setUsername("testuser");
         String jsonStr = "{\"username\":\"testuser\",\"password\":null}";
 
-        Response response = getMockResponse(HttpStatus.INTERNAL_SERVER_ERROR, true, "{\"errors\":[\"Delete User failed\"]}");
+        Response response = getMockResponse(HttpStatus.INTERNAL_SERVER_ERROR, "{\"errors\":[\"Delete User failed\"]}");
         ResponseEntity<String> responseEntityExpected = ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body("{\"errors\":[\"Delete User failed\"]}");
 
         when(JSONUtil.getJSON(Mockito.any(UserLogin.class))).thenReturn(jsonStr);
@@ -175,7 +175,7 @@ public class UserPassServiceTest {
         UserpassUser user = new UserpassUser("testuser", "testuser", "default");
         String jsonStr = "{  \"username\": \"testuser\",  \"password\": \"testuser\",  \"policies\": \"default\"}";
 
-        Response response = getMockResponse(HttpStatus.NO_CONTENT, true, "");
+        Response response = getMockResponse(HttpStatus.NO_CONTENT, "");
         ResponseEntity<String> responseEntityExpected = ResponseEntity.status(HttpStatus.OK).body("{\"messages\":[\"Password for the user updated\"]}");
 
         when(JSONUtil.getJSON(user)).thenReturn(jsonStr);
@@ -192,7 +192,7 @@ public class UserPassServiceTest {
         UserpassUser user = new UserpassUser("testuser", "testuser", "default");
         String jsonStr = "{  \"username\": \"testuser\",  \"password\": \"testuser\",  \"policies\": \"default\"}";
 
-        Response response = getMockResponse(HttpStatus.INTERNAL_SERVER_ERROR, true, "{\"errors\":[\"Update password failed\"]}");
+        Response response = getMockResponse(HttpStatus.INTERNAL_SERVER_ERROR, "{\"errors\":[\"Update password failed\"]}");
         ResponseEntity<String> responseEntityExpected = ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body("{\"errors\":[\"Update password failed\"]}");
 
         when(JSONUtil.getJSON(user)).thenReturn(jsonStr);
@@ -206,7 +206,7 @@ public class UserPassServiceTest {
     @Test
     public void test_listUsers_successfully() {
         String token = "5PDrOhsy4ig8L3EpsJZSLAMg";
-        Response response = getMockResponse(HttpStatus.OK, true, "{  \"data\": { \"keys\": [ \"safeadmin\",\"testuser1\", \"testuser2\", \"vaultadmin\"] }}");
+        Response response = getMockResponse(HttpStatus.OK, "{  \"data\": { \"keys\": [ \"safeadmin\",\"testuser1\", \"testuser2\", \"vaultadmin\"] }}");
         ResponseEntity<String> responseEntityExpected = ResponseEntity.status(HttpStatus.OK).body("{  \"data\": { \"keys\": [ \"safeadmin\",\"testuser1\", \"testuser2\", \"vaultadmin\"] }}");
 
         when(reqProcessor.process("/auth/userpass/list","{}",token)).thenReturn(response);
@@ -222,7 +222,7 @@ public class UserPassServiceTest {
         String jsonStr = "{\"username\":\"testuser\",\"password\":\"testuser\"}";
 
         String responseJson = "{\"client_token\":\"1sGWOpjPOuZezcIgxVFAm1Oh\",\"admin\":\"no\",\"access\":{},\"policies\":[\"default\"],\"lease_duration\":1800000}";
-        Response response = getMockResponse(HttpStatus.OK, true, responseJson);
+        Response response = getMockResponse(HttpStatus.OK, responseJson);
         response.setAdminPolicies(null);
         ResponseEntity<String> responseEntityExpected = ResponseEntity.status(HttpStatus.OK).body(response.toString());
 
@@ -240,7 +240,7 @@ public class UserPassServiceTest {
         String jsonStr = "{\"username\":\"testuser\",\"password\":\"testuser\"}";
 
         String responseJson = "{\"errors\": [\"User Authentication failed\", \"Invalid username or password. Please retry again after correcting username or password.\"]}";
-        Response response = getMockResponse(HttpStatus.BAD_REQUEST, true, responseJson);
+        Response response = getMockResponse(HttpStatus.BAD_REQUEST, responseJson);
         ResponseEntity<String> responseEntityExpected = ResponseEntity.status(HttpStatus.BAD_REQUEST).body(responseJson);
 
         when(JSONUtil.getJSON(user)).thenReturn(jsonStr);
@@ -257,7 +257,7 @@ public class UserPassServiceTest {
         String jsonStr = "{\"username\":\"testuser\",\"password\":\"testuser\"}";
 
         String responseJson = "{\"errors\": [\"User Authentication failed\", \"This may be due to vault services are down or vault services are not reachable\"]}";
-        Response response = getMockResponse(HttpStatus.INTERNAL_SERVER_ERROR, true, responseJson);
+        Response response = getMockResponse(HttpStatus.INTERNAL_SERVER_ERROR, responseJson);
         ResponseEntity<String> responseEntityExpected = ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body(responseJson);
 
         when(JSONUtil.getJSON(user)).thenReturn(jsonStr);

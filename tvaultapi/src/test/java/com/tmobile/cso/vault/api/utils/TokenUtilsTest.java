@@ -77,10 +77,10 @@ public class TokenUtilsTest {
         ThreadLocalContext.setCurrentMap(currentMap);
     }
 
-    Response getMockResponse(HttpStatus status, boolean success, String expectedBody) {
+    Response getMockResponse(HttpStatus status, String expectedBody) {
         Response response = new Response();
         response.setHttpstatus(status);
-        response.setSuccess(success);
+        response.setSuccess(true);
         if (!Objects.equals(expectedBody, "")) {
             response.setResponse(expectedBody);
         }
@@ -97,7 +97,7 @@ public class TokenUtilsTest {
         ReflectionTestUtils.setField(tokenUtils, "vaultAuthMethod", "userpass");
 
         when(JSONUtil.getJSON(Mockito.any())).thenReturn(jsonStr);
-        Response response = getMockResponse(HttpStatus.OK, true, "{\"client_token\":\"7QPMPIGiyDFlJkrK3jFykUqa\",\"admin\":\"yes\",\"access\":{},\"policies\":[\"default\",\"testadmin\"],\"lease_duration\":1800000}");
+        Response response = getMockResponse(HttpStatus.OK, "{\"client_token\":\"7QPMPIGiyDFlJkrK3jFykUqa\",\"admin\":\"yes\",\"access\":{},\"policies\":[\"default\",\"testadmin\"],\"lease_duration\":1800000}");
         when(reqProcessor.process("/auth/userpass/login",jsonStr,"")).thenReturn(response);
         String token = tokenUtils.getSelfServiceToken();
         assertEquals("7QPMPIGiyDFlJkrK3jFykUqa", token);
@@ -113,7 +113,7 @@ public class TokenUtilsTest {
         ReflectionTestUtils.setField(tokenUtils, "vaultAuthMethod", "ldap");
 
         when(JSONUtil.getJSON(Mockito.any())).thenReturn(jsonStr);
-        Response response = getMockResponse(HttpStatus.OK, true, "{\"client_token\":\"7QPMPIGiyDFlJkrK3jFykUqa\",\"admin\":\"yes\",\"access\":{},\"policies\":[\"default\",\"testadmin\"],\"lease_duration\":1800000}");
+        Response response = getMockResponse(HttpStatus.OK, "{\"client_token\":\"7QPMPIGiyDFlJkrK3jFykUqa\",\"admin\":\"yes\",\"access\":{},\"policies\":[\"default\",\"testadmin\"],\"lease_duration\":1800000}");
         when(reqProcessor.process("/auth/ldap/login",jsonStr,"")).thenReturn(response);
         String token = tokenUtils.getSelfServiceToken();
         assertEquals("7QPMPIGiyDFlJkrK3jFykUqa", token);
@@ -129,7 +129,7 @@ public class TokenUtilsTest {
         ReflectionTestUtils.setField(tokenUtils, "vaultAuthMethod", "userpass");
 
         when(JSONUtil.getJSON(Mockito.any())).thenReturn(jsonStr);
-        Response response = getMockResponse(HttpStatus.NOT_FOUND, true, "");
+        Response response = getMockResponse(HttpStatus.NOT_FOUND, "");
         when(reqProcessor.process("/auth/userpass/login",jsonStr,"")).thenReturn(response);
         String token = tokenUtils.getSelfServiceToken();
         assertNull(token);
@@ -138,7 +138,7 @@ public class TokenUtilsTest {
     @Test
     public void test_revokePowerToken_success() {
     	String token = "5PDrOhsy4ig8L3EpsJZSLAMg";
-    	Response res = getMockResponse(HttpStatus.NO_CONTENT, true, "");
+    	Response res = getMockResponse(HttpStatus.NO_CONTENT, "");
     	when(reqProcessor.process("/auth/tvault/revoke","{}", token)).thenReturn(res);
     	tokenUtils.revokePowerToken(token);
     }
@@ -146,7 +146,7 @@ public class TokenUtilsTest {
     @Test
     public void test_revokePowerToken_failure() {
         String token = "5PDrOhsy4ig8L3EpsJZSLAMg";
-        Response res = getMockResponse(HttpStatus.NOT_FOUND, true, "");
+        Response res = getMockResponse(HttpStatus.NOT_FOUND, "");
         when(reqProcessor.process("/auth/tvault/revoke","{}", token)).thenReturn(res);
         tokenUtils.revokePowerToken(token);
     }
@@ -162,7 +162,7 @@ public class TokenUtilsTest {
         ReflectionTestUtils.setField(tokenUtils, "selfServiceTokenGenerator", "approle");
 
         when(JSONUtil.getJSON(Mockito.any(AppRoleIdSecretId.class))).thenReturn(jsonStr);
-        Response response = getMockResponse(HttpStatus.OK, true, "{\"auth\":{\"client_token\":\"6WcC0r5Nw9z0RILHEJnn0OCB\",\"accessor\":\"2xmlSRCSxGb0AlopA1JfQyuY\",\"policies\":[\"default\",\"selfservicesupport\"],\"token_policies\":[\"default\",\"selfservicesupport\"],\"metadata\":{\"role_name\":\"selfservicesupportrole\"},\"lease_duration\":2764800,\"renewable\":true,\"entity_id\":\"eb74b6b1-b9a0-fd59-ff33-5813be3fdbbf\"},\"data\":null,\"lease_duration\":0,\"lease_id\":\"\"}");
+        Response response = getMockResponse(HttpStatus.OK, "{\"auth\":{\"client_token\":\"6WcC0r5Nw9z0RILHEJnn0OCB\",\"accessor\":\"2xmlSRCSxGb0AlopA1JfQyuY\",\"policies\":[\"default\",\"selfservicesupport\"],\"token_policies\":[\"default\",\"selfservicesupport\"],\"metadata\":{\"role_name\":\"selfservicesupportrole\"},\"lease_duration\":2764800,\"renewable\":true,\"entity_id\":\"eb74b6b1-b9a0-fd59-ff33-5813be3fdbbf\"},\"data\":null,\"lease_duration\":0,\"lease_id\":\"\"}");
         when(reqProcessor.process(eq("/auth/approle/login"),Mockito.any(),eq(""))).thenReturn(response);
         String token = tokenUtils.getSelfServiceToken();
         assertEquals("6WcC0r5Nw9z0RILHEJnn0OCB", token);
@@ -179,7 +179,7 @@ public class TokenUtilsTest {
         ReflectionTestUtils.setField(tokenUtils, "selfServiceTokenGenerator", "approle");
 
         when(JSONUtil.getJSON(Mockito.any())).thenReturn(jsonStr);
-        Response response = getMockResponse(HttpStatus.NOT_FOUND, true, "");
+        Response response = getMockResponse(HttpStatus.NOT_FOUND, "");
         when(reqProcessor.process("/auth/approle/login",jsonStr,"")).thenReturn(response);
         String token = tokenUtils.getSelfServiceToken();
         assertNull(token);
@@ -194,7 +194,7 @@ public class TokenUtilsTest {
         ReflectionTestUtils.setField(tokenUtils, "selfservicePassword", "dGVzdGFkbWlu");
         ReflectionTestUtils.setField(tokenUtils, "vaultAuthMethod", "userpass");
         when(JSONUtil.getJSON(Mockito.any())).thenReturn(jsonStr);
-        Response response = getMockResponse(HttpStatus.OK, true, "{\n" + 
+        Response response = getMockResponse(HttpStatus.OK, "{\n" +
         		"  \"auth\": {\n" + 
         		"    \"client_token\": \"s.6tdd9QSp50YwJwjXViRXGnMQT4\",\n" + 
         		"    \"accessor\": \"7M3bp7PTaOHeB4u2J9zVfE9g\",\n" + 
@@ -241,7 +241,7 @@ public class TokenUtilsTest {
         ReflectionTestUtils.setField(ControllerUtil.class,"ssPassword", sscred.getPassword());
         
         when(JSONUtil.getJSON(Mockito.any())).thenReturn(jsonStr);
-        Response response = getMockResponse(HttpStatus.OK, true, "{\n" + 
+        Response response = getMockResponse(HttpStatus.OK, "{\n" +
         		"  \"auth\": {\n" + 
         		"    \"client_token\": \"s.6tdd9QSp50YwJwjXViRXGnMQT4\",\n" + 
         		"    \"accessor\": \"7M3bp7PTaOHeB4u2J9zVfE9g\",\n" + 
@@ -287,7 +287,7 @@ public class TokenUtilsTest {
         ReflectionTestUtils.setField(ControllerUtil.class,"ssPassword", sscred.getPassword());
         
         when(JSONUtil.getJSON(Mockito.any())).thenReturn(jsonStr);
-        Response response = getMockResponse(HttpStatus.BAD_REQUEST, true, "{\n" + 
+        Response response = getMockResponse(HttpStatus.BAD_REQUEST, "{\n" +
         		"  \"error\": \"no response from server\"\n" + 
         		"}");
         when(reqProcessor.process("/auth/approle/login",jsonStr,"")).thenReturn(response);

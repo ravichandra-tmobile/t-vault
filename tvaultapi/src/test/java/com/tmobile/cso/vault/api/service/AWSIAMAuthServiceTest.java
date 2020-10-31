@@ -89,11 +89,11 @@ public class AWSIAMAuthServiceTest {
         return response;
     }
 
-    UserDetails getMockUser(boolean isAdmin) {
+    UserDetails getMockUser() {
         String token = "5PDrOhsy4ig8L3EpsJZSLAMg";
         UserDetails userDetails = new UserDetails();
         userDetails.setUsername("normaluser");
-        userDetails.setAdmin(isAdmin);
+        userDetails.setAdmin(true);
         userDetails.setClientToken(token);
         userDetails.setSelfSupportToken(token);
         return userDetails;
@@ -120,7 +120,7 @@ public class AWSIAMAuthServiceTest {
 
         when(reqProcessor.process("/auth/aws/iam/role/create",jsonStr, token)).thenReturn(response);
         when(JSONUtil.getJSON(awsiamRole)).thenReturn(jsonStr);
-        UserDetails userDetails = getMockUser(true);
+        UserDetails userDetails = getMockUser();
         when(ControllerUtil.createMetadata(Mockito.any(), eq(token))).thenReturn(true);
         try {
             when(ControllerUtil.areAWSIAMRoleInputsValid(awsiamRole)).thenReturn(true);
@@ -155,7 +155,7 @@ public class AWSIAMAuthServiceTest {
 
         when(reqProcessor.process("/auth/aws/iam/role/create",jsonStr, token)).thenReturn(response);
         when(JSONUtil.getJSON(awsiamRole)).thenReturn(jsonStr);
-        UserDetails userDetails = getMockUser(true);
+        UserDetails userDetails = getMockUser();
         when(ControllerUtil.createMetadata(Mockito.any(), eq(token))).thenReturn(false);
         when(reqProcessor.process("/auth/aws/iam/roles/delete","{\"role\":\""+awsiamRole.getRole()+"\"}",token)).thenReturn(response);
         try {
@@ -189,7 +189,7 @@ public class AWSIAMAuthServiceTest {
 
         when(reqProcessor.process("/auth/aws/iam/role/create",jsonStr, token)).thenReturn(response);
         when(JSONUtil.getJSON(awsiamRole)).thenReturn(jsonStr);
-        UserDetails userDetails = getMockUser(true);
+        UserDetails userDetails = getMockUser();
         when(ControllerUtil.createMetadata(Mockito.any(), eq(token))).thenReturn(false);
         Response response404 = getMockResponse(HttpStatus.NOT_FOUND, true, "");
         when(reqProcessor.process("/auth/aws/iam/roles/delete","{\"role\":\""+awsiamRole.getRole()+"\"}",token)).thenReturn(response404);
@@ -216,7 +216,7 @@ public class AWSIAMAuthServiceTest {
         awsiamRole.setRole("string");
 
         when(ControllerUtil.areAWSIAMRoleInputsValid(awsiamRole)).thenReturn(false);
-        UserDetails userDetails = getMockUser(true);
+        UserDetails userDetails = getMockUser();
         ResponseEntity<String> responseEntity = awsIamAuthService.createIAMRole(awsiamRole, token, userDetails);
     }
 

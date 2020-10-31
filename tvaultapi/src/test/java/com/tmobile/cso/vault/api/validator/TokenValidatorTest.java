@@ -94,10 +94,10 @@ public class TokenValidatorTest {
         ThreadLocalContext.setCurrentMap(currentMap);
     }
 
-    Response getMockResponse(HttpStatus status, boolean success, String expectedBody) {
+    Response getMockResponse(HttpStatus status, String expectedBody) {
         Response response = new Response();
         response.setHttpstatus(status);
-        response.setSuccess(success);
+        response.setSuccess(true);
         if (!Objects.equals(expectedBody, "")) {
             response.setResponse(expectedBody);
         }
@@ -107,7 +107,7 @@ public class TokenValidatorTest {
     @Test
     public void test_getVaultTokenLookupDetails_successfully() throws TVaultValidationException, IOException {
         String token = "7QPMPIGiyDFlJkrK3jFykUqa";
-        Response response = getMockResponse(HttpStatus.OK, true, "{\"id\":\"7DXvbGXxu81LC724cRrrqYyq\",\"last_renewal_time\":null,\"renewable\":false,\"policies\":[\"default\"],\"creation_ttl\":0,\"username\":null}");
+        Response response = getMockResponse(HttpStatus.OK, "{\"id\":\"7DXvbGXxu81LC724cRrrqYyq\",\"last_renewal_time\":null,\"renewable\":false,\"policies\":[\"default\"],\"creation_ttl\":0,\"username\":null}");
         VaultTokenLookupDetails expectedLookupDetails = new VaultTokenLookupDetails();
         expectedLookupDetails.setAdmin(false);
         expectedLookupDetails.setValid(true);
@@ -129,7 +129,7 @@ public class TokenValidatorTest {
     @Test
     public void test_getVaultTokenLookupDetails_successfully_oidc() throws TVaultValidationException, IOException {
         String token = "7QPMPIGiyDFlJkrK3jFykUqa";
-        Response response = getMockResponse(HttpStatus.OK, true, "{\"id\":\"7DXvbGXxu81LC724cRrrqYyq\", \"display_name\": \"oidc-user1@company.com\",\"last_renewal_time\":null,\"renewable\":false,\"policies\":[\"default\"],\"creation_ttl\":0,\"username\":null,\"path\":\"auth/oidc/oidc/callback\"}");
+        Response response = getMockResponse(HttpStatus.OK, "{\"id\":\"7DXvbGXxu81LC724cRrrqYyq\", \"display_name\": \"oidc-user1@company.com\",\"last_renewal_time\":null,\"renewable\":false,\"policies\":[\"default\"],\"creation_ttl\":0,\"username\":null,\"path\":\"auth/oidc/oidc/callback\"}");
         VaultTokenLookupDetails expectedLookupDetails = new VaultTokenLookupDetails();
         expectedLookupDetails.setAdmin(false);
         expectedLookupDetails.setValid(true);
@@ -168,7 +168,7 @@ public class TokenValidatorTest {
     @Test(expected = TVaultValidationException.class)
     public void test_getVaultTokenLookupDetails_failure() throws TVaultValidationException {
         String token = "7QPMPIGiyDFlJkrK3jFykUqa";
-        Response response = getMockResponse(HttpStatus.FORBIDDEN, true, "");
+        Response response = getMockResponse(HttpStatus.FORBIDDEN, "");
         VaultTokenLookupDetails expectedLookupDetails = new VaultTokenLookupDetails();
         expectedLookupDetails.setAdmin(false);
         expectedLookupDetails.setValid(true);
@@ -185,7 +185,7 @@ public class TokenValidatorTest {
     @Test(expected = TVaultValidationException.class)
     public void test_getVaultTokenLookupDetails_failure_500() throws TVaultValidationException {
         String token = "7QPMPIGiyDFlJkrK3jFykUqa";
-        Response response = getMockResponse(HttpStatus.INTERNAL_SERVER_ERROR, true, "");
+        Response response = getMockResponse(HttpStatus.INTERNAL_SERVER_ERROR, "");
         VaultTokenLookupDetails expectedLookupDetails = new VaultTokenLookupDetails();
         expectedLookupDetails.setAdmin(false);
         expectedLookupDetails.setValid(true);

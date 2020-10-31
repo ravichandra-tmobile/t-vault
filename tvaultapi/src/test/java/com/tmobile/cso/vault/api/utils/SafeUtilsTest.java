@@ -74,10 +74,10 @@ public class SafeUtilsTest {
         ThreadLocalContext.setCurrentMap(currentMap);
     }
 
-    Response getMockResponse(HttpStatus status, boolean success, String expectedBody) {
+    Response getMockResponse(String expectedBody) {
         Response response = new Response();
-        response.setHttpstatus(status);
-        response.setSuccess(success);
+        response.setHttpstatus(HttpStatus.OK);
+        response.setSuccess(true);
         response.setResponse("");
         if (!Objects.equals(expectedBody, "")) {
             response.setResponse(expectedBody);
@@ -98,7 +98,7 @@ public class SafeUtilsTest {
     @Test
     public void test_getPoliciesForManagedSafes_successfully() throws IOException {
         ObjectMapper objMapper = new ObjectMapper();
-        Response response = getMockResponse(HttpStatus.OK, true, "{\"client_token\":\"8zyIbj3i9hXJFuIPC5AzeUK3\",\"admin\":\"no\",\"access\":{},\"policies\":[\"approle_normal_user\",\"default\",\"s_users_ert\"],\"lease_duration\":1800000}");
+        Response response = getMockResponse("{\"client_token\":\"8zyIbj3i9hXJFuIPC5AzeUK3\",\"admin\":\"no\",\"access\":{},\"policies\":[\"approle_normal_user\",\"default\",\"s_users_ert\"],\"lease_duration\":1800000}");
         JsonNode policiesJsonNode = objMapper.readTree(response.getResponse()).get("policies");
         List<String> expectedAdminPolicies = new ArrayList<>();
         expectedAdminPolicies.add("s_users_ert");
@@ -109,7 +109,7 @@ public class SafeUtilsTest {
     @Test
     public void test_getManagedSafesFromPolicies_successfully() throws IOException {
         ObjectMapper objMapper = new ObjectMapper();
-        Response response = getMockResponse(HttpStatus.OK, true, "{\"client_token\":\"8zyIbj3i9hXJFuIPC5AzeUK3\",\"admin\":\"no\",\"access\":{},\"policies\":[\"approle_normal_user\",\"default\",\"s_users_ert\"],\"lease_duration\":1800000}");
+        Response response = getMockResponse("{\"client_token\":\"8zyIbj3i9hXJFuIPC5AzeUK3\",\"admin\":\"no\",\"access\":{},\"policies\":[\"approle_normal_user\",\"default\",\"s_users_ert\"],\"lease_duration\":1800000}");
         JsonNode policiesJsonNode = objMapper.readTree(response.getResponse()).get("policies");
         String[] expectedList = {"ert"};
         String[] policies = {"s_users_ert"};
@@ -122,7 +122,7 @@ public class SafeUtilsTest {
         UserDetails userDetails = getMockUser(false);
         SafeUser safeUser = new SafeUser("users/ert", "normaluser", "write");
 
-        Response response = getMockResponse(HttpStatus.OK, true, "{\"data\":{\"aws-roles\":" +
+        Response response = getMockResponse("{\"data\":{\"aws-roles\":" +
                 "{\"erole\":\"read\",\"role1\":\"read\",\"role22\":\"read\",\"testrole3\":\"read\"}," +
                 "\"description\":\"asd\",\"name\":\"ert\",\"owner\":\"sd@g.com\",\"ownerid\":\"normaluser\"," +
                 "\"type\":\"\",\"users\":{\"normaluser\":\"sudo\",\"normaluser2\":\"read\"}}}");
@@ -136,7 +136,7 @@ public class SafeUtilsTest {
 
     @Test
     public void test_getSafeMetaData_failure() {
-        Response response = getMockResponse(HttpStatus.OK, true, "");
+        Response response = getMockResponse("");
 
         when(ControllerUtil.getSafeType("users/ert")).thenReturn("users");
         when(ControllerUtil.getSafeName("users/ert")).thenReturn("ert");
@@ -150,7 +150,7 @@ public class SafeUtilsTest {
         UserDetails userDetails = getMockUser(true);
         SafeUser safeUser = new SafeUser("users/ert", "normaluser", "write");
 
-        Response response = getMockResponse(HttpStatus.OK, true, "{\"data\":{\"aws-roles\":" +
+        Response response = getMockResponse("{\"data\":{\"aws-roles\":" +
                 "{\"erole\":\"read\",\"role1\":\"read\",\"role22\":\"read\",\"testrole3\":\"read\"}," +
                 "\"description\":\"asd\",\"name\":\"ert\",\"owner\":\"sd@g.com\",\"ownerid\":\"normaluser\"," +
                 "\"type\":\"\",\"users\":{\"normaluser\":\"sudo\",\"normaluser2\":\"read\"}}}");
@@ -167,7 +167,7 @@ public class SafeUtilsTest {
         UserDetails userDetails = getMockUser(false);
         SafeUser safeUser = new SafeUser("users/ert", "normaluser", "deny");
 
-        Response response = getMockResponse(HttpStatus.OK, true, "{\"data\":{\"aws-roles\":" +
+        Response response = getMockResponse("{\"data\":{\"aws-roles\":" +
                 "{\"erole\":\"read\",\"role1\":\"read\",\"role22\":\"read\",\"testrole3\":\"read\"}," +
                 "\"description\":\"asd\",\"name\":\"ert\",\"owner\":\"sd@g.com\",\"ownerid\":\"normaluser\"," +
                 "\"type\":\"\",\"users\":{\"normaluser\":\"sudo\",\"normaluser2\":\"read\"}}}");
@@ -184,7 +184,7 @@ public class SafeUtilsTest {
         UserDetails userDetails = getMockUser(true);
         SafeUser safeUser = new SafeUser("users/ert", "normaluser", "deny");
 
-        Response response = getMockResponse(HttpStatus.OK, true, "{\"data\":{\"aws-roles\":" +
+        Response response = getMockResponse("{\"data\":{\"aws-roles\":" +
                 "{\"erole\":\"read\",\"role1\":\"read\",\"role22\":\"read\",\"testrole3\":\"read\"}," +
                 "\"description\":\"asd\",\"name\":\"ert\",\"owner\":\"sd@g.com\",\"ownerid\":\"normaluser\"," +
                 "\"type\":\"\",\"users\":{\"normaluser\":\"sudo\",\"normaluser2\":\"read\"}}}");
@@ -201,7 +201,7 @@ public class SafeUtilsTest {
         UserDetails userDetails = getMockUser(true);
         SafeUser safeUser = new SafeUser("users/ert", "normaluser", "write");
 
-        Response response = getMockResponse(HttpStatus.OK, true, "{\"data\":{\"aws-roles\":" +
+        Response response = getMockResponse("{\"data\":{\"aws-roles\":" +
                 "{\"erole\":\"read\",\"role1\":\"read\",\"role22\":\"read\",\"testrole3\":\"read\"}," +
                 "\"description\":\"asd\",\"name\":\"ert\",\"owner\":\"sd@g.com\"," +
                 "\"type\":\"\",\"users\":{\"normaluser\":\"sudo\",\"normaluser2\":\"read\"}}}");
@@ -218,7 +218,7 @@ public class SafeUtilsTest {
         UserDetails userDetails = getMockUser(true);
         SafeUser safeUser = new SafeUser("users/ert", "normaluser", "write");
 
-        Response response = getMockResponse(HttpStatus.OK, true, "{\"data\":{\"aws-roles\":" +
+        Response response = getMockResponse("{\"data\":{\"aws-roles\":" +
                 "{\"erole\":\"read\",\"role1\":\"read\",\"role22\":\"read\",\"testrole3\":\"read\"}," +
                 "\"description\":\"asd\",\"name\":\"ert\",\"owner\":\"sd@g.com\",\"ownerid\":\"normaluser1\"," +
                 "\"type\":\"\",\"users\":{\"normaluser\":\"sudo\",\"normaluser2\":\"read\"}}}");
@@ -235,7 +235,7 @@ public class SafeUtilsTest {
         UserDetails userDetails = getMockUser(false);
         SafeUser safeUser = new SafeUser("users/ert", "normaluser", "write");
 
-        Response response = getMockResponse(HttpStatus.OK, true, "{\"data\":{\"aws-roles\":" +
+        Response response = getMockResponse("{\"data\":{\"aws-roles\":" +
                 "{\"erole\":\"read\",\"role1\":\"read\",\"role22\":\"read\",\"testrole3\":\"read\"}," +
                 "\"description\":\"asd\",\"name\":\"ert\",\"owner\":\"sd@g.com\",\"ownerid\":\"normaluser1\"," +
                 "\"type\":\"\",\"users\":{\"normaluser\":\"sudo\",\"normaluser2\":\"read\"}}}");
@@ -252,7 +252,7 @@ public class SafeUtilsTest {
         UserDetails userDetails = getMockUser(false);
         SafeUser safeUser = new SafeUser("users/ert", "normaluser1", "write");
 
-        Response response = getMockResponse(HttpStatus.OK, true, "{\"data\":{\"aws-roles\":" +
+        Response response = getMockResponse("{\"data\":{\"aws-roles\":" +
                 "{\"erole\":\"read\",\"role1\":\"read\",\"role22\":\"read\",\"testrole3\":\"read\"}," +
                 "\"description\":\"asd\",\"name\":\"ert\",\"owner\":\"sd@g.com\",\"ownerid\":\"normaluser\"," +
                 "\"type\":\"\",\"users\":{\"normaluser\":\"sudo\",\"normaluser2\":\"read\"}}}");

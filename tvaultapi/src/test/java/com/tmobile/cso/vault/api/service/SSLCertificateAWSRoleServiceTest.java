@@ -96,21 +96,21 @@ public class SSLCertificateAWSRoleServiceTest {
         ReflectionTestUtils.setField(sslCertificateAWSRoleService, "certificateNameTailText", ".t-mobile.com");
     }
 
-    Response getMockResponse(HttpStatus status, boolean success, String expectedBody) {
+    Response getMockResponse(HttpStatus status, String expectedBody) {
         Response response = new Response();
         response.setHttpstatus(status);
-        response.setSuccess(success);
+        response.setSuccess(true);
         if (!Objects.equals(expectedBody, "")) {
             response.setResponse(expectedBody);
         }
         return response;
     }
 
-    UserDetails getMockUser(boolean isAdmin) {
+    UserDetails getMockUser() {
         token = "5PDrOhsy4ig8L3EpsJZSLAMg";
         userDetails = new UserDetails();
         userDetails.setUsername("normaluser");
-        userDetails.setAdmin(isAdmin);
+        userDetails.setAdmin(false);
         userDetails.setClientToken(token);
         userDetails.setSelfSupportToken(token);
         return userDetails;
@@ -144,7 +144,7 @@ public class SSLCertificateAWSRoleServiceTest {
     public void testCreateAWSRoleForSSLSuccess() throws Exception {
         ResponseEntity<String> responseEntityExpected = ResponseEntity.status(HttpStatus.OK).body("{\"messages\":[\"AWS Role created \"]}");
         token = "5PDrOhsy4ig8L3EpsJZSLAMg";
-        userDetails = getMockUser(false);
+        userDetails = getMockUser();
         AWSLoginRole awsLoginRole = new AWSLoginRole("ec2", "mytestawsrole", "ami-fce3c696",
                 "1234567890123", "us-east-2", "vpc-2f09a348", "subnet-1122aabb",
                 "arn:aws:iam::8987887:role/test-role", "arn:aws:iam::877677878:instance-profile/exampleinstanceprofile",
@@ -161,7 +161,7 @@ public class SSLCertificateAWSRoleServiceTest {
     public void testCreateIAMRoleForSSLSuccess() throws Exception {
         ResponseEntity<String> responseEntityExpected = ResponseEntity.status(HttpStatus.OK).body("{\"messages\":[\"AWS Role created \"]}");
         token = "5PDrOhsy4ig8L3EpsJZSLAMg";
-        userDetails = getMockUser(false);
+        userDetails = getMockUser();
         AWSIAMRole awsiamRole = new AWSIAMRole();
         awsiamRole.setAuth_type("iam");
         String[] arns = {"arn:aws:iam::123456789012:user/tst"};
@@ -183,7 +183,7 @@ public class SSLCertificateAWSRoleServiceTest {
 		SSLCertificateMetadataDetails certificateMetadata = getSSLCertificateMetadataDetails();
         ResponseEntity<String> responseEntityExpected = ResponseEntity.status(HttpStatus.OK).body("{\"messages\":[\"AWS Role successfully associated with SSL Certificate\"]}");
         token = "5PDrOhsy4ig8L3EpsJZSLAMg";
-        userDetails = getMockUser(false);
+        userDetails = getMockUser();
         CertificateAWSRole certificateAWSRole = new CertificateAWSRole("certificatename.t-mobile.com", "role1", "read", "internal");
 
         String [] policies = {"o_externalcerts_certificatename.t-mobile.com"};
@@ -192,13 +192,13 @@ public class SSLCertificateAWSRoleServiceTest {
                 "  \"arn:aws:iam::877677878:instance-profile/exampleinstanceprofile\" ], \"bound_iam_role_arn\": [\"arn:aws:iam::8987887:role/test-role\" ], " +
                 "\"bound_vpc_id\": [    \"vpc-2f09a348\"], \"bound_subnet_id\": [ \"subnet-1122aabb\"],\"bound_region\": [\"us-east-2\"],\"policies\":" +
                 " [ \"\\\"[prod\",\"dev\\\"]\" ], \"auth_type\":\"iam\"}";
-        Response awsRoleResponse = getMockResponse(HttpStatus.OK, true, responseBody);
+        Response awsRoleResponse = getMockResponse(HttpStatus.OK, responseBody);
         when(reqProcessor.process("/auth/aws/roles","{\"role\":\"role1\"}",token)).thenReturn(awsRoleResponse);
-        Response configureAWSRoleResponse = getMockResponse(HttpStatus.OK, true, "");
+        Response configureAWSRoleResponse = getMockResponse(HttpStatus.OK, "");
         when(awsiamAuthService.configureAWSIAMRole(Mockito.anyString(), Mockito.anyString(), Mockito.anyString())).thenReturn(configureAWSRoleResponse);
         when(certificateUtils.getCertificateMetaData(token, "certificatename.t-mobile.com", "internal")).thenReturn(certificateMetadata);
         when(certificateUtils.hasAddOrRemovePermission(userDetails, certificateMetadata)).thenReturn(true);
-        Response updateMetadataResponse = getMockResponse(HttpStatus.NO_CONTENT, true, "");
+        Response updateMetadataResponse = getMockResponse(HttpStatus.NO_CONTENT, "");
         when(ControllerUtil.updateMetadata(Mockito.anyMap(),Mockito.anyString())).thenReturn(updateMetadataResponse);
 
         when(tokenUtils.getSelfServiceToken()).thenReturn(token);
@@ -213,7 +213,7 @@ public class SSLCertificateAWSRoleServiceTest {
 		SSLCertificateMetadataDetails certificateMetadata = getSSLExternalCertificateRequest();
         ResponseEntity<String> responseEntityExpected = ResponseEntity.status(HttpStatus.OK).body("{\"messages\":[\"AWS Role successfully associated with SSL Certificate\"]}");
         token = "5PDrOhsy4ig8L3EpsJZSLAMg";
-        userDetails = getMockUser(false);
+        userDetails = getMockUser();
         CertificateAWSRole certificateAWSRole = new CertificateAWSRole("certificatename.t-mobile.com", "role1", "read", "external");
 
         String [] policies = {"o_externalcerts_certificatename.t-mobile.com"};
@@ -222,11 +222,11 @@ public class SSLCertificateAWSRoleServiceTest {
                 "  \"arn:aws:iam::877677878:instance-profile/exampleinstanceprofile\" ], \"bound_iam_role_arn\": [\"arn:aws:iam::8987887:role/test-role\" ], " +
                 "\"bound_vpc_id\": [    \"vpc-2f09a348\"], \"bound_subnet_id\": [ \"subnet-1122aabb\"],\"bound_region\": [\"us-east-2\"],\"policies\":" +
                 " [ \"\\\"[prod\",\"dev\\\"]\" ], \"auth_type\":\"ec2\"}";
-        Response awsRoleResponse = getMockResponse(HttpStatus.OK, true, responseBody);
+        Response awsRoleResponse = getMockResponse(HttpStatus.OK, responseBody);
         when(reqProcessor.process("/auth/aws/roles","{\"role\":\"role1\"}",token)).thenReturn(awsRoleResponse);
-        Response configureAWSRoleResponse = getMockResponse(HttpStatus.OK, true, "");
+        Response configureAWSRoleResponse = getMockResponse(HttpStatus.OK, "");
         when(awsAuthService.configureAWSRole(Mockito.anyString(), Mockito.anyString(), Mockito.anyString())).thenReturn(configureAWSRoleResponse);
-        Response updateMetadataResponse = getMockResponse(HttpStatus.NO_CONTENT, true, "");
+        Response updateMetadataResponse = getMockResponse(HttpStatus.NO_CONTENT, "");
         when(certificateUtils.getCertificateMetaData(token, "certificatename.t-mobile.com", "external")).thenReturn(certificateMetadata);
         when(certificateUtils.hasAddOrRemovePermission(userDetails, certificateMetadata)).thenReturn(true);
         when(ControllerUtil.updateMetadata(Mockito.anyMap(),Mockito.anyString())).thenReturn(updateMetadataResponse);
@@ -243,7 +243,7 @@ public class SSLCertificateAWSRoleServiceTest {
 		SSLCertificateMetadataDetails certificateMetadata = getSSLCertificateMetadataDetails();
         ResponseEntity<String> responseEntityExpected = ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body("{\"errors\":[\"AWS Role configuration failed. Please try again\"]}");
         token = "5PDrOhsy4ig8L3EpsJZSLAMg";
-        userDetails = getMockUser(false);
+        userDetails = getMockUser();
         CertificateAWSRole certificateAWSRole = new CertificateAWSRole("certificatename.t-mobile.com", "role1", "read", "internal");
 
         String [] policies = {"o_externalcerts_certificatename.t-mobile.com"};
@@ -252,11 +252,11 @@ public class SSLCertificateAWSRoleServiceTest {
                 "  \"arn:aws:iam::877677878:instance-profile/exampleinstanceprofile\" ], \"bound_iam_role_arn\": [\"arn:aws:iam::8987887:role/test-role\" ], " +
                 "\"bound_vpc_id\": [    \"vpc-2f09a348\"], \"bound_subnet_id\": [ \"subnet-1122aabb\"],\"bound_region\": [\"us-east-2\"],\"policies\":" +
                 " [ \"\\\"[prod\",\"dev\\\"]\" ], \"auth_type\":\"ec2\"}";
-        Response awsRoleResponse = getMockResponse(HttpStatus.OK, true, responseBody);
+        Response awsRoleResponse = getMockResponse(HttpStatus.OK, responseBody);
         when(reqProcessor.process("/auth/aws/roles","{\"role\":\"role1\"}",token)).thenReturn(awsRoleResponse);
-        Response configureAWSRoleResponse = getMockResponse(HttpStatus.NO_CONTENT, true, "");
+        Response configureAWSRoleResponse = getMockResponse(HttpStatus.NO_CONTENT, "");
         when(awsAuthService.configureAWSRole(Mockito.anyString(), Mockito.anyString(), Mockito.anyString())).thenReturn(configureAWSRoleResponse);
-        Response updateMetadataResponse = getMockResponse(HttpStatus.BAD_REQUEST, true, "");
+        Response updateMetadataResponse = getMockResponse(HttpStatus.BAD_REQUEST, "");
         when(certificateUtils.getCertificateMetaData(token, "certificatename.t-mobile.com", "internal")).thenReturn(certificateMetadata);
         when(certificateUtils.hasAddOrRemovePermission(userDetails, certificateMetadata)).thenReturn(true);
         when(ControllerUtil.updateMetadata(Mockito.anyMap(),Mockito.anyString())).thenReturn(updateMetadataResponse);
@@ -271,7 +271,7 @@ public class SSLCertificateAWSRoleServiceTest {
 		SSLCertificateMetadataDetails certificateMetadata = getSSLCertificateMetadataDetails();
         ResponseEntity<String> responseEntityExpected = ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body("{\"errors\":[\"AWS Role configuration failed. Please try again\"]}");
         token = "5PDrOhsy4ig8L3EpsJZSLAMg";
-        userDetails = getMockUser(false);
+        userDetails = getMockUser();
         CertificateAWSRole certificateAWSRole = new CertificateAWSRole("certificatename.t-mobile.com", "role1", "read", "internal");
 
         String [] policies = {"o_externalcerts_certificatename.t-mobile.com"};
@@ -280,11 +280,11 @@ public class SSLCertificateAWSRoleServiceTest {
                 "  \"arn:aws:iam::877677878:instance-profile/exampleinstanceprofile\" ], \"bound_iam_role_arn\": [\"arn:aws:iam::8987887:role/test-role\" ], " +
                 "\"bound_vpc_id\": [    \"vpc-2f09a348\"], \"bound_subnet_id\": [ \"subnet-1122aabb\"],\"bound_region\": [\"us-east-2\"],\"policies\":" +
                 " [ \"\\\"[prod\",\"dev\\\"]\" ], \"auth_type\":\"iam\"}";
-        Response awsRoleResponse = getMockResponse(HttpStatus.OK, true, responseBody);
+        Response awsRoleResponse = getMockResponse(HttpStatus.OK, responseBody);
         when(reqProcessor.process("/auth/aws/roles","{\"role\":\"role1\"}",token)).thenReturn(awsRoleResponse);
-        Response configureAWSRoleResponse = getMockResponse(HttpStatus.NO_CONTENT, true, "");
+        Response configureAWSRoleResponse = getMockResponse(HttpStatus.NO_CONTENT, "");
         when(awsiamAuthService.configureAWSIAMRole(Mockito.anyString(), Mockito.anyString(), Mockito.anyString())).thenReturn(configureAWSRoleResponse);
-        Response updateMetadataResponse = getMockResponse(HttpStatus.BAD_REQUEST, true, "");
+        Response updateMetadataResponse = getMockResponse(HttpStatus.BAD_REQUEST, "");
         when(certificateUtils.getCertificateMetaData(token, "certificatename.t-mobile.com", "internal")).thenReturn(certificateMetadata);
         when(certificateUtils.hasAddOrRemovePermission(userDetails, certificateMetadata)).thenReturn(true);
         when(ControllerUtil.updateMetadata(Mockito.anyMap(),Mockito.anyString())).thenReturn(updateMetadataResponse);
@@ -299,7 +299,7 @@ public class SSLCertificateAWSRoleServiceTest {
 		SSLCertificateMetadataDetails certificateMetadata = getSSLCertificateMetadataDetails();
         ResponseEntity<String> responseEntityExpected = ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body("{\"errors\":[\"Role configuration failed. Try Again\"]}");
         token = "5PDrOhsy4ig8L3EpsJZSLAMg";
-        userDetails = getMockUser(false);
+        userDetails = getMockUser();
         CertificateAWSRole certificateAWSRole = new CertificateAWSRole("certificatename.t-mobile.com", "role1", "read", "internal");
 
         String [] policies = {"o_externalcerts_certificatename.t-mobile.com"};
@@ -308,9 +308,9 @@ public class SSLCertificateAWSRoleServiceTest {
                 "  \"arn:aws:iam::877677878:instance-profile/exampleinstanceprofile\" ], \"bound_iam_role_arn\": [\"arn:aws:iam::8987887:role/test-role\" ], " +
                 "\"bound_vpc_id\": [    \"vpc-2f09a348\"], \"bound_subnet_id\": [ \"subnet-1122aabb\"],\"bound_region\": [\"us-east-2\"],\"policies\":" +
                 " [ \"\\\"[prod\",\"dev\\\"]\" ], \"auth_type\":\"iam\"}";
-        Response awsRoleResponse = getMockResponse(HttpStatus.OK, true, responseBody);
+        Response awsRoleResponse = getMockResponse(HttpStatus.OK, responseBody);
         when(reqProcessor.process("/auth/aws/roles","{\"role\":\"role1\"}",token)).thenReturn(awsRoleResponse);
-        Response configureAWSRoleResponse = getMockResponse(HttpStatus.BAD_REQUEST, true, "");
+        Response configureAWSRoleResponse = getMockResponse(HttpStatus.BAD_REQUEST, "");
         when(awsiamAuthService.configureAWSIAMRole(Mockito.anyString(), Mockito.anyString(), Mockito.anyString())).thenReturn(configureAWSRoleResponse);
         when(tokenUtils.getSelfServiceToken()).thenReturn(token);
         when(certificateUtils.getCertificateMetaData(token, "certificatename.t-mobile.com", "internal")).thenReturn(certificateMetadata);
@@ -324,14 +324,14 @@ public class SSLCertificateAWSRoleServiceTest {
 	public void testAddAwsRoleToCertificateRoleNotExistsFailure() throws Exception {
 		SSLCertificateMetadataDetails certificateMetadata = getSSLCertificateMetadataDetails();
         token = "5PDrOhsy4ig8L3EpsJZSLAMg";
-        userDetails = getMockUser(false);
+        userDetails = getMockUser();
         CertificateAWSRole certificateAWSRole = new CertificateAWSRole("certificatename.t-mobile.com", "role1", "read", "internal");
 
         String [] policies = {"o_externalcerts_certificatename.t-mobile.com"};
         when(policyUtils.getCurrentPolicies(token, userDetails.getUsername(), userDetails)).thenReturn(policies);
-        Response awsRoleResponse = getMockResponse(HttpStatus.UNPROCESSABLE_ENTITY, true, "");
+        Response awsRoleResponse = getMockResponse(HttpStatus.UNPROCESSABLE_ENTITY, "");
         when(reqProcessor.process("/auth/aws/roles","{\"role\":\"role1\"}",token)).thenReturn(awsRoleResponse);
-        Response configureAWSRoleResponse = getMockResponse(HttpStatus.BAD_REQUEST, true, "");
+        Response configureAWSRoleResponse = getMockResponse(HttpStatus.BAD_REQUEST, "");
         when(awsiamAuthService.configureAWSIAMRole(Mockito.anyString(), Mockito.anyString(), Mockito.anyString())).thenReturn(configureAWSRoleResponse);
         when(tokenUtils.getSelfServiceToken()).thenReturn(token);
         when(certificateUtils.getCertificateMetaData(token, "certificatename.t-mobile.com", "internal")).thenReturn(certificateMetadata);
@@ -345,7 +345,7 @@ public class SSLCertificateAWSRoleServiceTest {
 		SSLCertificateMetadataDetails certificateMetadata = getSSLCertificateMetadataDetails();
         ResponseEntity<String> responseEntityExpected = ResponseEntity.status(HttpStatus.BAD_REQUEST).body("{\"errors\":[\"Access denied: No permission to add AWS Role to this certificate\"]}");
         token = "5PDrOhsy4ig8L3EpsJZSLAMg";
-        userDetails = getMockUser(false);
+        userDetails = getMockUser();
         CertificateAWSRole certificateAWSRole = new CertificateAWSRole("certificatename.t-mobile.com", "role1", "read", "internal");
         when(tokenUtils.getSelfServiceToken()).thenReturn(token);
         when(certificateUtils.getCertificateMetaData(token, "certificatename.t-mobile.com", "internal")).thenReturn(certificateMetadata);
@@ -360,7 +360,7 @@ public class SSLCertificateAWSRoleServiceTest {
     public void testAddAwsRoleToSSLCertificateInitialValidationFailure() throws Exception {
         ResponseEntity<String> responseEntityExpected = ResponseEntity.status(HttpStatus.BAD_REQUEST).body("{\"errors\":[\"Invalid input values\"]}");
         token = "5PDrOhsy4ig8L3EpsJZSLAMg";
-        userDetails = getMockUser(false);
+        userDetails = getMockUser();
         CertificateAWSRole certificateAWSRole = new CertificateAWSRole("certificatename.t-mobile.com", "role1", "read", "inte");
         when(tokenUtils.getSelfServiceToken()).thenReturn("5PDrOhsy4ig8L3EpsJZSLAMg");
         String [] policies = {"o_externalcerts_certificatename.t-mobile.com"};
@@ -375,7 +375,7 @@ public class SSLCertificateAWSRoleServiceTest {
     public void testAddAwsRoleToSSLCertificateUserNotExists() throws Exception {
         ResponseEntity<String> responseEntityExpected = ResponseEntity.status(HttpStatus.BAD_REQUEST).body("{\"errors\":[\"Access denied: No permission to add AWS Role to this certificate\"]}");
         token = "5PDrOhsy4ig8L3EpsJZSLAMg";
-        userDetails = getMockUser(false);
+        userDetails = getMockUser();
         CertificateAWSRole certificateAWSRole = new CertificateAWSRole("certificatename.t-mobile.com", "role1", "read", "internal");
         when(tokenUtils.getSelfServiceToken()).thenReturn("5PDrOhsy4ig8L3EpsJZSLAMg");
         String [] policies = {"o_externalcerts_certificatename.t-mobile.com"};
@@ -391,7 +391,7 @@ public class SSLCertificateAWSRoleServiceTest {
 		SSLCertificateMetadataDetails certificateMetadata = getSSLCertificateMetadataDetails();
         ResponseEntity<String> responseEntityExpected = ResponseEntity.status(HttpStatus.OK).body("{\"messages\":[\"AWS Role is successfully removed from SSL Certificate\"]}");
         token = "5PDrOhsy4ig8L3EpsJZSLAMg";
-        userDetails = getMockUser(false);
+        userDetails = getMockUser();
         CertificateAWSRoleRequest certificateAWSRoleRequest = new CertificateAWSRoleRequest("certificatename.t-mobile.com", "role1", "internal");
 
         String [] policies = {"o_externalcerts_certificatename.t-mobile.com"};
@@ -400,11 +400,11 @@ public class SSLCertificateAWSRoleServiceTest {
                 "  \"arn:aws:iam::877677878:instance-profile/exampleinstanceprofile\" ], \"bound_iam_role_arn\": [\"arn:aws:iam::8987887:role/test-role\" ], " +
                 "\"bound_vpc_id\": [    \"vpc-2f09a348\"], \"bound_subnet_id\": [ \"subnet-1122aabb\"],\"bound_region\": [\"us-east-2\"],\"policies\":" +
                 " [ \"w_svcacct_testsvcname\" ], \"auth_type\":\"iam\"}";
-        Response awsRoleResponse = getMockResponse(HttpStatus.OK, true, responseBody);
+        Response awsRoleResponse = getMockResponse(HttpStatus.OK, responseBody);
         when(reqProcessor.process("/auth/aws/roles","{\"role\":\"role1\"}",token)).thenReturn(awsRoleResponse);
-        Response configureAWSRoleResponse = getMockResponse(HttpStatus.OK, true, "");
+        Response configureAWSRoleResponse = getMockResponse(HttpStatus.OK, "");
         when(awsiamAuthService.configureAWSIAMRole(Mockito.anyString(), Mockito.anyString(), Mockito.anyString())).thenReturn(configureAWSRoleResponse);
-        Response updateMetadataResponse = getMockResponse(HttpStatus.NO_CONTENT, true, "");
+        Response updateMetadataResponse = getMockResponse(HttpStatus.NO_CONTENT, "");
         when(ControllerUtil.updateMetadata(Mockito.anyMap(),Mockito.anyString())).thenReturn(updateMetadataResponse);
         when(tokenUtils.getSelfServiceToken()).thenReturn(token);
         when(certificateUtils.getCertificateMetaData(token, "certificatename.t-mobile.com", "internal")).thenReturn(certificateMetadata);
@@ -419,7 +419,7 @@ public class SSLCertificateAWSRoleServiceTest {
     public void testRemoveAwsRoleToSSLCertificateInitialValidationFailure() throws Exception {
         ResponseEntity<String> responseEntityExpected = ResponseEntity.status(HttpStatus.BAD_REQUEST).body("{\"errors\":[\"Invalid input values\"]}");
         token = "5PDrOhsy4ig8L3EpsJZSLAMg";
-        userDetails = getMockUser(false);
+        userDetails = getMockUser();
         CertificateAWSRoleRequest certificateAWSRoleRequest = new CertificateAWSRoleRequest("certificatename.t-mobile.com", "role1", "inter");
         when(tokenUtils.getSelfServiceToken()).thenReturn("5PDrOhsy4ig8L3EpsJZSLAMg");
         String [] policies = {"o_externalcerts_certificatename.t-mobile.com"};
@@ -434,7 +434,7 @@ public class SSLCertificateAWSRoleServiceTest {
     public void testRemoveAwsRoleToSSLCertificateEmptyUserDetail() throws Exception {
         ResponseEntity<String> responseEntityExpected = ResponseEntity.status(HttpStatus.BAD_REQUEST).body("{\"errors\":[\"Access denied: No permission to remove AWS role from this certificate\"]}");
         token = "5PDrOhsy4ig8L3EpsJZSLAMg";
-        userDetails = getMockUser(false);
+        userDetails = getMockUser();
         CertificateAWSRoleRequest certificateAWSRoleRequest = new CertificateAWSRoleRequest("certificatename.t-mobile.com", "role1", "internal");
         when(tokenUtils.getSelfServiceToken()).thenReturn("5PDrOhsy4ig8L3EpsJZSLAMg");
         String [] policies = {"o_externalcerts_certificatename.t-mobile.com"};
@@ -450,7 +450,7 @@ public class SSLCertificateAWSRoleServiceTest {
 		SSLCertificateMetadataDetails certificateMetadata = getSSLExternalCertificateRequest();
         ResponseEntity<String> responseEntityExpected = ResponseEntity.status(HttpStatus.OK).body("{\"messages\":[\"AWS Role is successfully removed from SSL Certificate\"]}");
         token = "5PDrOhsy4ig8L3EpsJZSLAMg";
-        userDetails = getMockUser(false);
+        userDetails = getMockUser();
         CertificateAWSRoleRequest certificateAWSRoleRequest = new CertificateAWSRoleRequest("certificatename.t-mobile.com", "role1", "external");
 
         String [] policies = {"o_externalcerts_certificatename.t-mobile.com"};
@@ -459,11 +459,11 @@ public class SSLCertificateAWSRoleServiceTest {
                 "  \"arn:aws:iam::877677878:instance-profile/exampleinstanceprofile\" ], \"bound_iam_role_arn\": [\"arn:aws:iam::8987887:role/test-role\" ], " +
                 "\"bound_vpc_id\": [    \"vpc-2f09a348\"], \"bound_subnet_id\": [ \"subnet-1122aabb\"],\"bound_region\": [\"us-east-2\"],\"policies\":" +
                 " [ \"w_svcacct_testsvcname\" ], \"auth_type\":\"ec2\"}";
-        Response awsRoleResponse = getMockResponse(HttpStatus.OK, true, responseBody);
+        Response awsRoleResponse = getMockResponse(HttpStatus.OK, responseBody);
         when(reqProcessor.process("/auth/aws/roles","{\"role\":\"role1\"}",token)).thenReturn(awsRoleResponse);
-        Response configureAWSRoleResponse = getMockResponse(HttpStatus.OK, true, "");
+        Response configureAWSRoleResponse = getMockResponse(HttpStatus.OK, "");
         when(awsAuthService.configureAWSRole(Mockito.anyString(), Mockito.anyString(), Mockito.anyString())).thenReturn(configureAWSRoleResponse);
-        Response updateMetadataResponse = getMockResponse(HttpStatus.NO_CONTENT, true, "");
+        Response updateMetadataResponse = getMockResponse(HttpStatus.NO_CONTENT, "");
         when(ControllerUtil.updateMetadata(Mockito.anyMap(),Mockito.anyString())).thenReturn(updateMetadataResponse);
         when(tokenUtils.getSelfServiceToken()).thenReturn(token);
         when(certificateUtils.getCertificateMetaData(token, "certificatename.t-mobile.com", "external")).thenReturn(certificateMetadata);
@@ -479,7 +479,7 @@ public class SSLCertificateAWSRoleServiceTest {
 		SSLCertificateMetadataDetails certificateMetadata = getSSLCertificateMetadataDetails();
         ResponseEntity<String> responseEntityExpected = ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body("{\"errors\":[\"AWS Role configuration failed. Please try again\"]}");
         token = "5PDrOhsy4ig8L3EpsJZSLAMg";
-        userDetails = getMockUser(false);
+        userDetails = getMockUser();
         CertificateAWSRoleRequest certificateAWSRoleRequest = new CertificateAWSRoleRequest("certificatename.t-mobile.com", "role1", "internal");
 
         String [] policies = {"o_externalcerts_certificatename.t-mobile.com"};
@@ -488,11 +488,11 @@ public class SSLCertificateAWSRoleServiceTest {
                 "  \"arn:aws:iam::877677878:instance-profile/exampleinstanceprofile\" ], \"bound_iam_role_arn\": [\"arn:aws:iam::8987887:role/test-role\" ], " +
                 "\"bound_vpc_id\": [    \"vpc-2f09a348\"], \"bound_subnet_id\": [ \"subnet-1122aabb\"],\"bound_region\": [\"us-east-2\"],\"policies\":" +
                 " [ \"w_svcacct_testsvcname\" ], \"auth_type\":\"ec2\"}";
-        Response awsRoleResponse = getMockResponse(HttpStatus.OK, true, responseBody);
+        Response awsRoleResponse = getMockResponse(HttpStatus.OK, responseBody);
         when(reqProcessor.process("/auth/aws/roles","{\"role\":\"role1\"}",token)).thenReturn(awsRoleResponse);
-        Response configureAWSRoleResponse = getMockResponse(HttpStatus.NO_CONTENT, true, "");
+        Response configureAWSRoleResponse = getMockResponse(HttpStatus.NO_CONTENT, "");
         when(awsAuthService.configureAWSRole(Mockito.anyString(), Mockito.anyString(), Mockito.anyString())).thenReturn(configureAWSRoleResponse);
-        Response updateMetadataResponse = getMockResponse(HttpStatus.BAD_REQUEST, true, "");
+        Response updateMetadataResponse = getMockResponse(HttpStatus.BAD_REQUEST, "");
         when(ControllerUtil.updateMetadata(Mockito.anyMap(),Mockito.anyString())).thenReturn(updateMetadataResponse);
         when(certificateUtils.getCertificateMetaData(token, "certificatename.t-mobile.com", "internal")).thenReturn(certificateMetadata);
         when(certificateUtils.hasAddOrRemovePermission(userDetails, certificateMetadata)).thenReturn(true);
@@ -508,7 +508,7 @@ public class SSLCertificateAWSRoleServiceTest {
 		SSLCertificateMetadataDetails certificateMetadata = getSSLCertificateMetadataDetails();
         ResponseEntity<String> responseEntityExpected = ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body("{\"errors\":[\"Failed to remove AWS Role from the SSL Certificate\"]}");
         token = "5PDrOhsy4ig8L3EpsJZSLAMg";
-        userDetails = getMockUser(false);
+        userDetails = getMockUser();
         CertificateAWSRoleRequest certificateAWSRoleRequest = new CertificateAWSRoleRequest("certificatename.t-mobile.com", "role1", "internal");
 
         String [] policies = {"o_externalcerts_certificatename.t-mobile.com"};
@@ -517,9 +517,9 @@ public class SSLCertificateAWSRoleServiceTest {
                 "  \"arn:aws:iam::877677878:instance-profile/exampleinstanceprofile\" ], \"bound_iam_role_arn\": [\"arn:aws:iam::8987887:role/test-role\" ], " +
                 "\"bound_vpc_id\": [    \"vpc-2f09a348\"], \"bound_subnet_id\": [ \"subnet-1122aabb\"],\"bound_region\": [\"us-east-2\"],\"policies\":" +
                 " [ \"w_svcacct_testsvcname\" ], \"auth_type\":\"ec2\"}";
-        Response awsRoleResponse = getMockResponse(HttpStatus.OK, true, responseBody);
+        Response awsRoleResponse = getMockResponse(HttpStatus.OK, responseBody);
         when(reqProcessor.process("/auth/aws/roles","{\"role\":\"role1\"}",token)).thenReturn(awsRoleResponse);
-        Response configureAWSRoleResponse = getMockResponse(HttpStatus.BAD_REQUEST, true, "");
+        Response configureAWSRoleResponse = getMockResponse(HttpStatus.BAD_REQUEST, "");
         when(awsAuthService.configureAWSRole(Mockito.anyString(), Mockito.anyString(), Mockito.anyString())).thenReturn(configureAWSRoleResponse);
         when(tokenUtils.getSelfServiceToken()).thenReturn(token);
         when(certificateUtils.getCertificateMetaData(token, "certificatename.t-mobile.com", "internal")).thenReturn(certificateMetadata);
@@ -535,14 +535,14 @@ public class SSLCertificateAWSRoleServiceTest {
 		SSLCertificateMetadataDetails certificateMetadata = getSSLCertificateMetadataDetails();
         ResponseEntity<String> responseEntityExpected = ResponseEntity.status(HttpStatus.UNPROCESSABLE_ENTITY).body("{\"errors\":[\"AWS Role doesn't exist\"]}");
         token = "5PDrOhsy4ig8L3EpsJZSLAMg";
-        userDetails = getMockUser(false);
+        userDetails = getMockUser();
         CertificateAWSRoleRequest certificateAWSRoleRequest = new CertificateAWSRoleRequest("certificatename.t-mobile.com", "role1", "internal");
 
         String [] policies = {"o_externalcerts_certificatename.t-mobile.com"};
         when(policyUtils.getCurrentPolicies(token, userDetails.getUsername(), userDetails)).thenReturn(policies);
-        Response awsRoleResponse = getMockResponse(HttpStatus.UNPROCESSABLE_ENTITY, true, "");
+        Response awsRoleResponse = getMockResponse(HttpStatus.UNPROCESSABLE_ENTITY, "");
         when(reqProcessor.process("/auth/aws/roles","{\"role\":\"role1\"}",token)).thenReturn(awsRoleResponse);
-        Response configureAWSRoleResponse = getMockResponse(HttpStatus.BAD_REQUEST, true, "");
+        Response configureAWSRoleResponse = getMockResponse(HttpStatus.BAD_REQUEST, "");
         when(awsAuthService.configureAWSRole(Mockito.anyString(), Mockito.anyString(), Mockito.anyString())).thenReturn(configureAWSRoleResponse);
         when(tokenUtils.getSelfServiceToken()).thenReturn(token);
         when(certificateUtils.getCertificateMetaData(token, "certificatename.t-mobile.com", "internal")).thenReturn(certificateMetadata);
@@ -558,7 +558,7 @@ public class SSLCertificateAWSRoleServiceTest {
 		SSLCertificateMetadataDetails certificateMetadata = getSSLCertificateMetadataDetails();
         ResponseEntity<String> responseEntityExpected = ResponseEntity.status(HttpStatus.BAD_REQUEST).body("{\"errors\":[\"Access denied: No permission to remove AWS Role from SSL Certificate\"]}");
         token = "5PDrOhsy4ig8L3EpsJZSLAMg";
-        userDetails = getMockUser(false);
+        userDetails = getMockUser();
         CertificateAWSRoleRequest certificateAWSRoleRequest = new CertificateAWSRoleRequest("certificatename.t-mobile.com", "role1", "internal");
         when(tokenUtils.getSelfServiceToken()).thenReturn(token);
         when(certificateUtils.getCertificateMetaData(token, "certificatename.t-mobile.com", "internal")).thenReturn(certificateMetadata);

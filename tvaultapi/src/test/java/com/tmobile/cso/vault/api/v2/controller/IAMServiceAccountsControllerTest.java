@@ -65,12 +65,12 @@ public class IAMServiceAccountsControllerTest {
         userDetails.setSelfSupportToken(token);
     }
 
-	private IAMServiceAccount generateIAMServiceAccount(String userName, String awsAccountId, String owner) {
+	private IAMServiceAccount generateIAMServiceAccount() {
 		IAMServiceAccount iamServiceAccount = new IAMServiceAccount();
-		iamServiceAccount.setUserName(userName);
-		iamServiceAccount.setAwsAccountId(awsAccountId);
+		iamServiceAccount.setUserName("testaccount");
+		iamServiceAccount.setAwsAccountId("1234567");
 		iamServiceAccount.setAwsAccountName("testaccount1");
-		iamServiceAccount.setOwnerNtid(owner);
+		iamServiceAccount.setOwnerNtid("normaluser");
 		iamServiceAccount.setOwnerEmail("normaluser@testmail.com");
 		iamServiceAccount.setApplicationId("app1");
 		iamServiceAccount.setApplicationName("App1");
@@ -161,7 +161,7 @@ public class IAMServiceAccountsControllerTest {
 
 	@Test
 	public void testOnboardIAMServiceAccountSuccess() throws Exception {
-		IAMServiceAccount serviceAccount = generateIAMServiceAccount("testaccount", "1234567", "normaluser");
+		IAMServiceAccount serviceAccount = generateIAMServiceAccount();
 
 		String expected = "{\"messages\":[\"Successfully completed onboarding of IAM service account into TVault for password rotation.\"]}";
 		ResponseEntity<String> responseEntityExpected = ResponseEntity.status(HttpStatus.OK).body(expected);

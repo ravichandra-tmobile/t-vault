@@ -125,12 +125,12 @@ public class IAMServiceAccountServiceTest {
 		return userDetails;
 	}
 
-	private IAMServiceAccount generateIAMServiceAccount(String userName, String awsAccountId, String owner) {
+	private IAMServiceAccount generateIAMServiceAccount() {
 		IAMServiceAccount iamServiceAccount = new IAMServiceAccount();
-		iamServiceAccount.setUserName(userName);
-		iamServiceAccount.setAwsAccountId(awsAccountId);
+		iamServiceAccount.setUserName("testaccount");
+		iamServiceAccount.setAwsAccountId("1234567");
 		iamServiceAccount.setAwsAccountName("testaccount1");
-		iamServiceAccount.setOwnerNtid(owner);
+		iamServiceAccount.setOwnerNtid("normaluser");
 		iamServiceAccount.setOwnerEmail("normaluser@testmail.com");
 		iamServiceAccount.setApplicationId("app1");
 		iamServiceAccount.setApplicationName("App1");
@@ -226,7 +226,7 @@ public class IAMServiceAccountServiceTest {
 	public void testOnboardIAMServiceAccountSuccss() {
 		userDetails = getMockUser(true);
 		token = userDetails.getClientToken();
-		IAMServiceAccount serviceAccount = generateIAMServiceAccount("testaccount", "1234567", "normaluser");
+		IAMServiceAccount serviceAccount = generateIAMServiceAccount();
 		String iamSvcAccName = serviceAccount.getAwsAccountId() + "_" + serviceAccount.getUserName();
 		String iamSvccAccPath = IAMServiceAccountConstants.IAM_SVCC_ACC_PATH + iamSvcAccName;
 

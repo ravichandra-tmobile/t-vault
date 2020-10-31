@@ -71,10 +71,10 @@ public class CertificateUtilsTest {
     }
 
 
-    Response getMockResponse(HttpStatus status, boolean success, String expectedBody) {
+    Response getMockResponse(HttpStatus status, String expectedBody) {
         response = new Response();
         response.setHttpstatus(status);
-        response.setSuccess(success);
+        response.setSuccess(true);
         response.setResponse("");
         if (!StringUtils.isEmpty(expectedBody)) {
             response.setResponse(expectedBody);
@@ -167,7 +167,7 @@ public class CertificateUtilsTest {
         userDetails.setUsername(ADMIN_USER);        
         String certificatePath = SSLCertificateConstants.SSL_CERT_PATH + '/' + CERT_NAME;
         
-        Response responseObj = getMockResponse(HttpStatus.OK, true, "{ \"data\": {\"akmid\":\"103001\",\"applicationName\":\"tvt\", "
+        Response responseObj = getMockResponse(HttpStatus.OK, "{ \"data\": {\"akmid\":\"103001\",\"applicationName\":\"tvt\", "
           		+ " \"applicationOwnerEmailId\":\"appowneremail@test.com\", \"applicationTag\":\"T-Vault\", "
           		+ " \"authority\":\"T-Mobile Issuing CA 01 - SHA2\", \"certCreatedBy\": \"testuser1\", "
           		+ " \"certOwnerEmailId\":\"owneremail@test.com\", \"certOwnerNtid\": \"testuser1\", \"certType\": \"internal\", "
@@ -195,8 +195,8 @@ public class CertificateUtilsTest {
 		userDetails.setUsername(ADMIN_USER);
 		String certificatePath = SSLCertificateConstants.SSL_EXTERNAL_CERT_PATH + '/' + CERT_NAME;
 
-		Response responseObj = getMockResponse(HttpStatus.OK, true,
-				"{ \"data\": {\"akmid\":\"103001\",\"applicationName\":\"tvt\", "
+		Response responseObj = getMockResponse(HttpStatus.OK,
+                "{ \"data\": {\"akmid\":\"103001\",\"applicationName\":\"tvt\", "
 						+ " \"applicationOwnerEmailId\":\"appowneremail@test.com\", \"applicationTag\":\"T-Vault\", "
 						+ " \"authority\":\"T-Mobile Issuing CA 01 - SHA2\", \"certCreatedBy\": \"testuser1\", "
 						+ " \"certOwnerEmailId\":\"owneremail@test.com\", \"certOwnerNtid\": \"testuser1\", \"certType\": \"external\", "
@@ -232,7 +232,7 @@ public class CertificateUtilsTest {
         userDetails.setUsername(ADMIN_USER);        
         String certificatePath = SSLCertificateConstants.SSL_CERT_PATH + '/' + CERT_NAME;
         
-        Response responseObj = getMockResponse(HttpStatus.OK, true, "{ \"data\": [\"akmid\":\"103001\",\"applicationName\":\"tvt\", "
+        Response responseObj = getMockResponse(HttpStatus.OK, "{ \"data\": [\"akmid\":\"103001\",\"applicationName\":\"tvt\", "
           		+ " \"applicationOwnerEmailId\":\"appowneremail@test.com\", \"applicationTag\":\"T-Vault\", "
           		+ " \"authority\":\"T-Mobile Issuing CA 01 - SHA2\", \"certCreatedBy\": \"testuser1\", "
           		+ " \"certOwnerEmailId\":\"owneremail@test.com\", \"certOwnerNtid\": \"testuser1\", \"certType\": \"internal\", "
@@ -254,7 +254,7 @@ public class CertificateUtilsTest {
         userDetails.setUsername(ADMIN_USER);        
         String certType = "internal";
         String certificatePath = SSLCertificateConstants.SSL_CERT_PATH  + '/' + CERT_NAME;       
-        Response responseObj = getMockResponse(HttpStatus.INTERNAL_SERVER_ERROR, true, "{}");         
+        Response responseObj = getMockResponse(HttpStatus.INTERNAL_SERVER_ERROR, "{}");
         when(ControllerUtil.getReqProcessor().process(GET_CERT_DETAIL, GET_CERT_DETAIL_VAL +certificatePath+"\"}",userDetails.getClientToken())).thenReturn(responseObj);
         SSLCertificateMetadataDetails certificateMetadataObj = certificateUtils.getCertificateMetaData(userDetails.getClientToken(),CERT_NAME,certType);
         assertNull(certificateMetadataObj);

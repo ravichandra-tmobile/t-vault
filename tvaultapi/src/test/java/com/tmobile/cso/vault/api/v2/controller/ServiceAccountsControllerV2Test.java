@@ -74,22 +74,22 @@ public class ServiceAccountsControllerV2Test {
         this.mockMvc = MockMvcBuilders.standaloneSetup(serviceAccountsControllerV2).build();
     }
     
-    private UserDetails getMockUser(boolean isAdmin) {
+    private UserDetails getMockUser() {
         String token = "5PDrOhsy4ig8L3EpsJZSLAMg";
         UserDetails userDetails = new UserDetails();
         userDetails.setUsername("normaluser");
-        userDetails.setAdmin(isAdmin);
+        userDetails.setAdmin(false);
         userDetails.setClientToken(token);
         userDetails.setSelfSupportToken(token);
         return userDetails;
     }
 
-    private ADServiceAccount generateADServiceAccount(String  userid) {
+    private ADServiceAccount generateADServiceAccount() {
         ADServiceAccount adServiceAccount = new ADServiceAccount();
         adServiceAccount.setDisplayName("testacc");
         adServiceAccount.setGivenName("testacc");
         adServiceAccount.setUserEmail("testacc@t-mobile.com");
-        adServiceAccount.setUserId(userid);
+        adServiceAccount.setUserId("testacc01");
         adServiceAccount.setUserName("testaccr");
         adServiceAccount.setPurpose("This is a test user account");
         adServiceAccount.setAccountExpires("292239827-01-08 11:35:09");
@@ -100,7 +100,7 @@ public class ServiceAccountsControllerV2Test {
     }
     private List<ADServiceAccount> generateADSerivceAccounts() {
     	List<ADServiceAccount> allServiceAccounts = new ArrayList<>();
-    	allServiceAccounts.add(generateADServiceAccount("testacc01"));
+    	allServiceAccounts.add(generateADServiceAccount());
     	return allServiceAccounts;
     }
     
@@ -125,7 +125,7 @@ public class ServiceAccountsControllerV2Test {
 	
     @Test
     public void test_getADServiceAccounts_success() throws Exception {
-        UserDetails userDetails = getMockUser(false);
+        UserDetails userDetails = getMockUser();
         String token = userDetails.getClientToken();
         String svcAccName = "testacc01";
         List<ADServiceAccount> allServiceAccounts = generateADSerivceAccounts();
@@ -148,7 +148,7 @@ public class ServiceAccountsControllerV2Test {
 
     @Test
     public void test_getOnboardedServiceAccounts_success() throws Exception {
-        UserDetails userDetails = getMockUser(false);
+        UserDetails userDetails = getMockUser();
         String token = userDetails.getClientToken();
         
         Map<String, List<String>> onboardedServiceAccounts = new HashMap<>();
@@ -175,7 +175,7 @@ public class ServiceAccountsControllerV2Test {
     
     @Test
     public void test_getServiceAccounts_Details_success() throws Exception{
-        UserDetails userDetails = getMockUser(false);
+        UserDetails userDetails = getMockUser();
         String token = userDetails.getClientToken();
         String svcAccName = "testacc02";
         
@@ -198,21 +198,21 @@ public class ServiceAccountsControllerV2Test {
         String actual = result.getResponse().getContentAsString();
         assertEquals(expected, actual);
     }
-    private ServiceAccount generateServiceAccount(String svcAccName, String owner) {
+    private ServiceAccount generateServiceAccount() {
     	ServiceAccount serviceAccount = new ServiceAccount();
-    	serviceAccount.setName(svcAccName);
+    	serviceAccount.setName("testacc02");
     	serviceAccount.setAutoRotate(true);
     	serviceAccount.setTtl(1234L);
     	serviceAccount.setMax_ttl(12345L);
-    	serviceAccount.setOwner(owner);
+    	serviceAccount.setOwner("testacc01");
         serviceAccount.setAppName("app1");
     	return serviceAccount;
     }
     @Test
     public void test_onboardServiceAccount_success() throws Exception{
-        UserDetails userDetails = getMockUser(false);
+        UserDetails userDetails = getMockUser();
         String token = userDetails.getClientToken();
-        ServiceAccount serviceAccount = generateServiceAccount("testacc02", "testacc01");
+        ServiceAccount serviceAccount = generateServiceAccount();
    	
         String expected = "{\"messages\":[\"Successfully completed onboarding of AD service account into TVault for password rotation.\"]}";
         ResponseEntity<String> responseEntityExpected = ResponseEntity.status(HttpStatus.OK).body(expected);
@@ -232,7 +232,7 @@ public class ServiceAccountsControllerV2Test {
     
     @Test
     public void test_addUserToSvcAcc_success() throws Exception {
-        UserDetails userDetails = getMockUser(false);
+        UserDetails userDetails = getMockUser();
         String token = userDetails.getClientToken();
         ServiceAccountUser serviceAccountUser = new ServiceAccountUser("testacc02", "testacc01", "read");
    	
@@ -253,7 +253,7 @@ public class ServiceAccountsControllerV2Test {
     
     @Test
     public void test_removeUserServiceAccount_success() throws Exception {
-        UserDetails userDetails = getMockUser(false);
+        UserDetails userDetails = getMockUser();
         String token = userDetails.getClientToken();
         ServiceAccountUser serviceAccountUser = new ServiceAccountUser("testacc02", "testacc01", "read");
    	
@@ -274,7 +274,7 @@ public class ServiceAccountsControllerV2Test {
     
     @Test
     public void test_resetSvcAccPwd_success() throws Exception {
-        UserDetails userDetails = getMockUser(false);
+        UserDetails userDetails = getMockUser();
         String token = userDetails.getClientToken();
         String svcAccName = "testacc02";
    	
@@ -299,7 +299,7 @@ public class ServiceAccountsControllerV2Test {
 
     @Test
     public void test_readSvcAccPwd_success() throws Exception {
-        UserDetails userDetails = getMockUser(false);
+        UserDetails userDetails = getMockUser();
         String token = userDetails.getClientToken();
         String svcAccName = "testacc02";
 
@@ -324,9 +324,9 @@ public class ServiceAccountsControllerV2Test {
     
     @Test
     public void test_offboardServiceAccount_success() throws Exception{
-        UserDetails userDetails = getMockUser(false);
+        UserDetails userDetails = getMockUser();
         String token = userDetails.getClientToken();
-        ServiceAccount serviceAccount = generateServiceAccount("testacc02", "testacc01");
+        ServiceAccount serviceAccount = generateServiceAccount();
    	
         String expected = "{\"messages\":[\"Successfully completed offboarding of AD service account from TVault for password rotation.\"]}";
         ResponseEntity<String> responseEntityExpected = ResponseEntity.status(HttpStatus.OK).body(expected);
@@ -351,7 +351,7 @@ public class ServiceAccountsControllerV2Test {
         String inputJson =new ObjectMapper().writeValueAsString(serviceAccountGroup);
         String responseJson = "{\"messages\":[\"Group is successfully associated with Service Account\"]}";
         ResponseEntity<String> responseEntityExpected = ResponseEntity.status(HttpStatus.OK).body(responseJson);
-        UserDetails userDetails = getMockUser(false);
+        UserDetails userDetails = getMockUser();
         when(serviceAccountsService.addGroupToServiceAccount(eq("5PDrOhsy4ig8L3EpsJZSLAMg"), Mockito.any(ServiceAccountGroup.class), eq(userDetails))).thenReturn(responseEntityExpected);
 
         mockMvc.perform(MockMvcRequestBuilders.post("/v2/serviceaccounts/group").requestAttr("UserDetails", userDetails)
@@ -369,7 +369,7 @@ public class ServiceAccountsControllerV2Test {
         String inputJson =new ObjectMapper().writeValueAsString(serviceAccountGroup);
         String responseJson = "{\"messages\":[\"Group is successfully removed from Service Account\"]}";
         ResponseEntity<String> responseEntityExpected = ResponseEntity.status(HttpStatus.OK).body(responseJson);
-        UserDetails userDetails = getMockUser(false);
+        UserDetails userDetails = getMockUser();
         when(serviceAccountsService.removeGroupFromServiceAccount(eq("5PDrOhsy4ig8L3EpsJZSLAMg"), Mockito.any(ServiceAccountGroup.class), eq(userDetails))).thenReturn(responseEntityExpected);
 
         mockMvc.perform(MockMvcRequestBuilders.delete("/v2/serviceaccounts/group").requestAttr("UserDetails", userDetails)
@@ -387,7 +387,7 @@ public class ServiceAccountsControllerV2Test {
         String inputJson =new ObjectMapper().writeValueAsString(serviceAccountApprole);
         String responseJson = "{\"messages\":[\"Approle is successfully associated with Service Account\"]}";
         ResponseEntity<String> responseEntityExpected = ResponseEntity.status(HttpStatus.OK).body(responseJson);
-        UserDetails userDetails = getMockUser(false);
+        UserDetails userDetails = getMockUser();
         when(serviceAccountsService.associateApproletoSvcAcc(eq(userDetails), eq("5PDrOhsy4ig8L3EpsJZSLAMg"), Mockito.any(ServiceAccountApprole.class))).thenReturn(responseEntityExpected);
 
         mockMvc.perform(MockMvcRequestBuilders.post("/v2/serviceaccounts/approle").requestAttr("UserDetails", userDetails)
@@ -405,7 +405,7 @@ public class ServiceAccountsControllerV2Test {
         String inputJson =new ObjectMapper().writeValueAsString(serviceAccountApprole);
         String responseJson = "{\"messages\":[\"Approle is successfully removed from Service Account\"]}";
         ResponseEntity<String> responseEntityExpected = ResponseEntity.status(HttpStatus.OK).body(responseJson);
-        UserDetails userDetails = getMockUser(false);
+        UserDetails userDetails = getMockUser();
         when(serviceAccountsService.removeApproleFromSvcAcc(eq(userDetails), eq("5PDrOhsy4ig8L3EpsJZSLAMg"), Mockito.any(ServiceAccountApprole.class))).thenReturn(responseEntityExpected);
 
         mockMvc.perform(MockMvcRequestBuilders.delete("/v2/serviceaccounts/approle").requestAttr("UserDetails", userDetails)
@@ -418,7 +418,7 @@ public class ServiceAccountsControllerV2Test {
 
     @Test
     public void test_getServiceAccountMeta_success() throws Exception {
-        UserDetails userDetails = getMockUser(false);
+        UserDetails userDetails = getMockUser();
         String token = userDetails.getClientToken();
         String path = "ad/roles/testacc01";
 
@@ -450,7 +450,7 @@ public class ServiceAccountsControllerV2Test {
         String inputJson =new ObjectMapper().writeValueAsString(serviceAccountApprole);
         String responseJson = "{\"messages\":[\"AWS Role successfully associated with Service Account\"]}";
         ResponseEntity<String> responseEntityExpected = ResponseEntity.status(HttpStatus.OK).body(responseJson);
-        UserDetails userDetails = getMockUser(false);
+        UserDetails userDetails = getMockUser();
         when(serviceAccountsService.addAwsRoleToSvcacc(eq(userDetails), eq("5PDrOhsy4ig8L3EpsJZSLAMg"), Mockito.any(ServiceAccountAWSRole.class))).thenReturn(responseEntityExpected);
 
         mockMvc.perform(MockMvcRequestBuilders.post("/v2/serviceaccounts/role").requestAttr("UserDetails", userDetails)
@@ -468,7 +468,7 @@ public class ServiceAccountsControllerV2Test {
         String inputJson =new ObjectMapper().writeValueAsString(serviceAccountApprole);
         String responseJson = "{\"messages\":[\"AWS Role is successfully removed from Service Account\"]}";
         ResponseEntity<String> responseEntityExpected = ResponseEntity.status(HttpStatus.OK).body(responseJson);
-        UserDetails userDetails = getMockUser(false);
+        UserDetails userDetails = getMockUser();
         when(serviceAccountsService.removeAWSRoleFromSvcacc(eq(userDetails), eq("5PDrOhsy4ig8L3EpsJZSLAMg"), Mockito.any(ServiceAccountAWSRole.class))).thenReturn(responseEntityExpected);
 
         mockMvc.perform(MockMvcRequestBuilders.delete("/v2/serviceaccounts/role").requestAttr("UserDetails", userDetails)
@@ -486,7 +486,7 @@ public class ServiceAccountsControllerV2Test {
         String inputJson =new ObjectMapper().writeValueAsString(serviceAccountApprole);
         String responseJson = "{\"messages\":[\"AWS Role created \"]}";
         ResponseEntity<String> responseEntityExpected = ResponseEntity.status(HttpStatus.OK).body(responseJson);
-        UserDetails userDetails = getMockUser(false);
+        UserDetails userDetails = getMockUser();
         when(serviceAccountsService.createAWSRole(eq(userDetails), eq("5PDrOhsy4ig8L3EpsJZSLAMg"), Mockito.any(AWSLoginRole.class))).thenReturn(responseEntityExpected);
 
         mockMvc.perform(MockMvcRequestBuilders.post("/v2/serviceaccounts/aws/role").requestAttr("UserDetails", userDetails)
@@ -504,7 +504,7 @@ public class ServiceAccountsControllerV2Test {
         String inputJson =new ObjectMapper().writeValueAsString(serviceAccountApprole);
         String responseJson = "{\"messages\":[\"AWS Role created \"]}";
         ResponseEntity<String> responseEntityExpected = ResponseEntity.status(HttpStatus.OK).body(responseJson);
-        UserDetails userDetails = getMockUser(false);
+        UserDetails userDetails = getMockUser();
         when(serviceAccountsService.createIAMRole(eq(userDetails), eq("5PDrOhsy4ig8L3EpsJZSLAMg"), Mockito.any(AWSIAMRole.class))).thenReturn(responseEntityExpected);
 
         mockMvc.perform(MockMvcRequestBuilders.post("/v2/serviceaccounts/aws/iam/role").requestAttr("UserDetails", userDetails)
@@ -517,12 +517,12 @@ public class ServiceAccountsControllerV2Test {
 
     @Test
     public void test_updateOnboardedServiceAccount() throws Exception {
-        ServiceAccount serviceAccount = generateServiceAccount("testacc02", "testacc01");
+        ServiceAccount serviceAccount = generateServiceAccount();
 
         String inputJson =new ObjectMapper().writeValueAsString(serviceAccount);
         String responseJson = "{\"messages\":[\"Successfully updated TTL for the Service Account.\"]}";
         ResponseEntity<String> responseEntityExpected = ResponseEntity.status(HttpStatus.OK).body(responseJson);
-        UserDetails userDetails = getMockUser(false);
+        UserDetails userDetails = getMockUser();
         when(serviceAccountsService.updateOnboardedServiceAccount(Mockito.anyString(), Mockito.any(), Mockito.any())).thenReturn(responseEntityExpected);
 
         mockMvc.perform(MockMvcRequestBuilders.put("/v2/serviceaccounts/onboard").requestAttr("UserDetails", userDetails)
@@ -535,12 +535,12 @@ public class ServiceAccountsControllerV2Test {
 
     @Test
     public void test_transferSvcAccountOwner() throws Exception {
-        ServiceAccount serviceAccount = generateServiceAccount("testacc02", "testacc01");
+        ServiceAccount serviceAccount = generateServiceAccount();
 
         String inputJson =new ObjectMapper().writeValueAsString(serviceAccount);
         String responseJson = "{\"messages\":[\"Service account ownership transferred successfully from testacc01 to testacc03\"]}";
         ResponseEntity<String> responseEntityExpected = ResponseEntity.status(HttpStatus.OK).body(responseJson);
-        UserDetails userDetails = getMockUser(false);
+        UserDetails userDetails = getMockUser();
         when(serviceAccountsService.updateOnboardedServiceAccount(Mockito.anyString(), Mockito.any(), Mockito.any())).thenReturn(responseEntityExpected);
 
         MvcResult result = mockMvc.perform(MockMvcRequestBuilders.post("/v2/serviceaccounts/transfer")
@@ -556,7 +556,7 @@ public class ServiceAccountsControllerV2Test {
     
     @Test
     public void test_getServiceAccountsList_Details_success() throws Exception{
-        UserDetails userDetails = getMockUser(false);
+        UserDetails userDetails = getMockUser();
         String token = userDetails.getClientToken();
         String svcAccName = "testacc02";
         

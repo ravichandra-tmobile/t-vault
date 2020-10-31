@@ -73,21 +73,21 @@ public class PolicyUtilsTest {
         ThreadLocalContext.setCurrentMap(currentMap);
     }
 
-    Response getMockResponse(HttpStatus status, boolean success, String expectedBody) {
+    Response getMockResponse() {
         Response response = new Response();
-        response.setHttpstatus(status);
-        response.setSuccess(success);
-        if (!Objects.equals(expectedBody, "")) {
-            response.setResponse(expectedBody);
+        response.setHttpstatus(HttpStatus.OK);
+        response.setSuccess(true);
+        if (!Objects.equals("{\"data\":{\"policies\":\"s_shared_mysafe01,s_shared_mysafe02\"}}", "")) {
+            response.setResponse("{\"data\":{\"policies\":\"s_shared_mysafe01,s_shared_mysafe02\"}}");
         }
         return response;
     }
 
-    UserDetails getMockUser(boolean isAdmin) {
+    UserDetails getMockUser() {
         String token = "5PDrOhsy4ig8L3EpsJZSLAMg";
         UserDetails userDetails = new UserDetails();
         userDetails.setUsername("normaluser");
-        userDetails.setAdmin(isAdmin);
+        userDetails.setAdmin(true);
         userDetails.setClientToken(token);
         userDetails.setSelfSupportToken(token);
         return userDetails;
@@ -99,10 +99,10 @@ public class PolicyUtilsTest {
         ReflectionTestUtils.setField(policyUtils, "vaultAuthMethod", "userpass");
         String[] expectedPolicies = {"s_shared_mysafe01", "s_shared_mysafe02"};
 
-        Response response =  getMockResponse(HttpStatus.OK, true, "{\"data\":{\"policies\":\"s_shared_mysafe01,s_shared_mysafe02\"}}");
+        Response response =  getMockResponse();
         when(ControllerUtil.getReqProcessor().process("/auth/userpass/read","{\"username\":\"normaluser\"}",token)).thenReturn(response);
         when(ControllerUtil.getPoliciesAsStringFromJson(Mockito.any(), eq("{\"data\":{\"policies\":\"s_shared_mysafe01,s_shared_mysafe02\"}}"))).thenReturn("s_shared_mysafe01,s_shared_mysafe02");
-        String[] policies = policyUtils.getCurrentPolicies(token, "normaluser", getMockUser(true));
+        String[] policies = policyUtils.getCurrentPolicies(token, "normaluser", getMockUser());
         assertArrayEquals(expectedPolicies, policies);
     }
 
@@ -112,10 +112,10 @@ public class PolicyUtilsTest {
         ReflectionTestUtils.setField(policyUtils, "vaultAuthMethod", "ldap");
         String[] expectedPolicies = {"s_shared_mysafe01", "s_shared_mysafe02"};
 
-        Response response =  getMockResponse(HttpStatus.OK, true, "{\"data\":{\"policies\":\"s_shared_mysafe01,s_shared_mysafe02\"}}");
+        Response response =  getMockResponse();
         when(ControllerUtil.getReqProcessor().process("/auth/ldap/users","{\"username\":\"normaluser\"}",token)).thenReturn(response);
         when(ControllerUtil.getPoliciesAsStringFromJson(Mockito.any(), eq("{\"data\":{\"policies\":\"s_shared_mysafe01,s_shared_mysafe02\"}}"))).thenReturn("s_shared_mysafe01,s_shared_mysafe02");
-        String[] policies = policyUtils.getCurrentPolicies(token, "normaluser", getMockUser(true));
+        String[] policies = policyUtils.getCurrentPolicies(token, "normaluser", getMockUser());
         assertArrayEquals(expectedPolicies, policies);
     }
 
@@ -123,10 +123,10 @@ public class PolicyUtilsTest {
     public void test_getCurrentPolicies_failure() throws IOException {
         String token = "5PDrOhsy4ig8L3EpsJZSLAMg";
         ReflectionTestUtils.setField(policyUtils, "vaultAuthMethod", "userpass");
-        Response response =  getMockResponse(HttpStatus.OK, true, "{\"data\":{\"policies\":\"s_shared_mysafe01,s_shared_mysafe02\"}}");
+        Response response =  getMockResponse();
         when(ControllerUtil.getReqProcessor().process("/auth/userpass/read","{\"username\":\"normaluser\"}",token)).thenReturn(response);
         when(ControllerUtil.getPoliciesAsStringFromJson(Mockito.any(), eq("{\"data\":{\"policies\":\"s_shared_mysafe01,s_shared_mysafe02\"}}"))).thenThrow(IOException.class);
-        String[] policies = policyUtils.getCurrentPolicies(token, "normaluser", getMockUser(true));
+        String[] policies = policyUtils.getCurrentPolicies(token, "normaluser", getMockUser());
         String[] expectedPolicies = {};
         assertArrayEquals(expectedPolicies, policies);
     }

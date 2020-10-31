@@ -63,11 +63,11 @@ public class SDBControllerV2Test {
         this.mockMvc = MockMvcBuilders.standaloneSetup(sdbControllerV2).build();
     }
 
-    UserDetails getMockUser(boolean isAdmin) {
+    UserDetails getMockUser() {
         String token = "5PDrOhsy4ig8L3EpsJZSLAMg";
         UserDetails userDetails = new UserDetails();
         userDetails.setUsername("normaluser");
-        userDetails.setAdmin(isAdmin);
+        userDetails.setAdmin(false);
         userDetails.setClientToken(token);
         userDetails.setSelfSupportToken(token);
         return userDetails;
@@ -124,7 +124,7 @@ public class SDBControllerV2Test {
         Safe safe = new Safe("shared/mysafe01",safeBasicDetails);
         String inputJson =new ObjectMapper().writeValueAsString(safe);
         ResponseEntity<String> responseEntityExpected = ResponseEntity.status(HttpStatus.OK).body(responseJson);
-        UserDetails userDetails = getMockUser(false);
+        UserDetails userDetails = getMockUser();
         when(safesService.deletefolder(eq("5PDrOhsy4ig8L3EpsJZSLAMg"), Mockito.any() , Mockito.any(UserDetails.class))).thenReturn(responseEntityExpected);
 
         mockMvc.perform(MockMvcRequestBuilders.delete("/v2/sdb/delete?path=users/safe1")
@@ -180,7 +180,7 @@ public class SDBControllerV2Test {
 
         String inputJson =new ObjectMapper().writeValueAsString(safe);
         ResponseEntity<String> responseEntityExpected = ResponseEntity.status(HttpStatus.OK).body(responseJson);
-        UserDetails userDetails = getMockUser(false);
+        UserDetails userDetails = getMockUser();
         when(safesService.deleteSafe(eq("5PDrOhsy4ig8L3EpsJZSLAMg"), Mockito.any() , Mockito.any(UserDetails.class))).thenReturn(responseEntityExpected);
 
         mockMvc.perform(MockMvcRequestBuilders.delete("/v2/sdb")

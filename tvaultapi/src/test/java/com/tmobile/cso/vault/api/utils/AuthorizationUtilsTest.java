@@ -75,10 +75,10 @@ public class AuthorizationUtilsTest {
         ThreadLocalContext.setCurrentMap(currentMap);
     }
 
-    Response getMockResponse(HttpStatus status, boolean success, String expectedBody) {
+    Response getMockResponse(String expectedBody) {
         Response response = new Response();
-        response.setHttpstatus(status);
-        response.setSuccess(success);
+        response.setHttpstatus(HttpStatus.OK);
+        response.setSuccess(true);
         if (!Objects.equals(expectedBody, "")) {
             response.setResponse(expectedBody);
         }
@@ -175,7 +175,7 @@ public class AuthorizationUtilsTest {
     	capRes.put("name", "s_shared_s1");
     	capRes.put("rules", getJSON(pathsMap));
     	String expectedBody = getJSON(capRes);
-    	Response capabilitiesResponse = getMockResponse(HttpStatus.OK, true, expectedBody);
+    	Response capabilitiesResponse = getMockResponse(expectedBody);
     	
     	when(reqProcessor.process("/access","{\"accessid\":\""+"s_shared_mysafe01"+"\"}",powerToken)).thenReturn(capabilitiesResponse);
     	
@@ -258,7 +258,7 @@ public class AuthorizationUtilsTest {
 		capRes.put("name", "s_shared_s1");
 		capRes.put("rules", getJSON(pathsMap));
 		String expectedBody = getJSON(capRes);
-		Response capabilitiesResponse = getMockResponse(HttpStatus.OK, true, expectedBody);
+		Response capabilitiesResponse = getMockResponse(expectedBody);
 
 		when(reqProcessor.process("/access","{\"accessid\":\""+"s_shared_mysafe01"+"\"}",powerToken)).thenReturn(capabilitiesResponse);
 

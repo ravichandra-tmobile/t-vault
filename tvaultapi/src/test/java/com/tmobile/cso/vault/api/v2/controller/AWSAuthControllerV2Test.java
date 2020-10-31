@@ -63,11 +63,11 @@ public class AWSAuthControllerV2Test {
         this.mockMvc = MockMvcBuilders.standaloneSetup(awsAuthControllerV2).build();
     }
 
-    UserDetails getMockUser(boolean isAdmin) {
+    UserDetails getMockUser() {
         String token = "5PDrOhsy4ig8L3EpsJZSLAMg";
         UserDetails userDetails = new UserDetails();
         userDetails.setUsername("normaluser");
-        userDetails.setAdmin(isAdmin);
+        userDetails.setAdmin(true);
         userDetails.setClientToken(token);
         userDetails.setSelfSupportToken(token);
         return userDetails;
@@ -103,7 +103,7 @@ public class AWSAuthControllerV2Test {
         ResponseEntity<String> responseEntityExpected = ResponseEntity.status(HttpStatus.OK).body(responseMessage);
 
         when(awsAuthService.createRole(eq("5PDrOhsy4ig8L3EpsJZSLAMg"),Mockito.any(), Mockito.any())).thenReturn(responseEntityExpected);
-        UserDetails userDetails = getMockUser(true);
+        UserDetails userDetails = getMockUser();
         mockMvc.perform(MockMvcRequestBuilders.post("/v2/auth/aws/role").requestAttr("UserDetails", userDetails)
                 .header("vault-token", "5PDrOhsy4ig8L3EpsJZSLAMg")
                 .header("Content-Type", "application/json;charset=UTF-8")

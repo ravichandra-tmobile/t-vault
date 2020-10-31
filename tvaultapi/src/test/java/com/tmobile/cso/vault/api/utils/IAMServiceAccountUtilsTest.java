@@ -90,10 +90,10 @@ public class IAMServiceAccountUtilsTest {
     }
 
 
-    Response getMockResponse(HttpStatus status, boolean success, String expectedBody) {
+    Response getMockResponse(HttpStatus status, String expectedBody) {
         response = new Response();
         response.setHttpstatus(status);
-        response.setSuccess(success);
+        response.setSuccess(true);
         response.setResponse("");
         if (!StringUtils.isEmpty(expectedBody)) {
             response.setResponse(expectedBody);
@@ -181,7 +181,7 @@ public class IAMServiceAccountUtilsTest {
         String iamSecret = "abcdefgh";
         String accessKeyId = "testaccesskey";
         IAMServiceAccountSecret iamServiceAccountSecret = new IAMServiceAccountSecret(iamServiceAccountName, accessKeyId, iamSecret, 1609754282000L, awsAccountId);
-        Response response = getMockResponse(HttpStatus.NO_CONTENT, true, "");
+        Response response = getMockResponse(HttpStatus.NO_CONTENT, "");
         when(reqProcessor.process(eq("/write"), Mockito.any(), eq(token))).thenReturn(response);
         boolean actualStatus = iamServiceAccountUtils.writeIAMSvcAccSecret(token, path, iamServiceAccountName, iamServiceAccountSecret);
         assertTrue(actualStatus);
@@ -197,7 +197,7 @@ public class IAMServiceAccountUtilsTest {
         String iamSecret = "abcdefgh";
         String accessKeyId = "testaccesskey";
         IAMServiceAccountSecret iamServiceAccountSecret = new IAMServiceAccountSecret(iamServiceAccountName, accessKeyId, iamSecret, 1609754282000L, awsAccountId);
-        Response response = getMockResponse(HttpStatus.BAD_REQUEST, true, "");
+        Response response = getMockResponse(HttpStatus.BAD_REQUEST, "");
         when(reqProcessor.process(eq("/write"), Mockito.any(), eq(token))).thenReturn(response);
         boolean actualStatus = iamServiceAccountUtils.writeIAMSvcAccSecret(token, path, iamServiceAccountName, iamServiceAccountSecret);
         assertFalse(actualStatus);
@@ -213,9 +213,9 @@ public class IAMServiceAccountUtilsTest {
         String iamSecret = "abcdefgh";
         String accessKeyId = "testaccesskey";
 
-        Response response = getMockResponse(HttpStatus.OK, true, "{ \"data\": { \"isActivated\": false}}");
+        Response response = getMockResponse(HttpStatus.OK, "{ \"data\": { \"isActivated\": false}}");
         when(reqProcessor.process(eq("/read"),Mockito.any(),eq(token))).thenReturn(response);
-        Response response204 = getMockResponse(HttpStatus.NO_CONTENT, true, "");
+        Response response204 = getMockResponse(HttpStatus.NO_CONTENT, "");
 
         when(reqProcessor.process(eq("/write"), Mockito.any(), eq(token))).thenReturn(response204);
         Response actualResponse = iamServiceAccountUtils.updateActivatedStatusInMetadata(token, iamServiceAccountName, awsAccountId);
@@ -232,7 +232,7 @@ public class IAMServiceAccountUtilsTest {
         String iamSecret = "abcdefgh";
         String accessKeyId = "testaccesskey";
 
-        Response response = getMockResponse(HttpStatus.NOT_FOUND, true, "");
+        Response response = getMockResponse(HttpStatus.NOT_FOUND, "");
         when(reqProcessor.process(eq("/read"),Mockito.any(),eq(token))).thenReturn(response);
 
         Response actualResponse = iamServiceAccountUtils.updateActivatedStatusInMetadata(token, iamServiceAccountName, awsAccountId);
@@ -249,9 +249,9 @@ public class IAMServiceAccountUtilsTest {
         String iamSecret = "abcdefgh";
         String accessKeyId = "testaccesskey";
 
-        Response response = getMockResponse(HttpStatus.OK, true, "{ \"data\": {\"secret\": [{\"accessKeyId\": \"testaccesskey\", \"expiryDuration\": 1609668443000}]}}");
+        Response response = getMockResponse(HttpStatus.OK, "{ \"data\": {\"secret\": [{\"accessKeyId\": \"testaccesskey\", \"expiryDuration\": 1609668443000}]}}");
         when(reqProcessor.process(eq("/read"),Mockito.any(),eq(token))).thenReturn(response);
-        Response response204 = getMockResponse(HttpStatus.NO_CONTENT, true, "");
+        Response response204 = getMockResponse(HttpStatus.NO_CONTENT, "");
 
         when(reqProcessor.process(eq("/write"), Mockito.any(), eq(token))).thenReturn(response204);
 
@@ -271,7 +271,7 @@ public class IAMServiceAccountUtilsTest {
         String iamSecret = "abcdefgh";
         String accessKeyId = "testaccesskey";
 
-        Response response = getMockResponse(HttpStatus.NOT_FOUND, true, "");
+        Response response = getMockResponse(HttpStatus.NOT_FOUND, "");
         when(reqProcessor.process(eq("/read"),Mockito.any(),eq(token))).thenReturn(response);
         IAMServiceAccountSecret iamServiceAccountSecret = new IAMServiceAccountSecret(iamServiceAccountName, accessKeyId, iamSecret, 1609754282000L, awsAccountId);
 

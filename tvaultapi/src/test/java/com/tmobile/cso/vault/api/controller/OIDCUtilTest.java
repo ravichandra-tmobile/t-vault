@@ -90,10 +90,10 @@ public class OIDCUtilTest {
         ThreadLocalContext.setCurrentMap(currentMap);
     }
 
-    Response getMockResponse(HttpStatus status, boolean success, String expectedBody) {
+    Response getMockResponse(HttpStatus status, String expectedBody) {
         Response response = new Response();
         response.setHttpstatus(status);
-        response.setSuccess(success);
+        response.setSuccess(true);
         if (!Objects.equals(expectedBody, "")) {
             response.setResponse(expectedBody);
         }
@@ -104,7 +104,7 @@ public class OIDCUtilTest {
     public void test_fetchMountAccessorForOidc() {
         String token = "7QPMPIGiyDFlJkrK3jFykUqa";
         String dataOutput = "{\"data\":{\"oidc/\":{\"accessor\":\"auth_oidc_8b51f292\",\"config\":{\"default_lease_ttl\":0,\"force_no_cache\":false,\"max_lease_ttl\":0,\"token_type\":\"default-service\"},\"description\":\"\",\"external_entropy_access\":false,\"local\":false,\"options\":null,\"seal_wrap\":false,\"type\":\"oidc\",\"uuid\":\"fbd45cc4-d6b6-8b49-6d1a-d4d931345df9\"}}}";
-        Response responsemock = getMockResponse(HttpStatus.OK, true, dataOutput);
+        Response responsemock = getMockResponse(HttpStatus.OK, dataOutput);
         when(reqProcessor.process(eq("/sys/list"),Mockito.any(),eq(token))).thenReturn(responsemock);
         String mountAccessor = oidcUtil.fetchMountAccessorForOidc(token);
         assertEquals("auth_oidc_8b51f292", mountAccessor);
@@ -127,7 +127,7 @@ public class OIDCUtilTest {
         String group = "group1";
         String token = "test4ig8L3EpsJZSLAMg";
         String dataOutput = "{\"id\": \"123-123-123-123\", \"policies\": [\"r_users_safe1\", \"r_users_safe2\"]}";
-        Response responsemock = getMockResponse(HttpStatus.OK, true, dataOutput);
+        Response responsemock = getMockResponse(HttpStatus.OK, dataOutput);
 
         List<String> policies = new ArrayList<>();
         policies.add("r_users_safe1");
@@ -143,7 +143,7 @@ public class OIDCUtilTest {
     public void test_getIdentityGroupDetails_failed() {
         String group = "group1";
         String token = "test4ig8L3EpsJZSLAMg";
-        Response responsemock = getMockResponse(HttpStatus.NOT_FOUND, true, "");
+        Response responsemock = getMockResponse(HttpStatus.NOT_FOUND, "");
 
         when(reqProcessor.process("/identity/group/name", "{\"group\":\""+group+"\"}", token)).thenReturn(responsemock);
         OIDCGroup oidcGroup = oidcUtil.getIdentityGroupDetails(group, token);
@@ -300,7 +300,7 @@ public class OIDCUtilTest {
     public void deleteGroupAliasByIDSuccess(){
 		String token = "testqhdjddk";
 		String id = "12wdsadsad";
-		Response responsemock = getMockResponse(HttpStatus.OK, true, "");
+		Response responsemock = getMockResponse(HttpStatus.OK, "");
 
 		when(reqProcessor.process("/identity/group-alias/id/delete", "{\"id\":\"" + id + "\"}", token))
 				.thenReturn(responsemock);
@@ -330,14 +330,14 @@ public class OIDCUtilTest {
            users.setData(usersList);
            ResponseEntity<DirectoryObjects> responseEntity1 = ResponseEntity.status(HttpStatus.OK).body(users);
            String dataOutput = "{\"data\":{\"oidc/\":{\"accessor\":\"auth_oidc_8b51f292\",\"config\":{\"default_lease_ttl\":0,\"force_no_cache\":false,\"max_lease_ttl\":0,\"token_type\":\"default-service\"},\"description\":\"\",\"external_entropy_access\":false,\"local\":false,\"options\":null,\"seal_wrap\":false,\"type\":\"oidc\",\"uuid\":\"fbd45cc4-d6b6-8b49-6d1a-d4d931345df9\"}}}";
-           Response responsemock = getMockResponse(HttpStatus.OK, true, dataOutput);
+           Response responsemock = getMockResponse(HttpStatus.OK, dataOutput);
            when(reqProcessor.process(eq("/sys/list"),Mockito.any(),eq(token))).thenReturn(responsemock);
            OIDCLookupEntityRequest oidcLookupEntityRequest = new OIDCLookupEntityRequest();
            oidcLookupEntityRequest.setAlias_name("alias_name");
            oidcLookupEntityRequest.setAlias_mount_accessor("alias_mount_accessor");
            String jsonStr = JSONUtil.getJSON(oidcLookupEntityRequest);
            String authMountResponse = "{\"data\":{\"name\":\"entity_63f119d2\",\"policies\":[\"default\"]}}";
-           Response response = getMockResponse(HttpStatus.OK, true, authMountResponse);
+           Response response = getMockResponse(HttpStatus.OK, authMountResponse);
            when(reqProcessor.process("/identity/lookup/entity", jsonStr, token)).thenReturn(response);
            when(reqProcessor.process("/auth/tvault/lookup", "{}", token)).thenReturn(response);
            when(directoryService.getUserDetailsByCorpId(username)).thenReturn(directoryUser);
@@ -367,19 +367,19 @@ public class OIDCUtilTest {
         users.setData(usersList);
         ResponseEntity<DirectoryObjects> responseEntity1 = ResponseEntity.status(HttpStatus.OK).body(users);
         String dataOutput = "{\"data\":{\"oidc/\":{\"accessor\":\"auth_oidc_8b51f292\",\"config\":{\"default_lease_ttl\":0,\"force_no_cache\":false,\"max_lease_ttl\":0,\"token_type\":\"default-service\"},\"description\":\"\",\"external_entropy_access\":false,\"local\":false,\"options\":null,\"seal_wrap\":false,\"type\":\"oidc\",\"uuid\":\"fbd45cc4-d6b6-8b49-6d1a-d4d931345df9\"}}}";
-        Response responsemock = getMockResponse(HttpStatus.OK, true, dataOutput);
+        Response responsemock = getMockResponse(HttpStatus.OK, dataOutput);
         when(reqProcessor.process(eq("/sys/list"),Mockito.any(),eq(token))).thenReturn(responsemock);
         OIDCLookupEntityRequest oidcLookupEntityRequest = new OIDCLookupEntityRequest();
         oidcLookupEntityRequest.setAlias_name("alias_name");
         oidcLookupEntityRequest.setAlias_mount_accessor("alias_mount_accessor");
         String jsonStr = JSONUtil.getJSON(oidcLookupEntityRequest);
         String authMountResponse = "{\"data\":{\"name\":\"entity_63f119d2\",\"policies\":[\"default\"]}}";
-        Response response = getMockResponse(HttpStatus.OK, true, authMountResponse);
-        Response response404 = getMockResponse(HttpStatus.NOT_FOUND, true, "");
+        Response response = getMockResponse(HttpStatus.OK, authMountResponse);
+        Response response404 = getMockResponse(HttpStatus.NOT_FOUND, "");
         //when(reqProcessor.process("/identity/lookup/entity", jsonStr, token)).thenReturn(response);
 
         when(reqProcessor.process("/identity/lookup/entity", jsonStr, token)).thenReturn(response404).thenReturn(response);
-        when(reqProcessor.process("/identity/entity-alias", jsonStr, token)).thenReturn(getMockResponse(HttpStatus.OK, true, ""));
+        when(reqProcessor.process("/identity/entity-alias", jsonStr, token)).thenReturn(getMockResponse(HttpStatus.OK, ""));
         when(reqProcessor.process("/auth/tvault/lookup", "{}", token)).thenReturn(response);
         when(directoryService.getUserDetailsByCorpId(username)).thenReturn(directoryUser);
         ResponseEntity<OIDCEntityResponse> oiEntity = oidcUtil.oidcFetchEntityDetails(token, username, null);
@@ -389,7 +389,7 @@ public class OIDCUtilTest {
     @Test
     public void createGroupAlias(){
     	String token = "sdsadsadasdasd";
-    	Response responsemock = getMockResponse(HttpStatus.OK, true, "");
+    	Response responsemock = getMockResponse(HttpStatus.OK, "");
     	GroupAliasRequest groupAliasRequest = new GroupAliasRequest();
     	groupAliasRequest.setCanonical_id("canonical_id");
     	groupAliasRequest.setId("id");
@@ -405,13 +405,13 @@ public class OIDCUtilTest {
     public void updateIdentityGroupByNameSuccess(){
     	String token = "Adadsadasdasd";
     	String responseJson = "{\"data\":{\"id\": \"canonicalID\"}}";
-    	Response responsemock = getMockResponse(HttpStatus.OK, true, "canonicalID");
+    	Response responsemock = getMockResponse(HttpStatus.OK, "canonicalID");
     	OIDCIdentityGroupRequest oidcIdentityGroupRequest = new OIDCIdentityGroupRequest();
     	oidcIdentityGroupRequest.setName("name");
     	List<String> policies = new ArrayList<>();
     	policies.add("safeadmin");
     	oidcIdentityGroupRequest.setPolicies(policies);
-    	Response rsResponse = getMockResponse(HttpStatus.OK, true, responseJson);
+    	Response rsResponse = getMockResponse(HttpStatus.OK, responseJson);
     	String jsonStr = JSONUtil.getJSON(oidcIdentityGroupRequest);
 		when(reqProcessor.process("/identity/group/name/update", jsonStr, token)).thenReturn(rsResponse);
 		String canonicalId = oidcUtil.updateIdentityGroupByName(token, oidcIdentityGroupRequest);
@@ -422,7 +422,7 @@ public class OIDCUtilTest {
     public void deleteGroupByNameSuccess(){
     	String name = "r_vault_demo";
     	String token = "Sdasdadasdasd";		
-    	Response responsemock = getMockResponse(HttpStatus.OK, true, "");
+    	Response responsemock = getMockResponse(HttpStatus.OK, "");
     	when(reqProcessor.process("/identity/group/name/delete", "{\"name\":\"" + name + "\"}", token)).thenReturn(responsemock);
     	Response response = oidcUtil.deleteGroupByName(token, name);
     	assertEquals(responsemock.getHttpstatus(), response.getHttpstatus());
@@ -443,7 +443,7 @@ public class OIDCUtilTest {
         oidcEntityRequest.setPolicies(null);
         oidcEntityRequest.setName(name);
         String jsonStr = JSONUtil.getJSON(oidcEntityRequest);
-        Response response = getMockResponse(HttpStatus.OK, true, "{\"data\": [\"safeadmin\",\"vaultadmin\"]]");
+        Response response = getMockResponse(HttpStatus.OK, "{\"data\": [\"safeadmin\",\"vaultadmin\"]]");
 //        ResponseEntity<String> responseEntityExpected = ResponseEntity.status(HttpStatus.OK)
 //                .body("{\"data\": [\"safeadmin\",\"vaultadmin\"]]");
         when(tokenUtils.getSelfServiceTokenWithAppRole()).thenReturn(token);
@@ -458,7 +458,7 @@ public class OIDCUtilTest {
         String token = "4EpPYDSfgN2D4Gf7UmNO3nuL";
         String responseJson = "{\"client_token\": \"18oVRlB3ft88S6U9raoEDnKn\",\"policies\": [\"safeadmin\"],\"lease_duration\": 1800000}";
 
-        Response response = getMockResponse(HttpStatus.OK, true, responseJson);
+        Response response = getMockResponse(HttpStatus.OK, responseJson);
         when(reqProcessor.process("/auth/tvault/renew", "{}", token)).thenReturn(response);
         oidcUtil.renewUserToken(token);
         assertTrue(true);
@@ -470,7 +470,7 @@ public class OIDCUtilTest {
         String responseJson = "{\"client_token\": \"18oVRlB3ft88S6U9raoEDnKn\",\"policies\": [\"safeadmin\"]," +
                 "\"lease_duration\": 1800000}";
 
-        Response response = getMockResponse(HttpStatus.INTERNAL_SERVER_ERROR, true, responseJson);
+        Response response = getMockResponse(HttpStatus.INTERNAL_SERVER_ERROR, responseJson);
         when(reqProcessor.process("/auth/tvault/renew", "{}", token)).thenReturn(response);
         oidcUtil.renewUserToken(token);
         assertTrue(true);
@@ -480,12 +480,12 @@ public class OIDCUtilTest {
     public void test_updateGroupPolicies_success() throws Exception {
         String token = "4EpPYDSfgN2D4Gf7UmNO3nuL";
         String id = "12wdsadsad";
-        Response deleteByIdResponse = getMockResponse(HttpStatus.NO_CONTENT, true, "");
+        Response deleteByIdResponse = getMockResponse(HttpStatus.NO_CONTENT, "");
 
         when(reqProcessor.process("/identity/group-alias/id/delete", "{\"id\":\"" + id + "\"}", token)).thenReturn(deleteByIdResponse);
 
         String name = "r_vault_demo";
-        Response deleteResponse = getMockResponse(HttpStatus.NO_CONTENT, true, "");
+        Response deleteResponse = getMockResponse(HttpStatus.NO_CONTENT, "");
         when(reqProcessor.process("/identity/group/name/delete", "{\"name\":\"" + name + "\"}",  token)).thenReturn(deleteResponse);
 
         when(httpUtils.getHttpClient()).thenReturn(httpClient);
@@ -502,7 +502,7 @@ public class OIDCUtilTest {
         when(mockHttpEntity.getContent()).thenReturn(new ByteArrayInputStream(groupResponseString.getBytes()))
                 .thenAnswer(invocation -> new ByteArrayInputStream(groupResponseString.getBytes()));
         String dataOutput = "{\"data\":{\"oidc/\":{\"accessor\":\"auth_oidc_8b51f292\",\"config\":{\"default_lease_ttl\":0,\"force_no_cache\":false,\"max_lease_ttl\":0,\"token_type\":\"default-service\"},\"description\":\"\",\"external_entropy_access\":false,\"local\":false,\"options\":null,\"seal_wrap\":false,\"type\":\"oidc\",\"uuid\":\"fbd45cc4-d6b6-8b49-6d1a-d4d931345df9\"}}}";
-        Response responsemock = getMockResponse(HttpStatus.OK, true, dataOutput);
+        Response responsemock = getMockResponse(HttpStatus.OK, dataOutput);
         when(reqProcessor.process(eq("/sys/list"),Mockito.any(),eq(token))).thenReturn(responsemock);
 
         List<String> currentPolicies = new ArrayList<>();
@@ -514,7 +514,7 @@ public class OIDCUtilTest {
         groupAliasRequest.setMount_accessor("mount_accessor");
         groupAliasRequest.setName("name");
         String jsonStr = JSONUtil.getJSON(groupAliasRequest);
-        when(reqProcessor.process("/identity/group-alias", jsonStr, token)).thenReturn(getMockResponse(HttpStatus.OK, true, ""));
+        when(reqProcessor.process("/identity/group-alias", jsonStr, token)).thenReturn(getMockResponse(HttpStatus.OK, ""));
 
         String responseJson = "{\"data\":{\"id\": \"canonicalID\"}}";
         OIDCIdentityGroupRequest oidcIdentityGroupRequest = new OIDCIdentityGroupRequest();
@@ -523,10 +523,10 @@ public class OIDCUtilTest {
         policies.add("testpolicy1");
         policies.add("safeadmin");
         oidcIdentityGroupRequest.setPolicies(policies);
-        Response rsResponse = getMockResponse(HttpStatus.OK, true, responseJson);
+        Response rsResponse = getMockResponse(HttpStatus.OK, responseJson);
         when(reqProcessor.process("/identity/group/name/update", JSONUtil.getJSON(oidcIdentityGroupRequest), token)).thenReturn(rsResponse);
 
-        Response expectedResponse = getMockResponse(HttpStatus.OK, true, "");
+        Response expectedResponse = getMockResponse(HttpStatus.OK, "");
 
         Response updateResponse = oidcUtil.updateGroupPolicies(token, name, policies, currentPolicies,  id);
 
@@ -537,7 +537,7 @@ public class OIDCUtilTest {
     public void test_updateGroupPolicies_failed() throws Exception {
         String token = "4EpPYDSfgN2D4Gf7UmNO3nuL";
         String id = "12wdsadsad";
-        Response deleteByIdResponse = getMockResponse(HttpStatus.BAD_REQUEST, true, "");
+        Response deleteByIdResponse = getMockResponse(HttpStatus.BAD_REQUEST, "");
 
         when(reqProcessor.process("/identity/group-alias/id/delete", "{\"id\":\"" + id + "\"}", token)).thenReturn(deleteByIdResponse);
 
@@ -554,10 +554,10 @@ public class OIDCUtilTest {
         OIDCIdentityGroupRequest oidcIdentityGroupRequest = new OIDCIdentityGroupRequest();
         oidcIdentityGroupRequest.setName("name");
         oidcIdentityGroupRequest.setPolicies(policies);
-        Response rsResponse = getMockResponse(HttpStatus.OK, true, responseJson);
+        Response rsResponse = getMockResponse(HttpStatus.OK, responseJson);
         when(reqProcessor.process("/identity/group/name/update", JSONUtil.getJSON(oidcIdentityGroupRequest), token)).thenReturn(rsResponse);
 
-        Response expectedResponse = getMockResponse(HttpStatus.BAD_REQUEST, true, "");
+        Response expectedResponse = getMockResponse(HttpStatus.BAD_REQUEST, "");
 
         Response updateResponse = oidcUtil.updateGroupPolicies(token, name, policies, currentPolicies,  id);
 
@@ -569,7 +569,7 @@ public class OIDCUtilTest {
     public void getUserName_Success(){
 		String username = "testuser";
 		String email = "testUser@t-mobile.com";
-		Response responsemock = getMockResponse(HttpStatus.OK, true, username);
+		Response responsemock = getMockResponse(HttpStatus.OK, username);
 		
 		 DirectoryUser directoryUser = new DirectoryUser();
          directoryUser.setDisplayName("testUser");
