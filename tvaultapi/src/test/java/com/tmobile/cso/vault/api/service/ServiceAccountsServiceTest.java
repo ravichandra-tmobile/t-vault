@@ -2470,7 +2470,7 @@ public class ServiceAccountsServiceTest {
     }
 
     @Test
-    public void test_AssociateAppRole_succssfully() throws Exception {
+    public void test_AssociateAppRole_succssfully() {
 
         ResponseEntity<String> responseEntityExpected = ResponseEntity.status(HttpStatus.OK).body("{\"messages\":[\"Approle successfully associated with Service Account\"]}");
         String token = "5PDrOhsy4ig8L3EpsJZSLAMg";
@@ -2496,7 +2496,7 @@ public class ServiceAccountsServiceTest {
     }
 
     @Test
-    public void test_AssociateAppRole_failure_400() throws Exception {
+    public void test_AssociateAppRole_failure_400() {
 
         ResponseEntity<String> responseEntityExpected = ResponseEntity.status(HttpStatus.BAD_REQUEST).body("{\"errors\":[\"Invalid value specified for access. Valid values are read, reset, deny\"]}");
         String token = "5PDrOhsy4ig8L3EpsJZSLAMg";
@@ -2512,7 +2512,7 @@ public class ServiceAccountsServiceTest {
     }
 
     @Test
-    public void test_AssociateAppRole_failure_400_masterApprole() throws Exception {
+    public void test_AssociateAppRole_failure_400_masterApprole() {
 
         ResponseEntity<String> responseEntityExpected = ResponseEntity.status(HttpStatus.BAD_REQUEST).body("{\"errors\":[\"Access denied: no permission to associate this AppRole to any Service Account\"]}");
         String token = "5PDrOhsy4ig8L3EpsJZSLAMg";
@@ -2528,7 +2528,7 @@ public class ServiceAccountsServiceTest {
     }
 
     @Test
-    public void test_AssociateAppRole_failure() throws Exception {
+    public void test_AssociateAppRole_failure() {
 
         ResponseEntity<String> responseEntityExpected = ResponseEntity.status(HttpStatus.BAD_REQUEST).body("{\"errors\":[\"Failed to add Approle to the Service Account\"]}");
         String token = "5PDrOhsy4ig8L3EpsJZSLAMg";
@@ -2551,7 +2551,7 @@ public class ServiceAccountsServiceTest {
     }
 
     @Test
-    public void test_AssociateAppRole_failure_403() throws Exception {
+    public void test_AssociateAppRole_failure_403() {
 
         ResponseEntity<String> responseEntityExpected = ResponseEntity.status(HttpStatus.BAD_REQUEST).body("{\"errors\":[\"Access denied: No permission to add Approle to this service account\"]}");
         String token = "5PDrOhsy4ig8L3EpsJZSLAMg";
@@ -2570,7 +2570,7 @@ public class ServiceAccountsServiceTest {
     }
 
     @Test
-    public void test_AssociateAppRole_metadata_failure() throws Exception {
+    public void test_AssociateAppRole_metadata_failure() {
 
         ResponseEntity<String> responseEntityExpected = ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body("{\"errors\":[\"Approle configuration failed. Please try again\"]}");
         String token = "5PDrOhsy4ig8L3EpsJZSLAMg";
@@ -2596,7 +2596,7 @@ public class ServiceAccountsServiceTest {
     }
 
     @Test
-    public void test_AssociateAppRole_metadata_failure_revoke_failure() throws Exception {
+    public void test_AssociateAppRole_metadata_failure_revoke_failure() {
 
         ResponseEntity<String> responseEntityExpected = ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body("{\"errors\":[\"Approle configuration failed. Contact Admin \"]}");
         String token = "5PDrOhsy4ig8L3EpsJZSLAMg";
@@ -2625,7 +2625,7 @@ public class ServiceAccountsServiceTest {
     }
 
     @Test
-    public void test_AssociateAppRole_failure_initialreset() throws Exception {
+    public void test_AssociateAppRole_failure_initialreset() {
 
         ResponseEntity<String> responseEntityExpected = ResponseEntity.status(HttpStatus.BAD_REQUEST).body("{\"errors\":[\"Failed to add approle permission to Service account. Initial password reset is pending for this Service Account. Please reset the password and try again.\"]}");
         String token = "5PDrOhsy4ig8L3EpsJZSLAMg";
@@ -2644,7 +2644,7 @@ public class ServiceAccountsServiceTest {
     }
 
     @Test
-    public void test_removeApproleFromSvcAcc_succssfully() throws Exception {
+    public void test_removeApproleFromSvcAcc_succssfully() {
 
         ResponseEntity<String> responseEntityExpected = ResponseEntity.status(HttpStatus.OK).body("{\"messages\":[\"Approle is successfully removed from Service Account\"]}");
         String token = "5PDrOhsy4ig8L3EpsJZSLAMg";
@@ -2671,7 +2671,7 @@ public class ServiceAccountsServiceTest {
     }
 
     @Test
-    public void test_removeApproleFromSvcAcc_failure_initialreset() throws Exception {
+    public void test_removeApproleFromSvcAcc_failure_initialreset() {
 
         ResponseEntity<String> responseEntityExpected = ResponseEntity.status(HttpStatus.BAD_REQUEST).body("{\"errors\":[\"Failed to remove approle permission from Service account. Initial password reset is pending for this Service Account. Please reset the password and try again.\"]}");
         String token = "5PDrOhsy4ig8L3EpsJZSLAMg";
@@ -2690,7 +2690,7 @@ public class ServiceAccountsServiceTest {
     }
 
     @Test
-    public void test_removeApproleFromSvcAcc_failure_422() throws Exception {
+    public void test_removeApproleFromSvcAcc_failure_422() {
 
         ResponseEntity<String> responseEntityExpected = ResponseEntity.status(HttpStatus.UNPROCESSABLE_ENTITY).body("{\"errors\":[\"Incorrect access. Valid values are read, reset, deny \"]}");
         String token = "5PDrOhsy4ig8L3EpsJZSLAMg";
@@ -2711,7 +2711,7 @@ public class ServiceAccountsServiceTest {
     }
 
     @Test
-    public void test_removeApproleFromSvcAcc_metadata_failure() throws Exception {
+    public void test_removeApproleFromSvcAcc_metadata_failure() {
 
         ResponseEntity<String> responseEntityExpected = ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body("{\"errors\":[\"Approle configuration failed. Please try again\"]}");
         String token = "5PDrOhsy4ig8L3EpsJZSLAMg";
@@ -2738,7 +2738,7 @@ public class ServiceAccountsServiceTest {
     }
 
     @Test
-    public void test_removeApproleFromSvcAcc_metadata_failure_revoke_failure() throws Exception {
+    public void test_removeApproleFromSvcAcc_metadata_failure_revoke_failure() {
 
         ResponseEntity<String> responseEntityExpected = ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body("{\"errors\":[\"Approle configuration failed. Contact Admin \"]}");
         String token = "5PDrOhsy4ig8L3EpsJZSLAMg";
@@ -2768,7 +2768,7 @@ public class ServiceAccountsServiceTest {
     }
 
     @Test
-    public void test_removeApproleFromSvcAcc_failure_403() throws Exception {
+    public void test_removeApproleFromSvcAcc_failure_403() {
 
         ResponseEntity<String> responseEntityExpected = ResponseEntity.status(HttpStatus.BAD_REQUEST).body("{\"errors\":[\"Access denied: No permission to remove approle from Service Account\"]}");
         String token = "5PDrOhsy4ig8L3EpsJZSLAMg";
@@ -2785,7 +2785,7 @@ public class ServiceAccountsServiceTest {
     }
 
     @Test
-    public void test_removeApproleFromSvcAcc_failure_400() throws Exception {
+    public void test_removeApproleFromSvcAcc_failure_400() {
 
         ResponseEntity<String> responseEntityExpected = ResponseEntity.status(HttpStatus.BAD_REQUEST).body("{\"errors\":[\"Failed to remove approle from the Service Account\"]}");
         String token = "5PDrOhsy4ig8L3EpsJZSLAMg";
@@ -2839,7 +2839,7 @@ public class ServiceAccountsServiceTest {
     }
 
     @Test
-    public void test_addAwsRoleToSvcacc_succssfully_iam() throws Exception {
+    public void test_addAwsRoleToSvcacc_succssfully_iam() {
 
         ResponseEntity<String> responseEntityExpected = ResponseEntity.status(HttpStatus.OK).body("{\"messages\":[\"AWS Role successfully associated with Service Account\"]}");
         String token = "5PDrOhsy4ig8L3EpsJZSLAMg";
@@ -2869,7 +2869,7 @@ public class ServiceAccountsServiceTest {
     }
 
     @Test
-    public void test_addAwsRoleToSvcacc_succssfully_ec2() throws Exception {
+    public void test_addAwsRoleToSvcacc_succssfully_ec2() {
 
         ResponseEntity<String> responseEntityExpected = ResponseEntity.status(HttpStatus.OK).body("{\"messages\":[\"AWS Role successfully associated with Service Account\"]}");
         String token = "5PDrOhsy4ig8L3EpsJZSLAMg";
@@ -2899,7 +2899,7 @@ public class ServiceAccountsServiceTest {
     }
 
     @Test
-    public void test_addAwsRoleToSvcacc_ec2_metadata_failure() throws Exception {
+    public void test_addAwsRoleToSvcacc_ec2_metadata_failure() {
 
         ResponseEntity<String> responseEntityExpected = ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body("{\"errors\":[\"AWS Role configuration failed. Please try again\"]}");
         String token = "5PDrOhsy4ig8L3EpsJZSLAMg";
@@ -2929,7 +2929,7 @@ public class ServiceAccountsServiceTest {
     }
 
     @Test
-    public void test_addAwsRoleToSvcacc_iam_metadata_failure() throws Exception {
+    public void test_addAwsRoleToSvcacc_iam_metadata_failure() {
 
         ResponseEntity<String> responseEntityExpected = ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body("{\"errors\":[\"AWS Role configuration failed. Please try again\"]}");
         String token = "5PDrOhsy4ig8L3EpsJZSLAMg";
@@ -2959,7 +2959,7 @@ public class ServiceAccountsServiceTest {
     }
 
     @Test
-    public void test_addAwsRoleToSvcacc_failure() throws Exception {
+    public void test_addAwsRoleToSvcacc_failure() {
 
         ResponseEntity<String> responseEntityExpected = ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body("{\"errors\":[\"Role configuration failed. Try Again\"]}");
         String token = "5PDrOhsy4ig8L3EpsJZSLAMg";
@@ -2986,7 +2986,7 @@ public class ServiceAccountsServiceTest {
     }
 
     @Test
-    public void test_addAwsRoleToSvcacc_failure_403() throws Exception {
+    public void test_addAwsRoleToSvcacc_failure_403() {
 
         ResponseEntity<String> responseEntityExpected = ResponseEntity.status(HttpStatus.BAD_REQUEST).body("{\"errors\":[\"Access denied: No permission to add AWS Role to this service account\"]}");
         String token = "5PDrOhsy4ig8L3EpsJZSLAMg";
@@ -3002,7 +3002,7 @@ public class ServiceAccountsServiceTest {
     }
 
     @Test
-    public void test_addAwsRoleToSvcacc_failure_initialreset() throws Exception {
+    public void test_addAwsRoleToSvcacc_failure_initialreset() {
 
         ResponseEntity<String> responseEntityExpected = ResponseEntity.status(HttpStatus.BAD_REQUEST).body("{\"errors\":[\"Failed to add awsrole permission to Service account. Initial password reset is pending for this Service Account. Please reset the password and try again.\"]}");
         String token = "5PDrOhsy4ig8L3EpsJZSLAMg";
@@ -3019,7 +3019,7 @@ public class ServiceAccountsServiceTest {
     }
 
     @Test
-    public void test_removeAWSRoleFromSvcacc_succssfully_iam() throws Exception {
+    public void test_removeAWSRoleFromSvcacc_succssfully_iam() {
 
         ResponseEntity<String> responseEntityExpected = ResponseEntity.status(HttpStatus.OK).body("{\"messages\":[\"AWS Role is successfully removed from Service Account\"]}");
         String token = "5PDrOhsy4ig8L3EpsJZSLAMg";
@@ -3049,7 +3049,7 @@ public class ServiceAccountsServiceTest {
     }
 
     @Test
-    public void test_removeAWSRoleFromSvcacc_failure_initialreset() throws Exception {
+    public void test_removeAWSRoleFromSvcacc_failure_initialreset() {
 
         ResponseEntity<String> responseEntityExpected = ResponseEntity.status(HttpStatus.BAD_REQUEST).body("{\"errors\":[\"Failed to remove awsrole permission from Service account. Initial password reset is pending for this Service Account. Please reset the password and try again.\"]}");
         String token = "5PDrOhsy4ig8L3EpsJZSLAMg";
@@ -3066,7 +3066,7 @@ public class ServiceAccountsServiceTest {
     }
 
     @Test
-    public void test_removeAWSRoleFromSvcacc_succssfully_ec2() throws Exception {
+    public void test_removeAWSRoleFromSvcacc_succssfully_ec2() {
 
         ResponseEntity<String> responseEntityExpected = ResponseEntity.status(HttpStatus.OK).body("{\"messages\":[\"AWS Role is successfully removed from Service Account\"]}");
         String token = "5PDrOhsy4ig8L3EpsJZSLAMg";
@@ -3096,7 +3096,7 @@ public class ServiceAccountsServiceTest {
     }
 
     @Test
-    public void test_removeAWSRoleFromSvcacc_metadata_failure() throws Exception {
+    public void test_removeAWSRoleFromSvcacc_metadata_failure() {
 
         ResponseEntity<String> responseEntityExpected = ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body("{\"errors\":[\"AWS Role configuration failed. Please try again\"]}");
         String token = "5PDrOhsy4ig8L3EpsJZSLAMg";
@@ -3126,7 +3126,7 @@ public class ServiceAccountsServiceTest {
     }
 
     @Test
-    public void test_removeAWSRoleFromSvcacc_failure() throws Exception {
+    public void test_removeAWSRoleFromSvcacc_failure() {
 
         ResponseEntity<String> responseEntityExpected = ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body("{\"errors\":[\"Failed to remove AWS Role from the Service Account\"]}");
         String token = "5PDrOhsy4ig8L3EpsJZSLAMg";
@@ -3153,7 +3153,7 @@ public class ServiceAccountsServiceTest {
     }
 
     @Test
-    public void test_removeAWSRoleFromSvcacc_failure_403() throws Exception {
+    public void test_removeAWSRoleFromSvcacc_failure_403() {
 
         ResponseEntity<String> responseEntityExpected = ResponseEntity.status(HttpStatus.BAD_REQUEST).body("{\"errors\":[\"Invalid value specified for access. Valid values are read, reset, deny\"]}");
         String token = "5PDrOhsy4ig8L3EpsJZSLAMg";
@@ -3209,7 +3209,7 @@ public class ServiceAccountsServiceTest {
     }
 
     @Test
-    public void test_updateOnboardedServiceAccount_success() throws Exception {
+    public void test_updateOnboardedServiceAccount_success() {
 
         ResponseEntity<String> responseEntityExpected = ResponseEntity.status(HttpStatus.OK).body("{\"messages\":[\"Successfully updated onboarded Service Account.\"]}");
         String token = "5PDrOhsy4ig8L3EpsJZSLAMg";
@@ -3235,7 +3235,7 @@ public class ServiceAccountsServiceTest {
     }
 
     @Test
-    public void test_updateOnboardedServiceAccount_failure_not_onboarded() throws Exception {
+    public void test_updateOnboardedServiceAccount_failure_not_onboarded() {
 
         ResponseEntity<String> responseEntityExpected = ResponseEntity.status(HttpStatus.BAD_REQUEST).body("{\"errors\":[\"Failed to update onboarded Service Account. Please onboard this Service Account first and try again.\"]}");
         String token = "5PDrOhsy4ig8L3EpsJZSLAMg";
@@ -3272,7 +3272,7 @@ public class ServiceAccountsServiceTest {
     }
 
     @Test
-    public void test_updateOnboardedServiceAccount_failure_invalid_ttl() throws Exception {
+    public void test_updateOnboardedServiceAccount_failure_invalid_ttl() {
 
         ResponseEntity<String> responseEntityExpected = ResponseEntity.status(HttpStatus.BAD_REQUEST).body("{\"errors\":[\"Invalid value provided for Password Expiration Time. This can't be more than 31536000 for this Service Account\"]}");
         String token = "5PDrOhsy4ig8L3EpsJZSLAMg";
@@ -3297,7 +3297,7 @@ public class ServiceAccountsServiceTest {
     }
 
     @Test
-    public void test_updateOnboardedServiceAccount_failure_invalid_ttl_or_maxttl() throws Exception {
+    public void test_updateOnboardedServiceAccount_failure_invalid_ttl_or_maxttl() {
 
         ResponseEntity<String> responseEntityExpected = ResponseEntity.status(HttpStatus.BAD_REQUEST).body("{\"errors\":[\"Invalid or no value has been provided for MAX_TTL\"]}");
         String token = "5PDrOhsy4ig8L3EpsJZSLAMg";
@@ -3319,7 +3319,7 @@ public class ServiceAccountsServiceTest {
         assertEquals(responseEntityExpected, responseEntityActual);
     }
     @Test
-    public void test_updateOnboardedServiceAccount_failure_ttl_greaterthan_max() throws Exception {
+    public void test_updateOnboardedServiceAccount_failure_ttl_greaterthan_max() {
 
         ResponseEntity<String> responseEntityExpected = ResponseEntity.status(HttpStatus.BAD_REQUEST).body("{\"errors\":[\"Password Expiration Time must be less than Maximum expiration time (MAX_TTL) for this Service Account\"]}");
         String token = "5PDrOhsy4ig8L3EpsJZSLAMg";
@@ -3350,7 +3350,7 @@ public class ServiceAccountsServiceTest {
     }
 
     @Test
-    public void test_updateOnboardedServiceAccount_createrole_failure() throws Exception {
+    public void test_updateOnboardedServiceAccount_createrole_failure() {
 
         ResponseEntity<String> responseEntityExpected = ResponseEntity.status(HttpStatus.MULTI_STATUS).body("{\"errors\":[\"Failed to update onboarded Service Account.\"]}");
         String token = "5PDrOhsy4ig8L3EpsJZSLAMg";
@@ -3373,7 +3373,7 @@ public class ServiceAccountsServiceTest {
     }
 
     @Test
-    public void test_transferSvcAccountOwner_transferSvcAccountOwner_success() throws Exception {
+    public void test_transferSvcAccountOwner_transferSvcAccountOwner_success() {
         String token = "5PDrOhsy4ig8L3EpsJZSLAMg";
         UserDetails userDetails = getMockUser(true);
         String svcAccName = "testacc02";
@@ -3466,7 +3466,7 @@ public class ServiceAccountsServiceTest {
     }
 
     @Test
-    public void test_transferSvcAccountOwner_transferSvcAccountOwner_failed_nonadmin() throws Exception {
+    public void test_transferSvcAccountOwner_transferSvcAccountOwner_failed_nonadmin() {
 
         String token = "5PDrOhsy4ig8L3EpsJZSLAMg";
         UserDetails userDetails = getMockUser(false);
@@ -3479,7 +3479,7 @@ public class ServiceAccountsServiceTest {
     }
 
     @Test
-    public void test_transferSvcAccountOwner_transferSvcAccountOwner_failed_get_svc_details() throws Exception {
+    public void test_transferSvcAccountOwner_transferSvcAccountOwner_failed_get_svc_details() {
         String token = "5PDrOhsy4ig8L3EpsJZSLAMg";
         UserDetails userDetails = getMockUser(true);
         String svcAccName = "testacc02";

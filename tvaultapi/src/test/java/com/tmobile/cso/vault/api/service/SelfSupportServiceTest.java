@@ -1459,7 +1459,7 @@ public class SelfSupportServiceTest {
     }
 
     @Test
-    public void test_createAppRole_successfully() throws TVaultValidationException {
+    public void test_createAppRole_successfully() {
         String token = "5PDrOhsy4ig8L3EpsJZSLAMg";
         UserDetails userDetails = getMockUser(false);
         String [] policies = {"default"};
@@ -1477,7 +1477,7 @@ public class SelfSupportServiceTest {
     }
 
     @Test
-    public void test_createAppRole_successfully_admin() throws TVaultValidationException {
+    public void test_createAppRole_successfully_admin() {
         String token = "5PDrOhsy4ig8L3EpsJZSLAMg";
         UserDetails userDetails = getMockUser(true);
         String [] policies = {"default"};

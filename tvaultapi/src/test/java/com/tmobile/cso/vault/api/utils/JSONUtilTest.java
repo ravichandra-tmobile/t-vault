@@ -35,7 +35,7 @@ import static org.junit.Assert.assertNotEquals;
 public class JSONUtilTest {
 
 	@Test
-    public void test_getJSON() throws Exception {
+    public void test_getJSON() {
 
         String expectedJsonStr = "{\"username\":\"testuser\",\"password\":\"testuser\"}";
         UserLogin userLogin = new UserLogin("testuser", "testuser");
@@ -44,7 +44,7 @@ public class JSONUtilTest {
     }
 
     @Test
-    public void test_getJSONasDefaultPrettyPrint() throws Exception {
+    public void test_getJSONasDefaultPrettyPrint() {
 
         String errorJsonStr="{}";
         UserLogin userLogin = new UserLogin("testuser", "testuser");
@@ -53,7 +53,7 @@ public class JSONUtilTest {
     }
 
     @Test
-    public void test_getJSONasDefaultPrettyPrintFromString() throws Exception {
+    public void test_getJSONasDefaultPrettyPrintFromString() {
 
         String errorJsonStr="{}";
         String str = "{\"username\":\"testuser\",\"password\":\"testuser\"}";
@@ -62,7 +62,7 @@ public class JSONUtilTest {
     }
 
     @Test
-    public void test_getJSONasDefaultPrettyPrintFromString_error() throws Exception {
+    public void test_getJSONasDefaultPrettyPrintFromString_error() {
 
         String expectedJsonStr="{}";
         String str = "{\"username\":abc\"testuser\",\"password\":\"testuser\"}";

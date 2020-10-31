@@ -123,7 +123,7 @@ public class IAMServiceAccountUtilsTest {
     }
 
     @Test
-    public void test_getIAMApproleToken_failed_invalid_sscred() throws IOException {
+    public void test_getIAMApproleToken_failed_invalid_sscred() {
 
         when(ControllerUtil.getSscred()).thenReturn(null);
         String actualToken = iamServiceAccountUtils.getIAMApproleToken();
@@ -131,7 +131,7 @@ public class IAMServiceAccountUtilsTest {
     }
 
     @Test
-    public void test_getIAMApproleToken_failed_httpClient_error() throws IOException {
+    public void test_getIAMApproleToken_failed_httpClient_error() {
 
         when(ControllerUtil.getSscred()).thenReturn(new SSCred());
         when(ControllerUtil.getIamUsername()).thenReturn("M2UyNTA0MGYtODIwNS02ZWM2LTI4Y2ItOGYwZTQ1NDI1YjQ4");

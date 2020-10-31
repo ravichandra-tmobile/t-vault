@@ -43,7 +43,6 @@ import org.springframework.context.annotation.ComponentScan;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 
-import java.lang.reflect.InvocationTargetException;
 import java.util.HashMap;
 import java.util.Map;
 import java.util.Objects;
@@ -66,7 +65,7 @@ public class AWSIAMAuthServiceTest {
     RequestProcessor reqProcessor;
 
     @Before
-    public void setUp() throws NoSuchMethodException, InvocationTargetException, IllegalAccessException, NoSuchFieldException {
+    public void setUp() {
         PowerMockito.mockStatic(ControllerUtil.class);
         PowerMockito.mockStatic(JSONUtil.class);
 

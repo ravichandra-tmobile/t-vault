@@ -6,7 +6,6 @@ import static org.mockito.Matchers.eq;
 import static org.mockito.Mockito.when;
 
 import java.io.IOException;
-import java.lang.reflect.InvocationTargetException;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
@@ -88,8 +87,7 @@ public class IAMServiceAccountServiceTest {
     DirectoryService directoryService;
 
     @Before
-    public void setUp()
-            throws NoSuchMethodException, InvocationTargetException, IllegalAccessException, NoSuchFieldException {
+    public void setUp() {
         PowerMockito.mockStatic(ControllerUtil.class);
         PowerMockito.mockStatic(OIDCUtil.class);
         PowerMockito.mockStatic(JSONUtil.class);
@@ -197,7 +195,7 @@ public class IAMServiceAccountServiceTest {
     }
     
     @Test
-    public void test_AssociateAppRole_succssfully() throws Exception {
+    public void test_AssociateAppRole_succssfully() {
 
         ResponseEntity<String> responseEntityExpected = ResponseEntity.status(HttpStatus.OK).body("{\"messages\":[\"Approle successfully associated with IAM Service Account\"]}");
         String token = "5PDrOhsy4ig8L3EpsJZSLAMg";
@@ -948,7 +946,7 @@ public class IAMServiceAccountServiceTest {
 	}
 	
 	 @Test
-	    public void test_removeApproleFromIAMSvcAcc_succssfully() throws Exception {
+	    public void test_removeApproleFromIAMSvcAcc_succssfully() {
 
 	        ResponseEntity<String> responseEntityExpected = ResponseEntity.status(HttpStatus.OK).body("{\"messages\":[\"Approle is successfully removed from IAM Service Account\"]}");
 	        String token = "5PDrOhsy4ig8L3EpsJZSLAMg";

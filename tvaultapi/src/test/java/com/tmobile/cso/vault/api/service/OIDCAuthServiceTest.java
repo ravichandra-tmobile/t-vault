@@ -21,7 +21,6 @@ import static org.junit.Assert.assertEquals;
 import static org.mockito.Matchers.any;
 import static org.mockito.Mockito.when;
 
-import java.lang.reflect.InvocationTargetException;
 import java.util.*;
 
 import com.tmobile.cso.vault.api.model.*;
@@ -70,8 +69,7 @@ public class OIDCAuthServiceTest {
 
 
     @Before
-    public void setUp()
-            throws NoSuchMethodException, InvocationTargetException, IllegalAccessException, NoSuchFieldException {
+    public void setUp() {
         PowerMockito.mockStatic(ControllerUtil.class);
         PowerMockito.mockStatic(OIDCUtil.class);
         PowerMockito.mockStatic(JSONUtil.class);
@@ -97,7 +95,7 @@ public class OIDCAuthServiceTest {
     }
 
     @Test
-    public void getAuthenticationMounts() throws Exception {
+    public void getAuthenticationMounts() {
         String token = "4EpPYDSfgN2D4Gf7UmNO3nuL";
         String mountAccessor = "auth_oidc";
         String data = "{\n    \"data\": {\n        \"canonical_id\": \"7862bbe1-16ce-442d-756b-585ed77b7385\",\n        \"creation_time\": \"2020-07-15T14:07:14.7237705Z\",\n        \"id\": \"dea21830-f565-77d6-3005-8aab0c2596bb\",\n        \"last_update_time\": \"2020-07-15T14:07:14.7237705Z\",\n        \"merged_from_canonical_ids\": null,\n        \"metadata\": null,\n        \"mount_accessor\": \"auth_oidc_8b51f292\",\n        \"mount_path\": \"auth/oidc/\",\n        \"mount_type\": \"oidc\",\n        \"name\": \"Nithin.Nazeer1@T-Mobile.com\",\n        \"namespace_id\": \"root\"\n    }\n}";
@@ -112,7 +110,7 @@ public class OIDCAuthServiceTest {
     }
 
     @Test
-    public void entityLookUpSuccess() throws Exception {
+    public void entityLookUpSuccess() {
         String token = "4EpPYDSfgN2D4Gf7UmNO3nuL";
         OIDCLookupEntityRequest oidcLookupEntityRequest = new OIDCLookupEntityRequest();
         oidcLookupEntityRequest.setId("1223");
@@ -137,7 +135,7 @@ public class OIDCAuthServiceTest {
     }
 
     @Test
-    public void groupEntityLookUp() throws Exception {
+    public void groupEntityLookUp() {
         String token = "4EpPYDSfgN2D4Gf7UmNO3nuL";
         OIDCLookupEntityRequest oidcLookupEntityRequest = new OIDCLookupEntityRequest();
         oidcLookupEntityRequest.setId("1223");
@@ -156,7 +154,7 @@ public class OIDCAuthServiceTest {
     }
 
     @Test
-    public void readEntityAliasById() throws Exception {
+    public void readEntityAliasById() {
         String token = "4EpPYDSfgN2D4Gf7UmNO3nuL";
         String id = "1234-45";
         Response response = getMockResponse(HttpStatus.OK, "{\"data\": [\"safeadmin\",\"vaultadmin\"]]");
@@ -169,7 +167,7 @@ public class OIDCAuthServiceTest {
     }
 
     @Test
-    public void readEntityByName() throws Exception {
+    public void readEntityByName() {
         String token = "4EpPYDSfgN2D4Gf7UmNO3nuL";
         String entityName = "1234ae-45fg";
         Response response = getMockResponse(HttpStatus.OK, "{\"data\": [\"safeadmin\",\"vaultadmin\"]]");
@@ -183,7 +181,7 @@ public class OIDCAuthServiceTest {
     }
 
     @Test
-    public void updateEntityByName() throws Exception {
+    public void updateEntityByName() {
         String token = "4EpPYDSfgN2D4Gf7UmNO3nuL";
         String name = "name";
         OIDCEntityRequest oidcEntityRequest = new OIDCEntityRequest();
@@ -205,7 +203,7 @@ public class OIDCAuthServiceTest {
     }
 
     @Test
-    public void updateIdentityGroupByName() throws Exception {
+    public void updateIdentityGroupByName() {
         String token = "4EpPYDSfgN2D4Gf7UmNO3nuL";
         String name = "name";
         OIDCIdentityGroupRequest oidcIdentityGroupRequest = new OIDCIdentityGroupRequest();
@@ -225,7 +223,7 @@ public class OIDCAuthServiceTest {
     }
 
     @Test
-    public void readGroupAliasById() throws Exception {
+    public void readGroupAliasById() {
         String token = "4EpPYDSfgN2D4Gf7UmNO3nuL";
         String id = "1234ae-45fg";
         Response response = getMockResponse(HttpStatus.OK, "{\"data\": [\"safeadmin\",\"vaultadmin\"]]");
@@ -238,7 +236,7 @@ public class OIDCAuthServiceTest {
     }
 
     @Test
-    public void deleteGroupByName() throws Exception {
+    public void deleteGroupByName() {
         String token = "4EpPYDSfgN2D4Gf7UmNO3nuL";
         String entityName = "1234ae-45fg";
         Response response = getMockResponse(HttpStatus.OK, "{\"data\": [\"safeadmin\",\"vaultadmin\"]]");
@@ -250,7 +248,7 @@ public class OIDCAuthServiceTest {
     }
 
     @Test
-    public void deleteGroupAliasByID() throws Exception {
+    public void deleteGroupAliasByID() {
         String token = "4EpPYDSfgN2D4Gf7UmNO3nuL";
         String id = "1234ae-45fg";
         Response response = getMockResponse(HttpStatus.OK, "{\"data\": [\"safeadmin\",\"vaultadmin\"]]");
@@ -261,7 +259,7 @@ public class OIDCAuthServiceTest {
     }
 
     @Test
-    public void createGroupAlias() throws Exception {
+    public void createGroupAlias() {
         String token = "4EpPYDSfgN2D4Gf7UmNO3nuL";
         String id = "1234ae-45fg";
         GroupAliasRequest groupAliasRequest = new GroupAliasRequest();
@@ -376,7 +374,7 @@ public class OIDCAuthServiceTest {
     }
 
     @Test
-    public void test_getGroupObjectIdFromAzure_success() throws Exception {
+    public void test_getGroupObjectIdFromAzure_success() {
 
         String ssoToken = "abcd";
         String groupName = "group1";
@@ -392,7 +390,7 @@ public class OIDCAuthServiceTest {
     }
 
     @Test
-    public void test_getGroupObjectIdFromAzure_400() throws Exception {
+    public void test_getGroupObjectIdFromAzure_400() {
 
         String ssoToken = "abcd";
         String groupName = "group1";
@@ -407,7 +405,7 @@ public class OIDCAuthServiceTest {
     }
 
     @Test
-    public void test_getGroupObjectIdFromAzure_404() throws Exception {
+    public void test_getGroupObjectIdFromAzure_404() {
 
         String groupName = "group1";
         when(OIDCUtil.getSSOToken()).thenReturn(null);
@@ -419,7 +417,7 @@ public class OIDCAuthServiceTest {
     }
 
     @Test
-    public void test_getIdentityGroupDetails_success() throws Exception {
+    public void test_getIdentityGroupDetails_success() {
         String group = "group1";
         String token = "test4ig8L3EpsJZSLAMg";
         List<String> policies = new ArrayList<>();
@@ -435,7 +433,7 @@ public class OIDCAuthServiceTest {
     }
 
     @Test
-    public void test_getIdentityGroupDetails_failed() throws Exception {
+    public void test_getIdentityGroupDetails_failed() {
         String group = "group1";
         String token = "test4ig8L3EpsJZSLAMg";
         when(OIDCUtil.getIdentityGroupDetails(group, token)).thenReturn(null);
@@ -447,7 +445,7 @@ public class OIDCAuthServiceTest {
     }
     
     @Test
-    public void getUserName_Success() throws Exception {
+    public void getUserName_Success() {
         String username = "testuser";
         ResponseEntity<String> responseEntityExpected = ResponseEntity.status(HttpStatus.OK).body("{\"data\":{\"username\": \"" + username.toLowerCase() + "\"}}");
         when(OIDCUtil.getUserName(Mockito.anyString())).thenReturn(username);
@@ -459,7 +457,7 @@ public class OIDCAuthServiceTest {
     }
 
     @Test
-    public void test_searchGroupInAzureAD_Success() throws Exception {
+    public void test_searchGroupInAzureAD_Success() {
         String ssoToken = "abcd";
         String groupName = "testgroup";
         when(OIDCUtil.getSSOToken()).thenReturn(ssoToken);

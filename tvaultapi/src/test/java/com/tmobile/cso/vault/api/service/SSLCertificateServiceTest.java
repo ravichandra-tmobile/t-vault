@@ -4820,7 +4820,7 @@ public class SSLCertificateServiceTest {
     }
 
     @Test
-    public void getListOfCertificates_Succes()throws Exception{
+    public void getListOfCertificates_Succes() {
     	 String token;
 
          Response response =getMockResponse(HttpStatus.OK, true, "{  \"keys\": [    {      \"akamid\": \"102463\",      \"applicationName\": \"tvs\", "
@@ -6021,7 +6021,7 @@ public class SSLCertificateServiceTest {
 	}
 	
 	 @Test
-	    public void getALLCertificate_Succes()throws Exception{
+	    public void getALLCertificate_Succes() {
 	    	 String token;
 
 	         Response response =getMockResponse(HttpStatus.OK, true, "{  \"data\":{  \"keys\": [    {      \"akamid\": \"102463\",      \"applicationName\": \"tvs\", "

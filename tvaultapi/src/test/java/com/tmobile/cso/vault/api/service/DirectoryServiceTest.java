@@ -44,7 +44,6 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.ldap.core.AttributesMapper;
 import org.springframework.ldap.core.LdapTemplate;
 
-import java.lang.reflect.InvocationTargetException;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
@@ -68,7 +67,7 @@ public class DirectoryServiceTest {
     LdapTemplate ldapTemplate;
 
     @Before
-    public void setUp() throws NoSuchMethodException, InvocationTargetException, IllegalAccessException, NoSuchFieldException {
+    public void setUp() {
         PowerMockito.mockStatic(ControllerUtil.class);
         PowerMockito.mockStatic(JSONUtil.class);
 

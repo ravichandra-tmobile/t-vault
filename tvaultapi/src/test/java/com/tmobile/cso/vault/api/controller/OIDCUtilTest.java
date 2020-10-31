@@ -421,7 +421,7 @@ public class OIDCUtilTest {
     }
     
     @Test
-    public void updateOIDCEntity() throws Exception {
+    public void updateOIDCEntity() {
         String token = "4EpPYDSfgN2D4Gf7UmNO3nuL";
         String name = "name";
         List<String> policies = new ArrayList<>();
@@ -446,7 +446,7 @@ public class OIDCUtilTest {
     }
 
     @Test
-    public void test_renewUserToken_success() throws Exception {
+    public void test_renewUserToken_success() {
         String token = "4EpPYDSfgN2D4Gf7UmNO3nuL";
         String responseJson = "{\"client_token\": \"18oVRlB3ft88S6U9raoEDnKn\",\"policies\": [\"safeadmin\"],\"lease_duration\": 1800000}";
 
@@ -457,7 +457,7 @@ public class OIDCUtilTest {
     }
 
     @Test
-    public void test_renewUserToken_failed() throws Exception {
+    public void test_renewUserToken_failed() {
         String token = "4EpPYDSfgN2D4Gf7UmNO3nuL";
         String responseJson = "{\"client_token\": \"18oVRlB3ft88S6U9raoEDnKn\",\"policies\": [\"safeadmin\"]," +
                 "\"lease_duration\": 1800000}";
@@ -526,7 +526,7 @@ public class OIDCUtilTest {
     }
 
     @Test
-    public void test_updateGroupPolicies_failed() throws Exception {
+    public void test_updateGroupPolicies_failed() {
         String token = "4EpPYDSfgN2D4Gf7UmNO3nuL";
         String id = "12wdsadsad";
         Response deleteByIdResponse = getMockResponse(HttpStatus.BAD_REQUEST, "");

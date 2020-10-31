@@ -8,6 +8,7 @@ import java.util.HashMap;
 import java.util.Map;
 import java.util.Objects;
 
+import com.tmobile.cso.vault.api.exception.TVaultValidationException;
 import org.apache.http.impl.client.HttpClientBuilder;
 import org.apache.http.util.EntityUtils;
 import org.apache.logging.log4j.LogManager;
@@ -82,7 +83,7 @@ public class SSLCertificateAWSRoleServiceTest {
     AWSIAMAuthService awsiamAuthService;
 
     @Before
-    public void setUp() throws Exception {
+    public void setUp() {
         PowerMockito.mockStatic(ControllerUtil.class);
         PowerMockito.mockStatic(JSONUtil.class);
         Whitebox.setInternalState(ControllerUtil.class, "log", LogManager.getLogger(ControllerUtil.class));
@@ -141,7 +142,7 @@ public class SSLCertificateAWSRoleServiceTest {
     }
 
     @Test
-    public void testCreateAWSRoleForSSLSuccess() throws Exception {
+    public void testCreateAWSRoleForSSLSuccess() throws TVaultValidationException {
         ResponseEntity<String> responseEntityExpected = ResponseEntity.status(HttpStatus.OK).body("{\"messages\":[\"AWS Role created \"]}");
         token = "5PDrOhsy4ig8L3EpsJZSLAMg";
         userDetails = getMockUser();
@@ -158,7 +159,7 @@ public class SSLCertificateAWSRoleServiceTest {
     }
 
     @Test
-    public void testCreateIAMRoleForSSLSuccess() throws Exception {
+    public void testCreateIAMRoleForSSLSuccess() throws TVaultValidationException {
         ResponseEntity<String> responseEntityExpected = ResponseEntity.status(HttpStatus.OK).body("{\"messages\":[\"AWS Role created \"]}");
         token = "5PDrOhsy4ig8L3EpsJZSLAMg";
         userDetails = getMockUser();
@@ -179,7 +180,7 @@ public class SSLCertificateAWSRoleServiceTest {
     }
 
     @Test
-	public void testAddAwsIAMRoleToSSLCertificateSuccssfully() throws Exception {
+	public void testAddAwsIAMRoleToSSLCertificateSuccssfully() {
 		SSLCertificateMetadataDetails certificateMetadata = getSSLCertificateMetadataDetails();
         ResponseEntity<String> responseEntityExpected = ResponseEntity.status(HttpStatus.OK).body("{\"messages\":[\"AWS Role successfully associated with SSL Certificate\"]}");
         token = "5PDrOhsy4ig8L3EpsJZSLAMg";
@@ -209,7 +210,7 @@ public class SSLCertificateAWSRoleServiceTest {
     }
 
     @Test
-	public void testAddAwsEC2RoleToSSLCertificateSuccssfully() throws Exception {
+	public void testAddAwsEC2RoleToSSLCertificateSuccssfully() {
 		SSLCertificateMetadataDetails certificateMetadata = getSSLExternalCertificateRequest();
         ResponseEntity<String> responseEntityExpected = ResponseEntity.status(HttpStatus.OK).body("{\"messages\":[\"AWS Role successfully associated with SSL Certificate\"]}");
         token = "5PDrOhsy4ig8L3EpsJZSLAMg";
@@ -239,7 +240,7 @@ public class SSLCertificateAWSRoleServiceTest {
     }
 
     @Test
-	public void testAddAwsEC2RoleToSSLCertificateMetadataFailure() throws Exception {
+	public void testAddAwsEC2RoleToSSLCertificateMetadataFailure() {
 		SSLCertificateMetadataDetails certificateMetadata = getSSLCertificateMetadataDetails();
         ResponseEntity<String> responseEntityExpected = ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body("{\"errors\":[\"AWS Role configuration failed. Please try again\"]}");
         token = "5PDrOhsy4ig8L3EpsJZSLAMg";
@@ -267,7 +268,7 @@ public class SSLCertificateAWSRoleServiceTest {
     }
 
     @Test
-	public void testAddAwsIAMRoleToSSLCertificateMetadataFailure() throws Exception {
+	public void testAddAwsIAMRoleToSSLCertificateMetadataFailure() {
 		SSLCertificateMetadataDetails certificateMetadata = getSSLCertificateMetadataDetails();
         ResponseEntity<String> responseEntityExpected = ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body("{\"errors\":[\"AWS Role configuration failed. Please try again\"]}");
         token = "5PDrOhsy4ig8L3EpsJZSLAMg";
@@ -295,7 +296,7 @@ public class SSLCertificateAWSRoleServiceTest {
     }
 
     @Test
-	public void testAddAwsRoleToSSLCertificateFailure() throws Exception {
+	public void testAddAwsRoleToSSLCertificateFailure() {
 		SSLCertificateMetadataDetails certificateMetadata = getSSLCertificateMetadataDetails();
         ResponseEntity<String> responseEntityExpected = ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body("{\"errors\":[\"Role configuration failed. Try Again\"]}");
         token = "5PDrOhsy4ig8L3EpsJZSLAMg";
@@ -321,7 +322,7 @@ public class SSLCertificateAWSRoleServiceTest {
     }
 
     @Test
-	public void testAddAwsRoleToCertificateRoleNotExistsFailure() throws Exception {
+	public void testAddAwsRoleToCertificateRoleNotExistsFailure() {
 		SSLCertificateMetadataDetails certificateMetadata = getSSLCertificateMetadataDetails();
         token = "5PDrOhsy4ig8L3EpsJZSLAMg";
         userDetails = getMockUser();
@@ -341,7 +342,7 @@ public class SSLCertificateAWSRoleServiceTest {
     }
 
     @Test
-	public void testAddAwsRoleToSSLCertificateFailure403() throws Exception {
+	public void testAddAwsRoleToSSLCertificateFailure403() {
 		SSLCertificateMetadataDetails certificateMetadata = getSSLCertificateMetadataDetails();
         ResponseEntity<String> responseEntityExpected = ResponseEntity.status(HttpStatus.BAD_REQUEST).body("{\"errors\":[\"Access denied: No permission to add AWS Role to this certificate\"]}");
         token = "5PDrOhsy4ig8L3EpsJZSLAMg";
@@ -357,7 +358,7 @@ public class SSLCertificateAWSRoleServiceTest {
     }
 
     @Test
-    public void testAddAwsRoleToSSLCertificateInitialValidationFailure() throws Exception {
+    public void testAddAwsRoleToSSLCertificateInitialValidationFailure() {
         ResponseEntity<String> responseEntityExpected = ResponseEntity.status(HttpStatus.BAD_REQUEST).body("{\"errors\":[\"Invalid input values\"]}");
         token = "5PDrOhsy4ig8L3EpsJZSLAMg";
         userDetails = getMockUser();
@@ -372,7 +373,7 @@ public class SSLCertificateAWSRoleServiceTest {
     }
 
     @Test
-    public void testAddAwsRoleToSSLCertificateUserNotExists() throws Exception {
+    public void testAddAwsRoleToSSLCertificateUserNotExists() {
         ResponseEntity<String> responseEntityExpected = ResponseEntity.status(HttpStatus.BAD_REQUEST).body("{\"errors\":[\"Access denied: No permission to add AWS Role to this certificate\"]}");
         token = "5PDrOhsy4ig8L3EpsJZSLAMg";
         userDetails = getMockUser();
@@ -387,7 +388,7 @@ public class SSLCertificateAWSRoleServiceTest {
     }
 
     @Test
-	public void testRemoveAWSIAMRoleFromCertificateSuccssfully() throws Exception {
+	public void testRemoveAWSIAMRoleFromCertificateSuccssfully() {
 		SSLCertificateMetadataDetails certificateMetadata = getSSLCertificateMetadataDetails();
         ResponseEntity<String> responseEntityExpected = ResponseEntity.status(HttpStatus.OK).body("{\"messages\":[\"AWS Role is successfully removed from SSL Certificate\"]}");
         token = "5PDrOhsy4ig8L3EpsJZSLAMg";
@@ -416,7 +417,7 @@ public class SSLCertificateAWSRoleServiceTest {
     }
 
     @Test
-    public void testRemoveAwsRoleToSSLCertificateInitialValidationFailure() throws Exception {
+    public void testRemoveAwsRoleToSSLCertificateInitialValidationFailure() {
         ResponseEntity<String> responseEntityExpected = ResponseEntity.status(HttpStatus.BAD_REQUEST).body("{\"errors\":[\"Invalid input values\"]}");
         token = "5PDrOhsy4ig8L3EpsJZSLAMg";
         userDetails = getMockUser();
@@ -431,7 +432,7 @@ public class SSLCertificateAWSRoleServiceTest {
     }
 
     @Test
-    public void testRemoveAwsRoleToSSLCertificateEmptyUserDetail() throws Exception {
+    public void testRemoveAwsRoleToSSLCertificateEmptyUserDetail() {
         ResponseEntity<String> responseEntityExpected = ResponseEntity.status(HttpStatus.BAD_REQUEST).body("{\"errors\":[\"Access denied: No permission to remove AWS role from this certificate\"]}");
         token = "5PDrOhsy4ig8L3EpsJZSLAMg";
         userDetails = getMockUser();
@@ -446,7 +447,7 @@ public class SSLCertificateAWSRoleServiceTest {
     }
 
     @Test
-	public void testRemoveAWSEC2RoleFromSSLCertificateSuccssfully() throws Exception {
+	public void testRemoveAWSEC2RoleFromSSLCertificateSuccssfully() {
 		SSLCertificateMetadataDetails certificateMetadata = getSSLExternalCertificateRequest();
         ResponseEntity<String> responseEntityExpected = ResponseEntity.status(HttpStatus.OK).body("{\"messages\":[\"AWS Role is successfully removed from SSL Certificate\"]}");
         token = "5PDrOhsy4ig8L3EpsJZSLAMg";
@@ -475,7 +476,7 @@ public class SSLCertificateAWSRoleServiceTest {
     }
 
     @Test
-	public void testRemoveAWSRoleFromSSLCertificateMetadataFailure() throws Exception {
+	public void testRemoveAWSRoleFromSSLCertificateMetadataFailure() {
 		SSLCertificateMetadataDetails certificateMetadata = getSSLCertificateMetadataDetails();
         ResponseEntity<String> responseEntityExpected = ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body("{\"errors\":[\"AWS Role configuration failed. Please try again\"]}");
         token = "5PDrOhsy4ig8L3EpsJZSLAMg";
@@ -504,7 +505,7 @@ public class SSLCertificateAWSRoleServiceTest {
     }
 
     @Test
-	public void testRemoveAWSRoleFromSSLCertificateFailure() throws Exception {
+	public void testRemoveAWSRoleFromSSLCertificateFailure() {
 		SSLCertificateMetadataDetails certificateMetadata = getSSLCertificateMetadataDetails();
         ResponseEntity<String> responseEntityExpected = ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body("{\"errors\":[\"Failed to remove AWS Role from the SSL Certificate\"]}");
         token = "5PDrOhsy4ig8L3EpsJZSLAMg";
@@ -531,7 +532,7 @@ public class SSLCertificateAWSRoleServiceTest {
     }
 
     @Test
-	public void testRemoveAWSRoleFromSSLRoleNotExists() throws Exception {
+	public void testRemoveAWSRoleFromSSLRoleNotExists() {
 		SSLCertificateMetadataDetails certificateMetadata = getSSLCertificateMetadataDetails();
         ResponseEntity<String> responseEntityExpected = ResponseEntity.status(HttpStatus.UNPROCESSABLE_ENTITY).body("{\"errors\":[\"AWS Role doesn't exist\"]}");
         token = "5PDrOhsy4ig8L3EpsJZSLAMg";
@@ -554,7 +555,7 @@ public class SSLCertificateAWSRoleServiceTest {
     }
 
     @Test
-	public void testRemoveAWSRoleFromSSLCertificateFailure403() throws Exception {
+	public void testRemoveAWSRoleFromSSLCertificateFailure403() {
 		SSLCertificateMetadataDetails certificateMetadata = getSSLCertificateMetadataDetails();
         ResponseEntity<String> responseEntityExpected = ResponseEntity.status(HttpStatus.BAD_REQUEST).body("{\"errors\":[\"Access denied: No permission to remove AWS Role from SSL Certificate\"]}");
         token = "5PDrOhsy4ig8L3EpsJZSLAMg";

@@ -88,7 +88,7 @@ public class TokenUtilsTest {
     }
 
     @Test
-    public void test_getSelfServiceToken_success() throws Exception {
+    public void test_getSelfServiceToken_success() {
 
         String jsonStr = "{\"username\":\"testadmin\",\"password\":\"testadmin\"}";
 
@@ -104,7 +104,7 @@ public class TokenUtilsTest {
     }
 
     @Test
-    public void test_getSelfServiceToken_success_ldap() throws Exception {
+    public void test_getSelfServiceToken_success_ldap() {
 
         String jsonStr = "{\"username\":\"testadmin\",\"password\":\"testadmin\"}";
 
@@ -120,7 +120,7 @@ public class TokenUtilsTest {
     }
 
     @Test
-    public void test_getSelfServiceToken_failure() throws Exception {
+    public void test_getSelfServiceToken_failure() {
 
         String jsonStr = "{\"username\":\"testadmin\",\"password\":\"testadmin\"}";
 
@@ -152,7 +152,7 @@ public class TokenUtilsTest {
     }
 
     @Test
-    public void test_getSelfServiceToken_success_approle() throws Exception {
+    public void test_getSelfServiceToken_success_approle() {
 
         String jsonStr = "{\"roleId\":\"a736d57a-ac97-a08d-53ab-eb5ab16d03b5\",\"secretId\":\"10884921-79d6-fde1-3f28-56af75d83616\"}";
 
@@ -169,7 +169,7 @@ public class TokenUtilsTest {
     }
 
     @Test
-    public void test_getSelfServiceToken_failure_approle() throws Exception {
+    public void test_getSelfServiceToken_failure_approle() {
 
         String jsonStr = "{\"roleId\":\"a736d57a-ac97-a08d-53ab-eb5ab16d03b5\",\"secretId\":\"10884921-79d6-fde1-3f28-56af75d83616\"}";
 
@@ -186,7 +186,7 @@ public class TokenUtilsTest {
     }
     
 	@Test
-    public void test_getSelfServiceTokenWithAppRole_success() throws Exception {
+    public void test_getSelfServiceTokenWithAppRole_success() {
 
         String jsonStr = "{\"role_id\":\"testroleid\",\"secret_id\":\"testsecretid\"}";
 
@@ -224,7 +224,7 @@ public class TokenUtilsTest {
     }
 	
 	@Test
-    public void test_getSelfServiceTokenWithAppRole_sscred_success() throws Exception {
+    public void test_getSelfServiceTokenWithAppRole_sscred_success() {
 
 		String jsonStr = "{\"role_id\":\"testroleid\",\"secret_id\":\"testsecretid\"}";
 
@@ -271,7 +271,7 @@ public class TokenUtilsTest {
     }
 	
 	@Test
-    public void test_getSelfServiceTokenWithAppRole_sscred_failure() throws Exception {
+    public void test_getSelfServiceTokenWithAppRole_sscred_failure() {
 
 		String jsonStr = "{\"role_id\":\"testroleid\",\"secret_id\":\"testsecretid\"}";
 

@@ -74,14 +74,14 @@ public class OIDCAuthControllerTest {
 	    }
 	    
 	@Test
-	public void test_getAuthenticationMounts_successful() throws Exception {
+	public void test_getAuthenticationMounts_successful() {
 		when(oidcAuthService.getAuthenticationMounts(token)).thenReturn(new ResponseEntity<>(HttpStatus.OK));
 		assertEquals(HttpStatus.OK,
 				oidcAuthController.getAuthenticationMounts(httpServletRequest, token).getStatusCode());
 	}
 	
 	@Test
-	public void test_entityLookUp_successful() throws Exception {
+	public void test_entityLookUp_successful() {
 		OIDCLookupEntityRequest oidcLookupEntityRequest = new OIDCLookupEntityRequest();
 		oidcLookupEntityRequest.setId("1223");
 		oidcLookupEntityRequest.setAlias_id("123");
@@ -94,7 +94,7 @@ public class OIDCAuthControllerTest {
 	}
 	
 	@Test
-	public void test_groupEntityLookUp_successful() throws Exception {
+	public void test_groupEntityLookUp_successful() {
 		OIDCLookupEntityRequest oidcLookupEntityRequest = new OIDCLookupEntityRequest();
 		oidcLookupEntityRequest.setId("1223");
 		oidcLookupEntityRequest.setAlias_id("123");
@@ -107,7 +107,7 @@ public class OIDCAuthControllerTest {
 	}
 	
 	@Test
-	public void test_readEntityAliasById_successful() throws Exception {
+	public void test_readEntityAliasById_successful() {
 		String id ="124";
 		when(oidcAuthService.readEntityAliasById(token, id)).thenReturn(new ResponseEntity<>(HttpStatus.OK));
 		assertEquals(HttpStatus.OK,
@@ -115,7 +115,7 @@ public class OIDCAuthControllerTest {
 	}
 	
 	@Test
-	public void test_readEntityByName_successful() throws Exception {
+	public void test_readEntityByName_successful() {
 		String name ="name";
 		when(oidcAuthService.readEntityByName(token, name)).thenReturn(new ResponseEntity<>(HttpStatus.OK));
 		assertEquals(HttpStatus.OK,
@@ -123,7 +123,7 @@ public class OIDCAuthControllerTest {
 	}
 	
 	@Test
-	public void test_updateEntityByName_successful() throws Exception {
+	public void test_updateEntityByName_successful() {
 		String name ="name"; 
 		OIDCEntityRequest oidcEntityRequest = new OIDCEntityRequest();
 		oidcEntityRequest.setDisabled(false);
@@ -138,7 +138,7 @@ public class OIDCAuthControllerTest {
 	}
 	
 	@Test
-	public void test_readGroupAliasById_successful() throws Exception {
+	public void test_readGroupAliasById_successful() {
 		String id ="124"; 
 		when(oidcAuthService.readGroupAliasById(token, id)).thenReturn(new ResponseEntity<>(HttpStatus.OK));
 		assertEquals(HttpStatus.OK,
@@ -146,7 +146,7 @@ public class OIDCAuthControllerTest {
 	}
 	
 	@Test
-	public void test_updateIdentityGroupByName_successful() throws Exception {
+	public void test_updateIdentityGroupByName_successful() {
 		String name = "name";
 		OIDCIdentityGroupRequest oidcIdentityGroupRequest = new OIDCIdentityGroupRequest();
 		oidcIdentityGroupRequest.setMember_group_ids(null);
@@ -163,7 +163,7 @@ public class OIDCAuthControllerTest {
 	}
 	
 	@Test
-	public void test_deleteGroupByName_successful() throws Exception {
+	public void test_deleteGroupByName_successful() {
 		String name ="name"; 
 		when(oidcAuthService.deleteGroupByName(token, name)).thenReturn(new ResponseEntity<>(HttpStatus.OK));
 		assertEquals(HttpStatus.OK,
@@ -171,7 +171,7 @@ public class OIDCAuthControllerTest {
 	}
 	
 	@Test
-	public void test_deleteGroupAliasByID_successful() throws Exception {
+	public void test_deleteGroupAliasByID_successful() {
 		String id ="124"; 
 		when(oidcAuthService.deleteGroupAliasByID(token, id)).thenReturn(new ResponseEntity<>(HttpStatus.OK));
 		assertEquals(HttpStatus.OK,
@@ -179,7 +179,7 @@ public class OIDCAuthControllerTest {
 	}
 	
 	@Test
-	public void test_createGroupAlias_successful() throws Exception {
+	public void test_createGroupAlias_successful() {
 		String id ="124"; 
 		GroupAliasRequest groupAliasRequest = new GroupAliasRequest();
 		groupAliasRequest.setCanonical_id("1212-122");
@@ -292,7 +292,7 @@ public class OIDCAuthControllerTest {
 	}
 	
 	@Test
-	public void test_getUserName_successful() throws Exception {
+	public void test_getUserName_successful() {
 		when(oidcAuthService.getUserName(Mockito.any(UserDetails.class))).thenReturn(new ResponseEntity<>(HttpStatus.OK));
 		assertEquals(HttpStatus.OK,
 				oidcAuthController.getUserName(httpServletRequest, token).getStatusCode());

@@ -24,7 +24,6 @@ import static org.mockito.Matchers.any;
 import static org.mockito.Matchers.eq;
 import static org.mockito.Mockito.when;
 
-import java.lang.reflect.InvocationTargetException;
 import java.util.*;
 
 import org.apache.commons.collections.CollectionUtils;
@@ -83,7 +82,7 @@ public class AppRoleServiceTest {
     final ObjectMapper objMapper = new ObjectMapper();
 
     @Before
-    public void setUp() throws NoSuchMethodException, InvocationTargetException, IllegalAccessException, NoSuchFieldException{
+    public void setUp() {
     	PowerMockito.mockStatic(ControllerUtil.class);
     	PowerMockito.mockStatic(JSONUtil.class);
     	
@@ -1302,7 +1301,7 @@ public class AppRoleServiceTest {
         return objMapper.writeValueAsString(getAppRoleMetadata(path, username, role_name));
     }
     
-    private AppRoleMetadata getAppRoleMetadata(String path, String username, String role_name ) throws Exception {
+    private AppRoleMetadata getAppRoleMetadata(String path, String username, String role_name ) {
         AppRoleMetadata approleMetadata = new AppRoleMetadata();
         approleMetadata.setPath(path);
         AppRoleMetadataDetails appRoleMetadataDetails = new AppRoleMetadataDetails();
@@ -1417,7 +1416,7 @@ public class AppRoleServiceTest {
         assertEquals(responseEntityExpected, responseEntityActual);
     }
     @Test
-    public void test_readAppRoleRoleId_WithUserDetails_failure() throws Exception {
+    public void test_readAppRoleRoleId_WithUserDetails_failure() {
         String token = "5PDrOhsy4ig8L3EpsJZSLAMg";
         UserDetails userDetails = getMockUser("testuser1", false);
         String role_name = "selfservicesupportrole";
@@ -1479,7 +1478,7 @@ public class AppRoleServiceTest {
         assertEquals(responseEntityExpected, responseEntityActual);
     }
     @Test
-    public void test_readAppRoleSecretId_WithUserDetails_failure() throws Exception {
+    public void test_readAppRoleSecretId_WithUserDetails_failure() {
     	
         String token = "5PDrOhsy4ig8L3EpsJZSLAMg";
         UserDetails userDetails = getMockUser("testuser1", false);

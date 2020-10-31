@@ -1390,7 +1390,7 @@ public class SafesServiceTest {
     }
 
     @Test
-    public void test_AssociateAppRole_failure_400() throws Exception {
+    public void test_AssociateAppRole_failure_400() {
 
 
         ResponseEntity<String> responseEntityExpected = ResponseEntity.status(HttpStatus.BAD_REQUEST).body("{\"errors\":[\"Access denied: no permission to associate this AppRole to any safe\"]}");
@@ -1508,7 +1508,7 @@ public class SafesServiceTest {
     }
 
     @Test
-    public void test_removeApproleFromSafe_successfully() throws Exception {
+    public void test_removeApproleFromSafe_successfully() {
         String token = "5PDrOhsy4ig8L3EpsJZSLAMg";
         String inputJson = "{\"role_name\":\"approle1\",\"path\":\"users/safe1\",\"access\":\"read\"}";
         ResponseEntity<String> responseEntityExpected = ResponseEntity.status(HttpStatus.OK).body("{\"messages\":[\"Role association is removed \"]}");
@@ -1526,7 +1526,7 @@ public class SafesServiceTest {
     }
 
     @Test
-    public void test_removeApproleFromSafe_successfully_all_safes() throws Exception {
+    public void test_removeApproleFromSafe_successfully_all_safes() {
         String token = "5PDrOhsy4ig8L3EpsJZSLAMg";
 
         String path = "users/safe1";
@@ -1555,7 +1555,7 @@ public class SafesServiceTest {
     }
 
     @Test
-    public void test_removeApproleFromSafe_failure() throws Exception {
+    public void test_removeApproleFromSafe_failure() {
         String token = "5PDrOhsy4ig8L3EpsJZSLAMg";
         String inputJson = "{\"role_name\":\"approle1\",\"path\":\"users/safe1\",\"access\":\"read\"}";
 
@@ -1582,7 +1582,7 @@ public class SafesServiceTest {
     }
 
     @Test
-    public void test_removeApproleFromSafe_failure_400() throws Exception {
+    public void test_removeApproleFromSafe_failure_400() {
         String token = "5PDrOhsy4ig8L3EpsJZSLAMg";
         String inputJson = "{\"role\":\"approle1\",\"path\":\"users/safe1\"}";
         String path = "users/safe1";

@@ -141,7 +141,7 @@ public class AuthorizationUtilsTest {
     }
     
     @Test
-    public void test_isAuthorized_safeOwner_withcapabilitycheck_success() throws Exception {
+    public void test_isAuthorized_safeOwner_withcapabilitycheck_success() {
     	String username = "normaluser";
     	String powerToken = "self_support_token";
     	String userToken = "ordinary_client_token";
@@ -207,7 +207,7 @@ public class AuthorizationUtilsTest {
     }
 
     @Test
-    public void test_containsAdminPolicies() throws Exception {
+    public void test_containsAdminPolicies() {
     	List<String> policies1= new ArrayList<>();
 		List<String> policies2= new ArrayList<>();
 		policies1.add("default");
@@ -220,7 +220,7 @@ public class AuthorizationUtilsTest {
 	}
 
 	@Test
-	public void test_isAuthorized_safeOwner_withcapabilitycheck_success_list_policies() throws Exception {
+	public void test_isAuthorized_safeOwner_withcapabilitycheck_success_list_policies() {
 		String username = "normaluser";
 		String powerToken = "self_support_token";
 		String userToken = "ordinary_client_token";

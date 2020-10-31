@@ -107,7 +107,7 @@ public class SafeUtilsTest {
     }
 
     @Test
-    public void test_getManagedSafesFromPolicies_successfully() throws IOException {
+    public void test_getManagedSafesFromPolicies_successfully() {
         String[] expectedList = {"ert"};
         String[] policies = {"s_users_ert"};
         String[] policiesRes = safeUtils.getManagedSafes(policies, "users");
