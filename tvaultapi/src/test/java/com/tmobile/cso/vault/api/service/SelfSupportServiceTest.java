@@ -521,7 +521,6 @@ public class SelfSupportServiceTest {
         SafeBasicDetails safeBasicDetails = new SafeBasicDetails("mysafe01", "youremail@yourcompany.com", null, "My first safe");
         Safe safe = new Safe("shared/mysafe01",safeBasicDetails);
 
-        ResponseEntity<String> readResponse = ResponseEntity.status(HttpStatus.FORBIDDEN).body("{\"errors\":[\"Access denied: no permission to update this safe\"]}");
         ResponseEntity<String> responseEntityExpected = ResponseEntity.status(HttpStatus.FORBIDDEN).body("{\"errors\":[\"Access denied: no permission to update this safe\"]}");
 
         mockIsAuthorized(userDetails, false);
@@ -1011,7 +1010,6 @@ public class SelfSupportServiceTest {
     public void test_deleteApproleFromSDB_failure_accessDenied() {
         String token = "5PDrOhsy4ig8L3EpsJZSLAMg";
         UserDetails userDetails = getMockUser(false);
-        String jsonStr = "{\"role_name\":\"selfservicesupportrole\",\"path\":\"shared/mysafe01\",\"access\":\"write\"}";
 
         ResponseEntity<String> responseEntityExpected = ResponseEntity.status(HttpStatus.BAD_REQUEST).body("{\"errors\":[\"Access denied: no permission to delete this approle\"]}");
 
@@ -1046,7 +1044,6 @@ public class SelfSupportServiceTest {
         UserDetails userDetails = getMockUser(false);
         String jsonStr = "{\"role_name\":\"approle1\",\"path\":\"shared/mysafe01\",\"access\":\"write\"}";
 
-        ResponseEntity<String> response = ResponseEntity.status(HttpStatus.FORBIDDEN).body("{\"errors\":[\"Access denied: no permission to remove approle from the safe\"]}");
         ResponseEntity<String> responseEntityExpected = ResponseEntity.status(HttpStatus.FORBIDDEN).body("{\"errors\":[\"Access denied: no permission to remove approle from the safe\"]}");
 
         mockIsAuthorized(userDetails, false);
@@ -1069,7 +1066,6 @@ public class SelfSupportServiceTest {
         UserDetails userDetails = getMockUser(false);
         String jsonStr = "{\"role_name\":\"approle1\",\"path\":\"shared/mysafe01\",\"access\":\"write\"}";
 
-        ResponseEntity<String> response = ResponseEntity.status(HttpStatus.BAD_REQUEST).body("{\"errors\":[\"Invalid path specified\"]}");
         ResponseEntity<String> responseEntityExpected = ResponseEntity.status(HttpStatus.BAD_REQUEST).body("{\"errors\":[\"Invalid path specified\"]}");
 
         Map<String,Object> requestMap = new HashMap<>();
@@ -1576,7 +1572,6 @@ public class SelfSupportServiceTest {
     public void test_readAppRole_successfully() {
 
         String token = "5PDrOhsy4ig8L3EpsJZSLAMg";
-        String responseJson = "{\"data\":{ \"bind_secret_id\": true, \"policies\": [\"test-access-policy\"]}}";
         ResponseEntity<String> responseEntityExpected = ResponseEntity.status(HttpStatus.OK).body("{\"data\":{ \"bind_secret_id\": true, \"policies\": [\"test-access-policy\"]}}");
         String appRole = "approle1";
         UserDetails userDetails = getMockUser(false);
@@ -1592,7 +1587,6 @@ public class SelfSupportServiceTest {
     public void test_readAppRole_successfully_admin() {
 
         String token = "5PDrOhsy4ig8L3EpsJZSLAMg";
-        String responseJson = "{\"data\":{ \"bind_secret_id\": true, \"policies\": [\"test-access-policy\"]}}";
         ResponseEntity<String> responseEntityExpected = ResponseEntity.status(HttpStatus.OK).body("{\"data\":{ \"bind_secret_id\": true, \"policies\": [\"test-access-policy\"]}}");
         String appRole = "approle1";
         UserDetails userDetails = getMockUser(true);

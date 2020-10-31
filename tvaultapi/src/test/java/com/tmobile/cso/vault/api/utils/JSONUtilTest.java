@@ -74,7 +74,6 @@ public class JSONUtilTest {
     public void test_getObj() throws Exception {
 
         String str = "{\"username\":\"testuser\",\"password\":\"testuser\"}";
-        UserLogin userLogin = new UserLogin("testuser", "testuser");
         Object ob = JSONUtil.getObj(str, UserLogin.class);
 
         assertEquals(UserLogin.class, ((UserLogin) ob).getClass());

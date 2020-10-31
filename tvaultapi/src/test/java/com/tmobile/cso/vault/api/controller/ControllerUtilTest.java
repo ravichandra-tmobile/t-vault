@@ -518,7 +518,6 @@ public class ControllerUtilTest {
     @Test
     public void test_canAddPermission_successfully()  {
 
-        String path = "users/safe01";
         String token = "7QPMPIGiyDFlJkrK3jFykUqa";
         Response response = getMockResponse(HttpStatus.OK, true, "{\"keys\":[\"safe01\", \"safe02\"]}");
         when(reqProcessor.process("/sdb/list","{\"path\":\"metadata/users\"}",token)).thenReturn(response);
@@ -530,7 +529,6 @@ public class ControllerUtilTest {
     @Test
     public void test_canAddPermission_failure()  {
 
-        String path = "users/safe01";
         String token = "7QPMPIGiyDFlJkrK3jFykUqa";
         Response response = getMockResponse(HttpStatus.OK, true, "{\"keys\":[\"safe01\", \"safe02\"]}");
         when(reqProcessor.process("/sdb/list","{\"path\":\"metadata/users\"}",token)).thenReturn(response);
@@ -700,7 +698,6 @@ public class ControllerUtilTest {
 
     @Test
     public void test_convertSafeAppRoleAccessToLowerCase() throws IOException {
-        String [] policies = {"default"};
         String jsonStr = "{\"role_name\":\"Role1\", \"path\":\"users/safe01\", \"write\"}";
         String jsonStrLowerCase = "{\"role_name\":\"role1\", \"path\":\"users/safe01\", \"write\"}";
         SafeAppRoleAccess safeAppRoleAccess = new SafeAppRoleAccess("Role1", "users/safe01", "write");
@@ -712,7 +709,6 @@ public class ControllerUtilTest {
 
     @Test
     public void test_convertAppRoleSecretIdToLowerCase() throws IOException {
-        String [] policies = {"default"};
         String jsonStr = "{\"role_name\":\"Approle1\",\"data\":{\"env\":\"dev\",\"appname\":\"appl\"}}";
         String jsonStrLowerCase =  "{\"role_name\":\"approle1\",\"data\":{\"env\":\"dev\",\"appname\":\"appl\"}}";
         AppRoleSecretData appRoleSecretData = new AppRoleSecretData("Approle1", new SecretData("dev", "appl"));
@@ -753,7 +749,6 @@ public class ControllerUtilTest {
 
     @Test
     public void test_getAppRoleObjFromString_failure() throws IOException {
-        String [] policies = {"default"};
         String jsonStr = "{\"role_names\":\"role1\",\"policies\":[\"default\"],\"bind_secret_id\":true,\"secret_id_num_uses\":\"1\",\"secret_id_ttl\":\"100m\",\"token_num_uses\":0,\"token_ttl\":null,\"token_max_ttl\":null}";
         //noinspection unchecked
         when(JSONUtil.getObj(jsonStr, AppRole.class)).thenThrow(Exception.class);
@@ -939,11 +934,9 @@ public class ControllerUtilTest {
 
     @Test
     public void test_canDeleteRole_successfully()  {
-        String metadataJson = "{\"path\":\"metadata/approle/role1\"}";
         String token = "7QPMPIGiyDFlJkrK3jFykUqa";
         String _path = "metadata/approle/role1";
         UserDetails userDetails = getMockUser(false);
-        Response expectedResponse = getMockResponse(HttpStatus.OK, true, "");
         Response response = getMockResponse(HttpStatus.OK, true, "{\"data\":{\"createdBy\":\"normaluser\",\"name\":\"z1\"}}");
         when(reqProcessor.process("/read","{\"path\":\""+_path+"\"}",token)).thenReturn(response);
         Response actualResponse = ControllerUtil.canDeleteRole("role1", token, userDetails, TVaultConstants.APPROLE_METADATA_MOUNT_PATH);
@@ -952,11 +945,9 @@ public class ControllerUtilTest {
 
     @Test
     public void test_canDeleteRole_successfully_admin()  {
-        String metadataJson = "{\"path\":\"metadata/approle/role1\"}";
         String token = "7QPMPIGiyDFlJkrK3jFykUqa";
         String _path = "metadata/approle/role1";
         UserDetails userDetails = getMockUser(true);
-        Response expectedResponse = getMockResponse(HttpStatus.OK, true, "");
         Response response = getMockResponse(HttpStatus.OK, true, "{\"data\":{\"createdBy\":\"normaluser\",\"name\":\"z1\"}}");
         when(reqProcessor.process("/read","{\"path\":\""+_path+"\"}",token)).thenReturn(response);
         Response actualResponse = ControllerUtil.canDeleteRole("role1", token, userDetails, TVaultConstants.APPROLE_METADATA_MOUNT_PATH);
@@ -965,11 +956,9 @@ public class ControllerUtilTest {
 
     @Test
     public void test_canDeleteRole_successfully_admin_()  {
-        String metadataJson = "{\"path\":\"metadata/approle/role1\"}";
         String token = "7QPMPIGiyDFlJkrK3jFykUqa";
         String _path = "metadata/approle/role1";
         UserDetails userDetails = getMockUser(true);
-        Response expectedResponse = getMockResponse(HttpStatus.OK, true, "");
         Response response = getMockResponse(HttpStatus.NOT_FOUND, true, "");
         when(reqProcessor.process("/read","{\"path\":\""+_path+"\"}",token)).thenReturn(response);
         Response actualResponse = ControllerUtil.canDeleteRole("role1", token, userDetails, TVaultConstants.APPROLE_METADATA_MOUNT_PATH);
@@ -978,11 +967,9 @@ public class ControllerUtilTest {
 
     @Test
     public void test_canDeleteRole_failure()  {
-        String metadataJson = "{\"path\":\"metadata/approle/role1\"}";
         String token = "7QPMPIGiyDFlJkrK3jFykUqa";
         String _path = "metadata/approle/role1";
         UserDetails userDetails = getMockUser(false);
-        Response expectedResponse = getMockResponse(HttpStatus.INTERNAL_SERVER_ERROR, true, "Error reading role info");
         Response response = getMockResponse(HttpStatus.OK, true, "");
         when(reqProcessor.process("/read","{\"path\":\""+_path+"\"}",token)).thenReturn(response);
         Response actualResponse = ControllerUtil.canDeleteRole("role1", token, userDetails, TVaultConstants.APPROLE_METADATA_MOUNT_PATH);
@@ -991,11 +978,9 @@ public class ControllerUtilTest {
 
     @Test
     public void test_canDeleteRole_failure_403()  {
-        String metadataJson = "{\"path\":\"metadata/approle/role1\"}";
         String token = "7QPMPIGiyDFlJkrK3jFykUqa";
         String _path = "metadata/approle/role1";
         UserDetails userDetails = getMockUser(false);
-        Response expectedResponse = getMockResponse(HttpStatus.OK, true, "");
         Response response = getMockResponse(HttpStatus.UNAUTHORIZED, true, "");
         when(reqProcessor.process("/read","{\"path\":\""+_path+"\"}",token)).thenReturn(response);
         Response actualResponse = ControllerUtil.canDeleteRole("role1", token, userDetails, TVaultConstants.APPROLE_METADATA_MOUNT_PATH);
@@ -1030,7 +1015,6 @@ public class ControllerUtilTest {
     @Test
     public void test_readSSCredFile() throws IOException{
     	File sscredFile = getSSCredFile();
-    	boolean isDelete = true;
     	SSCred expected = new SSCred();
     	expected.setUsername("c2FmZWFkbWlu");
     	expected.setPassword("c2FmZWFkbWlu");
@@ -1044,7 +1028,6 @@ public class ControllerUtilTest {
     @Test
     public void test_readSSCredFile_Failure() throws IOException{
     	File sscredFile = getSSCredFile();
-    	boolean isDelete = true;
     	SSCred expected = new SSCred();
     	expected.setUsername("c2FmZWFkbWlu");
     	expected.setPassword("c2FmZWFkbWlu");
@@ -1081,7 +1064,6 @@ public class ControllerUtilTest {
     @Test
     public void test_readOIDCCredFile() throws IOException{
         File oidccredFile = getOIDCCredFile();
-        boolean isDelete = true;
         OIDCCred expected = new OIDCCred();
         expected.setClientId("123123");
         expected.setClientName("clientname1");
@@ -1103,7 +1085,6 @@ public class ControllerUtilTest {
     @Test
     public void test_readOIDCCredFile_Failure() throws IOException{
         File oidccredFile = getOIDCCredFile();
-        boolean isDelete = true;
         OIDCCred expected = new OIDCCred();
         expected.setClientId("123123");
         expected.setClientName("clientname1");

@@ -226,7 +226,6 @@ public class SSLCertificateMockServiceTest {
         DirectoryObjectsList usersList = new DirectoryObjectsList();
         usersList.setValues(persons.toArray(new DirectoryUser[0]));
         users.setData(usersList);
-        String responseMessage =new ObjectMapper().writeValueAsString(users);
 
         ResponseEntity<DirectoryObjects> responseEntityExpected = ResponseEntity.status(HttpStatus.OK).body(users);
         when(directoryService.searchByCorpId(Mockito.any())).thenReturn(responseEntityExpected);
@@ -2596,7 +2595,6 @@ public class SSLCertificateMockServiceTest {
     @Test
     public void testAddUserToCertificateFailedForNotAuthorizedUser() {
         CertificateUser certUser = new CertificateUser("testuser2","read", "certificatename.t-mobile.com", "internal");
-        SSLCertificateMetadataDetails certificateMetadata = null;
         UserDetails userDetail = getMockUser(true);
         userDetail.setUsername("testuser1");
         ResponseEntity<String> responseEntityExpected = ResponseEntity.status(HttpStatus.BAD_REQUEST).body("{\"errors\":[\"Access denied: No permission to add users to this certificate\"]}");
@@ -2714,17 +2712,6 @@ public class SSLCertificateMockServiceTest {
     public void test_getgetTargetSystemList_failed()throws Exception{
         String token = "12345";
         String certType= "internal";
-        String jsonStr = "{\"targetSystems\": [ {" +
-                "  \"name\" : \"abc.com\"," +
-                "  \"description\" : \"\"," +
-                "  \"address\" : \"abc.com\"," +
-                "  \"targetSystemID\" : \"234\"" +
-                "}, {" +
-                "  \"name\" : \"cde.com\"," +
-                "  \"description\" : \"cde.com\"," +
-                "  \"address\" : \"cde.com\"," +
-                "  \"targetSystemID\" : \"123\"" +
-                "}]}";
         CertResponse response = new CertResponse();
         response.setHttpstatus(HttpStatus.INTERNAL_SERVER_ERROR);
         response.setResponse("{\"errors\":[\"Your request cannot be processed now due to some technical issue. Please try after some time\"]}");
@@ -2829,15 +2816,6 @@ public class SSLCertificateMockServiceTest {
     @Test
     public void test_getTargetSystemServiceList_failed()throws Exception{
         String token = "12345";
-        String jsonStr = "{\"targetsystemservices\": [ {\n" +
-                "  \"name\" : \"testservice1\",\n" +
-                "  \"description\" : \"\",\n" +
-                "  \"targetSystemServiceId\" : \"1234\",\n" +
-                "  \"hostname\" : \"testhostname\",\n" +
-                "  \"monitoringEnabled\" : false,\n" +
-                "  \"multiIpMonitoringEnabled\" : false,\n" +
-                "  \"port\" : 22\n" +
-                "} ]}";
         CertResponse response = new CertResponse();
         response.setHttpstatus(HttpStatus.INTERNAL_SERVER_ERROR);
         response.setResponse("{\"errors\":[\"NCLM services are down. Please try after some time\"]}");
@@ -3191,7 +3169,6 @@ public class SSLCertificateMockServiceTest {
         ResponseEntity<String> responseEntityExpected = ResponseEntity.status(HttpStatus.BAD_REQUEST).body("{\"errors\":[\"Invalid input values\"]}");
         token = "5PDrOhsy4ig8L3EpsJZSLAMg";
         userDetails = getMockUser(false);
-        CertificateApprole certificateApprole = null;
         SSLCertificateMetadataDetails certificateMetadata = getSSLCertificateMetadataDetails();
         when(certificateUtils.getCertificateMetaData(token, "certificatename.t-mobile.com", "internal")).thenReturn(certificateMetadata);
         when(certificateUtils.hasAddOrRemovePermission(userDetails, certificateMetadata)).thenReturn(true);
@@ -3281,7 +3258,6 @@ public class SSLCertificateMockServiceTest {
         certDetails.setExpiryDate("10-20-2030");
         when(certificateUtils.getCertificateMetaData(Mockito.any(), eq("certname"), anyString())).thenReturn(certDetails);
 
-        InputStreamResource resource = null;
         ResponseEntity<InputStreamResource> responseEntityExpected =
                 ResponseEntity.status(HttpStatus.BAD_REQUEST).body(null);
 
@@ -3333,7 +3309,6 @@ public class SSLCertificateMockServiceTest {
         certDetails.setExpiryDate("10-20-2030");
         when(certificateUtils.getCertificateMetaData(Mockito.any(), eq("certname"), anyString())).thenReturn(certDetails);
 
-        InputStreamResource resource = null;
         ResponseEntity<InputStreamResource> responseEntityExpected =
                 ResponseEntity.status(HttpStatus.BAD_REQUEST).body(null);
 
@@ -3384,7 +3359,6 @@ public class SSLCertificateMockServiceTest {
         certDetails.setExpiryDate("10-20-2030");
         when(certificateUtils.getCertificateMetaData(Mockito.any(), eq("certname"), anyString())).thenReturn(certDetails);
 
-        InputStreamResource resource = null;
         ResponseEntity<InputStreamResource> responseEntityExpected =
                 ResponseEntity.status(HttpStatus.BAD_REQUEST).body(null);
 
@@ -3432,8 +3406,6 @@ public class SSLCertificateMockServiceTest {
         String responseString = "teststreamdata";
         when(EntityUtils.toString(mockHttpEntity, "UTF-8")).thenReturn(responseString);
 
-        byte[] decodedBytes = Base64.getDecoder().decode(responseString);
-        InputStreamResource resource = new InputStreamResource(new ByteArrayInputStream(decodedBytes));
         ResponseEntity<InputStreamResource> responseEntityExpected = ResponseEntity.status(HttpStatus.FORBIDDEN)
                 .body(null);
 
@@ -3485,8 +3457,6 @@ public class SSLCertificateMockServiceTest {
         String responseString = "teststreamdata";
         when(EntityUtils.toString(mockHttpEntity, "UTF-8")).thenReturn(responseString);
 
-        byte[] decodedBytes = Base64.getDecoder().decode(responseString);
-        InputStreamResource resource = new InputStreamResource(new ByteArrayInputStream(decodedBytes));
         ResponseEntity<InputStreamResource> responseEntityExpected = ResponseEntity.status(HttpStatus.BAD_REQUEST)
                 .body(null);
 
@@ -3540,8 +3510,6 @@ public class SSLCertificateMockServiceTest {
         String responseString = "teststreamdata";
         when(EntityUtils.toString(mockHttpEntity, "UTF-8")).thenReturn(responseString);
 
-        byte[] decodedBytes = Base64.getDecoder().decode(responseString);
-        InputStreamResource resource = new InputStreamResource(new ByteArrayInputStream(decodedBytes));
         ResponseEntity<InputStreamResource> responseEntityExpected = ResponseEntity.status(HttpStatus.BAD_REQUEST)
                 .body(null);
 
@@ -4120,7 +4088,6 @@ public class SSLCertificateMockServiceTest {
 
     @Test
     public void testRemoveUserFromCertificateFailureIfNotauthorized() {
-        SSLCertificateMetadataDetails certificateMetadata = null;
         UserDetails userDetail = getMockUser(false);
         userDetail.setUsername("testuser1");
         CertificateUser certUser = new CertificateUser("testuser1","write", "certificatename.t-mobile.com", "internal");
@@ -4150,7 +4117,6 @@ public class SSLCertificateMockServiceTest {
 
     @Test
     public void testRemoveUserFromCertificateFailureIfNotvalidUser() {
-        UserDetails userDetail = null;
         CertificateUser certUser = new CertificateUser("testuser1","write", "certificatename.t-mobile.com", "internal");
         String expectedResponse = "{\"errors\":[\"Access denied: No permission to remove user from this certificate\"]}";
         ResponseEntity<String> responseEntityExpected = ResponseEntity.status(HttpStatus.BAD_REQUEST).body(expectedResponse);
@@ -4264,7 +4230,6 @@ public class SSLCertificateMockServiceTest {
 
     @Test
     public void testRemoveGroupFromCertificateFailureIfNotauthorized() {
-        SSLCertificateMetadataDetails certificateMetadata = null;
         UserDetails userDetail = getMockUser(false);
         userDetail.setUsername("testuser1");
         ReflectionTestUtils.setField(sSLCertificateService,"vaultAuthMethod", "ldap");
@@ -4297,7 +4262,6 @@ public class SSLCertificateMockServiceTest {
 
     @Test
     public void testRemoveGroupFromCertificateFailureIfNotvalidUser() {
-        UserDetails userDetail = null;
         ReflectionTestUtils.setField(sSLCertificateService,"vaultAuthMethod", "ldap");
         CertificateGroup certGroup = new CertificateGroup("certificatename.t-mobile.com", "testgroup","read", "internal");
         String expectedResponse = "{\"errors\":[\"Access denied: No permission to remove group from this certificate\"]}";
@@ -4393,7 +4357,6 @@ public class SSLCertificateMockServiceTest {
         String policies="r_cert_certmsivadasample.t-mobile.com";
         CertificateGroup certificateGroup = new CertificateGroup("certmsivadasample.t-mobile.com","r_safe_w_vault_demo","read", "internal");
         UserDetails userDetails = getMockUser(false);
-        SSLCertificateMetadataDetails certificateMetadata = getSSLCertificateMetadataDetails();
         Response userResponse = getMockResponse(HttpStatus.OK, true, "{\"data\":{\"bound_cidrs\":[],\"max_ttl\":0,\"policies\":[\"default\",\"r_cert_certificatename.t-mobile.com\"],\"ttl\":0,\"groups\":\"admin\"}}");
         Response responseNoContent = getMockResponse(HttpStatus.NO_CONTENT, true, "");
         when(ControllerUtil.arecertificateGroupInputsValid(certificateGroup)).thenReturn(true);
@@ -4424,7 +4387,6 @@ public class SSLCertificateMockServiceTest {
         String policies="r_cert_certmsivadasample.t-mobile.com";
         CertificateGroup certificateGroup = new CertificateGroup("certmsivadasample.t-mobile.com","r_safe_w_vault_demo","read", "internal");
         UserDetails userDetails = getMockUser(false);
-        SSLCertificateMetadataDetails certificateMetadata = getSSLCertificateMetadataDetails();
         Response userResponse = getMockResponse(HttpStatus.OK, true, "{\"data\":{\"bound_cidrs\":[],\"max_ttl\":0,\"policies\":[\"default\",\"r_cert_certificatename.t-mobile.com\"],\"ttl\":0,\"groups\":\"admin\"}}");
         Response responseNoContent = getMockResponse(HttpStatus.NO_CONTENT, true, "");
         when(ControllerUtil.arecertificateGroupInputsValid(certificateGroup)).thenReturn(true);
@@ -4500,7 +4462,6 @@ public class SSLCertificateMockServiceTest {
     @Test
     public void test_addGroupToCertificate_isAdmin() {
         String token = "5PDrOhsy4ig8L3EpsJZSLAMg";
-        String certificateName = "certsample.t-mobile.com";
         CertificateGroup certificateGroup = new CertificateGroup();
         certificateGroup.setAccess("read");
         certificateGroup.setCertificateName("certsample.t-mobile.com");
@@ -4508,8 +4469,6 @@ public class SSLCertificateMockServiceTest {
         certificateGroup.setCertType("internal");
         System.out.println("certgroup is :"+certificateGroup);
         UserDetails userDetails = getMockUser(false);
-        ResponseEntity<String> responseEntityExpected = ResponseEntity.status(HttpStatus.OK).body("{\"messages\":[\"Group is successfully associated with Certificate\"]}");
-        ResponseEntity<String> response = ResponseEntity.status(HttpStatus.BAD_REQUEST).body("{\"messages\":[\"Group is successfully associated with Certificate\"]}");
         when(ControllerUtil.arecertificateGroupInputsValid(certificateGroup)).thenReturn(true);
         ReflectionTestUtils.setField(sSLCertificateService, "vaultAuthMethod", "ldap");
 
@@ -4551,14 +4510,8 @@ public class SSLCertificateMockServiceTest {
     @Test
     public void transferSSLCertificate_Success() throws Exception {
         String jsonStr = "{  \"username\": \"testusername1\",  \"password\": \"testpassword1\"}";
-        String jsonStr2 = "{\"certificates\":[{\"sortedSubjectName\": \"CN=CertificateName.t-mobile.com, C=US, " +
-                "ST=Washington, " +
-                "L=Bellevue, O=T-Mobile USA, Inc\"," +
-                "\"certificateId\":57258,\"certificateStatus\":\"Active\"," +
-                "\"containerName\":\"cont_12345\",\"NotAfter\":\"2021-06-15T04:35:58-07:00\"}]}";
         Response userResponse = getMockResponse(HttpStatus.OK, true, "{\"data\":{\"bound_cidrs\":[],\"max_ttl\":0,\"policies\":[\"default\",\"r_cert_CertificateName.t-mobile.com\"],\"ttl\":0,\"groups\":\"admin\"}}");
 
-        SSLCertificateMetadataDetails sslCertificateRequest = getSSLCertificateMetadataDetails();
         UserDetails userDetails = new UserDetails();
         userDetails.setSelfSupportToken("tokentTest");
         userDetails.setUsername("normaluser");
@@ -4598,7 +4551,6 @@ public class SSLCertificateMockServiceTest {
         DirectoryUser user = new DirectoryUser();
         user.setDisplayName("name");
         user.setUserName("213");
-        Object[] values = null;
         objList.setValues(null);
         obj.setData(objList);
 
@@ -4615,14 +4567,8 @@ public class SSLCertificateMockServiceTest {
     @Test
     public void transferSSLCertificate_Success_with_SendTransfer_Email() throws Exception {
         String jsonStr = "{  \"username\": \"testusername1\",  \"password\": \"testpassword1\"}";
-        String jsonStr2 = "{\"certificates\":[{\"sortedSubjectName\": \"CN=CertificateName.t-mobile.com, C=US, " +
-                "ST=Washington, " +
-                "L=Bellevue, O=T-Mobile USA, Inc\"," +
-                "\"certificateId\":57258,\"certificateStatus\":\"Active\"," +
-                "\"containerName\":\"cont_12345\",\"NotAfter\":\"2021-06-15T04:35:58-07:00\"}]}";
         Response userResponse = getMockResponse(HttpStatus.OK, true, "{\"data\":{\"bound_cidrs\":[],\"max_ttl\":0,\"policies\":[\"default\",\"r_cert_CertificateName.t-mobile.com\"],\"ttl\":0,\"groups\":\"admin\"}}");
 
-        SSLCertificateMetadataDetails sslCertificateRequest = getSSLCertificateMetadataDetails();
         UserDetails userDetails = new UserDetails();
         userDetails.setSelfSupportToken("tokentTest");
         userDetails.setUsername("normaluser");
@@ -4692,13 +4638,6 @@ public class SSLCertificateMockServiceTest {
     @Test
     public void transferSSLCertificate_Failure() throws Exception {
         String jsonStr = "{  \"username\": \"testusername1\",  \"password\": \"testpassword1\"}";
-        String jsonStr2 = "{\"certificates\":[{\"sortedSubjectName\": \"CN=CertificateName.t-mobile.com, C=US, " +
-                "ST=Washington, " +
-                "L=Bellevue, O=T-Mobile USA, Inc\"," +
-                "\"certificateId\":57258,\"certificateStatus\":\"Active\"," +
-                "\"containerName\":\"cont_12345\",\"NotAfter\":\"2021-06-15T04:35:58-07:00\"}]}";
-
-        SSLCertificateMetadataDetails sslCertificateRequest = getSSLCertificateMetadataDetails();
         UserDetails userDetails = new UserDetails();
         userDetails.setSelfSupportToken("tokentTest");
         userDetails.setUsername("normaluser");
@@ -4735,7 +4674,6 @@ public class SSLCertificateMockServiceTest {
         DirectoryUser user = new DirectoryUser();
         user.setDisplayName("name");
         user.setUserName("213");
-        Object[] values = null;
         objList.setValues(null);
         obj.setData(objList);
 
@@ -4753,13 +4691,6 @@ public class SSLCertificateMockServiceTest {
     @Test
     public void transferSSLCertificate_External_Failure() throws Exception {
         String jsonStr = "{  \"username\": \"testusername1\",  \"password\": \"testpassword1\"}";
-        String jsonStr2 = "{\"certificates\":[{\"sortedSubjectName\": \"CN=CertificateName.t-mobile.com, C=US, " +
-                "ST=Washington, " +
-                "L=Bellevue, O=T-Mobile USA, Inc\"," +
-                "\"certificateId\":57258,\"certificateStatus\":\"Active\"," +
-                "\"containerName\":\"cont_12345\",\"NotAfter\":\"2021-06-15T04:35:58-07:00\"}]}";
-
-        SSLCertificateMetadataDetails sslCertificateRequest = getSSLCertificateMetadataDetails();
         UserDetails userDetails = new UserDetails();
         userDetails.setSelfSupportToken("tokentTest");
         userDetails.setUsername("normaluser");
@@ -4796,7 +4727,6 @@ public class SSLCertificateMockServiceTest {
         DirectoryUser user = new DirectoryUser();
         user.setDisplayName("name");
         user.setUserName("213");
-        Object[] values = null;
         objList.setValues(null);
         obj.setData(objList);
 
@@ -4936,7 +4866,6 @@ public class SSLCertificateMockServiceTest {
         resList.add("default");
         resList.add("r_cert_CertificateName.t-mobile.com");
         when(ControllerUtil.getPoliciesAsListFromJson(any(), any())).thenReturn(resList);
-        String certType = "external";
         when(ControllerUtil.configureUserpassUser(eq("testuser2"),any(),eq(token))).thenReturn(idapConfigureResponse);
         when(ControllerUtil.updateMetadata(any(),eq(token))).thenReturn(responseNoContent);
         when(certificateUtils.getCertificateMetaData(token, "certificatename.t-mobile.com", "internal")).thenReturn(certificateMetadata);
@@ -5009,7 +4938,6 @@ public class SSLCertificateMockServiceTest {
         reqStatusResponse.setHttpstatus(HttpStatus.OK);
         reqStatusResponse.setResponse(metaDataJson1);
         reqStatusResponse.setSuccess(true);
-        Map<String, Object> status = new HashMap<>();
         Map<String, Object> requestCertMap1 = new HashMap<>();
         requestCertMap1.put("conclusion", "waiting");
         when(ControllerUtil.parseJson(metaDataJson1)).thenReturn(requestCertMap1);
@@ -5091,7 +5019,6 @@ public class SSLCertificateMockServiceTest {
         reqStatusResponse.setHttpstatus(HttpStatus.OK);
         reqStatusResponse.setResponse(metaDataJson1);
         reqStatusResponse.setSuccess(true);
-        Map<String, Object> status = new HashMap<>();
         Map<String, Object> requestCertMap1 = new HashMap<>();
         requestCertMap1.put("conclusion", "rejected");
         when(ControllerUtil.parseJson(metaDataJson1)).thenReturn(requestCertMap1);
@@ -5174,7 +5101,6 @@ public class SSLCertificateMockServiceTest {
         reqStatusResponse.setHttpstatus(HttpStatus.OK);
         reqStatusResponse.setResponse(metaDataJson1);
         reqStatusResponse.setSuccess(true);
-        Map<String, Object> status = new HashMap<>();
         Map<String, Object> requestCertMap1 = new HashMap<>();
         requestCertMap1.put("conclusion", "rejected");
         when(ControllerUtil.parseJson(metaDataJson1)).thenReturn(requestCertMap1);
@@ -5259,7 +5185,6 @@ public class SSLCertificateMockServiceTest {
         reqStatusResponse.setHttpstatus(HttpStatus.OK);
         reqStatusResponse.setResponse(metaDataJson1);
         reqStatusResponse.setSuccess(true);
-        Map<String, Object> status = new HashMap<>();
         Map<String, Object> requestCertMap1 = new HashMap<>();
         requestCertMap1.put("conclusion", "rejected");
         when(ControllerUtil.parseJson(metaDataJson1)).thenReturn(requestCertMap1);
@@ -5335,7 +5260,6 @@ public class SSLCertificateMockServiceTest {
         reqStatusResponse.setHttpstatus(HttpStatus.OK);
         reqStatusResponse.setResponse(metaDataJson1);
         reqStatusResponse.setSuccess(true);
-        Map<String, Object> status = new HashMap<>();
         Map<String, Object> requestCertMap1 = new HashMap<>();
         requestCertMap1.put("conclusion", "rejected");
         when(ControllerUtil.parseJson(metaDataJson1)).thenReturn(requestCertMap1);
@@ -5878,9 +5802,6 @@ public class SSLCertificateMockServiceTest {
         response.setSuccess(true);
         response.setResponse(null);
 
-        CertificateDownloadRequest certificateDownloadRequest = new CertificateDownloadRequest(
-                "certname", "password", "pembundle", false,"internal");
-
         mockNclmLogin();
 
         when(HttpClientBuilder.create()).thenReturn(httpClientBuilder);
@@ -5894,9 +5815,6 @@ public class SSLCertificateMockServiceTest {
         when(httpResponse.getEntity()).thenReturn(mockHttpEntity);
         String responseString = "teststreamdata";
         when(EntityUtils.toString(mockHttpEntity, "UTF-8")).thenReturn(responseString);
-
-        String[] policyList = {"r_cert_certname"};
-        String bearerToken = "12345";
 
         when(HttpClientBuilder.create()).thenReturn(httpClientBuilder);
         when(httpClientBuilder.setSSLHostnameVerifier(NoopHostnameVerifier.INSTANCE)).thenReturn(httpClientBuilder);
@@ -5993,9 +5911,6 @@ public class SSLCertificateMockServiceTest {
         response.setSuccess(true);
         response.setResponse(null);
 
-        CertificateDownloadRequest certificateDownloadRequest = new CertificateDownloadRequest(
-                "certname", "password", "pembundle", false,"internal");
-
         mockNclmLogin();
 
         when(HttpClientBuilder.create()).thenReturn(httpClientBuilder);
@@ -6009,9 +5924,6 @@ public class SSLCertificateMockServiceTest {
         when(httpResponse.getEntity()).thenReturn(mockHttpEntity);
         String responseString = "teststreamdata";
         when(EntityUtils.toString(mockHttpEntity, "UTF-8")).thenReturn(responseString);
-
-        String[] policyList = {"r_cert_certname"};
-        String bearerToken = "12345";
 
         when(HttpClientBuilder.create()).thenReturn(httpClientBuilder);
         when(httpClientBuilder.setSSLHostnameVerifier(NoopHostnameVerifier.INSTANCE)).thenReturn(httpClientBuilder);

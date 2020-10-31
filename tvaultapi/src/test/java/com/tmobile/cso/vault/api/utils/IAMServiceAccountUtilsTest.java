@@ -209,9 +209,6 @@ public class IAMServiceAccountUtilsTest {
         String iamServiceAccountName = "svc_vault_test5";
         String token = "123123123123";
         String awsAccountId = "1234567890";
-        String path = "metadata/iamsvcacc/1234567890_svc_vault_test5";
-        String iamSecret = "abcdefgh";
-        String accessKeyId = "testaccesskey";
 
         Response response = getMockResponse(HttpStatus.OK, "{ \"data\": { \"isActivated\": false}}");
         when(reqProcessor.process(eq("/read"),Mockito.any(),eq(token))).thenReturn(response);
@@ -228,9 +225,6 @@ public class IAMServiceAccountUtilsTest {
         String iamServiceAccountName = "svc_vault_test5";
         String token = "123123123123";
         String awsAccountId = "1234567890";
-        String path = "metadata/iamsvcacc/1234567890_svc_vault_test5";
-        String iamSecret = "abcdefgh";
-        String accessKeyId = "testaccesskey";
 
         Response response = getMockResponse(HttpStatus.NOT_FOUND, "");
         when(reqProcessor.process(eq("/read"),Mockito.any(),eq(token))).thenReturn(response);
@@ -245,7 +239,6 @@ public class IAMServiceAccountUtilsTest {
         String iamServiceAccountName = "svc_vault_test5";
         String token = "123123123123";
         String awsAccountId = "1234567890";
-        String path = "metadata/iamsvcacc/1234567890_svc_vault_test5";
         String iamSecret = "abcdefgh";
         String accessKeyId = "testaccesskey";
 
@@ -267,7 +260,6 @@ public class IAMServiceAccountUtilsTest {
         String iamServiceAccountName = "svc_vault_test5";
         String token = "123123123123";
         String awsAccountId = "1234567890";
-        String path = "metadata/iamsvcacc/1234567890_svc_vault_test5";
         String iamSecret = "abcdefgh";
         String accessKeyId = "testaccesskey";
 

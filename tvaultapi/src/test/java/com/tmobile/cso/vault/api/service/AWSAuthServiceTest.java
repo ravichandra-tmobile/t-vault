@@ -559,10 +559,6 @@ public class AWSAuthServiceTest {
     @Test
     public void test_authenticate_AWS_IAM_successfully() {
 
-        String jsonLoginStr = "{\n" +
-                "  \"role\": \"testawsrole\",\n" +
-                "  \"pkcs7\": \"MIIBjwYJKoZIhvcNAQcDoIIBgDCCAXwCAQAxggE4MIIBNAIBADCBnDCBlDELMAkGA1UEBhMCWkEx====\"\n" +
-                "}";
         String jsonStr = "{\n" +
                 "  \"iam_http_request_method\": \"POST\",\n" +
                 "  \"iam_request_body\": \"{}\",\n" +
@@ -579,7 +575,6 @@ public class AWSAuthServiceTest {
         awsAuthLogin.setRole("testawsrole");
         awsAuthLogin.setPkcs7("MIIBjwYJKoZIhvcNAQcDoIIBgDCCAXwCAQAxggE4MIIBNAIBADCBnDCBlDELMAkGA1UEBhMCWkEx====");
 
-        Response response = getMockResponse(HttpStatus.NO_CONTENT, false, "");
         Response responseOk = getMockResponse(HttpStatus.OK, false, "");
         ResponseEntity<String> responseEntityExpected = ResponseEntity.status(HttpStatus.OK).body("{} \t");
 

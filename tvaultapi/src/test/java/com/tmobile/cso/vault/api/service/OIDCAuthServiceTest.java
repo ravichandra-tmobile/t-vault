@@ -120,13 +120,11 @@ public class OIDCAuthServiceTest {
         oidcLookupEntityRequest.setAlias_mount_accessor("mount");
         oidcLookupEntityRequest.setAlias_name("alias_name");
         oidcLookupEntityRequest.setName("name");
-        String jsonStr = JSONUtil.getJSON(oidcLookupEntityRequest);
         OIDCEntityResponse oidcEntityResponse = new OIDCEntityResponse();
         oidcEntityResponse.setEntityName("entity_63f119d2");
         List<String> policies = new ArrayList<>();
         policies.add("safeadmin");
         oidcEntityResponse.setPolicies(policies);
-        Response response = getMockResponse(HttpStatus.OK, "\"{\\\"entityName\\\":\\\"entity_63f119d2\\\",\\\"policies\\\":[\\\"safeadmin\\\"]}\"");
         String responseInput = "\"{\\\"entityName\\\":\\\"entity_63f119d2\\\",\\\"policies\\\":[\\\"safeadmin\\\"]}\"";
         when(OIDCUtil.getEntityLookUpResponse(responseInput)).thenReturn(oidcEntityResponse);
 
@@ -218,8 +216,6 @@ public class OIDCAuthServiceTest {
         oidcIdentityGroupRequest.setMetadata(metadata);
         oidcIdentityGroupRequest.setPolicies(null);
         oidcIdentityGroupRequest.setName(name);
-        String jsonStr = JSONUtil.getJSON(oidcIdentityGroupRequest);
-        Response response = getMockResponse(HttpStatus.OK, "{\"data\": [\"safeadmin\",\"vaultadmin\"]]");
         String canonicalId ="123-333-33as";
         when(OIDCUtil.updateIdentityGroupByName(token, oidcIdentityGroupRequest)).thenReturn(canonicalId);
         ResponseEntity<String> responseEntity = oidcAuthService.updateIdentityGroupByName(token,
@@ -273,7 +269,6 @@ public class OIDCAuthServiceTest {
         groupAliasRequest.setId(id);
         groupAliasRequest.setMount_accessor("mount_accessor");
         groupAliasRequest.setName("name");
-        String jsonStr = JSONUtil.getJSON(groupAliasRequest);
         Response response = getMockResponse(HttpStatus.OK, "{\"data\": [\"safeadmin\",\"vaultadmin\"]]");
         when(OIDCUtil.createGroupAlias(token, groupAliasRequest)).thenReturn(response);
         ResponseEntity<String> responseEntity = oidcAuthService.createGroupAlias(token, groupAliasRequest);
@@ -414,7 +409,6 @@ public class OIDCAuthServiceTest {
     @Test
     public void test_getGroupObjectIdFromAzure_404() throws Exception {
 
-        String ssoToken = "abcd";
         String groupName = "group1";
         when(OIDCUtil.getSSOToken()).thenReturn(null);
         ResponseEntity<String> responseEntityExpected = ResponseEntity.status(HttpStatus.BAD_REQUEST).body("{\"errors\":[\"Failed to get SSO token for Azure AD access\"]}");
@@ -454,9 +448,7 @@ public class OIDCAuthServiceTest {
     
     @Test
     public void getUserName_Success() throws Exception {
-        String token = "4EpPYDSfgN2D4Gf7UmNO3nuL";
         String username = "testuser";
-        Response response = getMockResponse(HttpStatus.OK, username);
         ResponseEntity<String> responseEntityExpected = ResponseEntity.status(HttpStatus.OK).body("{\"data\":{\"username\": \"" + username.toLowerCase() + "\"}}");
         when(OIDCUtil.getUserName(Mockito.anyString())).thenReturn(username);
 		UserDetails userDetails = new UserDetails();

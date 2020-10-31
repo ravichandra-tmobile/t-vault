@@ -185,10 +185,8 @@ public class ServiceAccountsServiceTest {
 		UserDetails userDetails = getMockUser(true);
     	String token = userDetails.getClientToken();
     	String userPrincipalName = "test";
-    	boolean excludeOnboarded = true;
     	String encodedFilter = "(&(userPrincipalName=test*)(objectClass=user)(!(CN=null))(!(CN=testacc02)))";
         List<ADServiceAccount> allServiceAccounts = generateADSerivceAccounts();
-        ResponseEntity<ADServiceAccountObjects> responseEntityExpected = ResponseEntity.status(HttpStatus.OK).body(generateADServiceAccountObjects(allServiceAccounts));
 
         List<ADUserAccount> list = new ArrayList<>();
         ADUserAccount adUserAccount = new ADUserAccount();
@@ -221,11 +219,9 @@ public class ServiceAccountsServiceTest {
 		UserDetails userDetails = getMockUser(true);
     	String token = userDetails.getClientToken();
     	String userPrincipalName = "test";
-    	boolean excludeOnboarded = true;
     	String encodedFilter = "(&(userPrincipalName=test*)(objectClass=user)(!(CN=null))(!(CN=testacc02)))";
         List<ADServiceAccount> allServiceAccounts = generateADSerivceAccounts();
         allServiceAccounts.add(generateADServiceAccount("testacc02"));
-        ResponseEntity<ADServiceAccountObjects> responseEntityExpected = ResponseEntity.status(HttpStatus.OK).body(generateADServiceAccountObjects(allServiceAccounts));
         ReflectionTestUtils.setField(serviceAccountsService, "ldapTemplate", ldapTemplate);
         when(ldapTemplate.search(Mockito.anyString(), Mockito.eq(encodedFilter), Mockito.any(AttributesMapper.class))).thenReturn(allServiceAccounts);
 
@@ -242,12 +238,10 @@ public class ServiceAccountsServiceTest {
 		UserDetails userDetails = getMockUser(true);
     	String token = userDetails.getClientToken();
     	String userPrincipalName = "test";
-    	boolean excludeOnboarded = true;
     	String encodedFilter = "(&(userPrincipalName=test*)(objectClass=user)(!(CN=null)))";
         List<ADServiceAccount> allServiceAccounts = generateADSerivceAccounts();
         allServiceAccounts.add(generateADServiceAccount("testacc02"));
         allServiceAccounts.add(generateADServiceAccount("testacc03"));
-        ResponseEntity<ADServiceAccountObjects> responseEntityExpected = ResponseEntity.status(HttpStatus.OK).body(generateADServiceAccountObjects(allServiceAccounts));
         List<ADUserAccount> list = new ArrayList<>();
         ADUserAccount adUserAccount = new ADUserAccount();
         adUserAccount.setUserId("user.user11");
@@ -274,9 +268,6 @@ public class ServiceAccountsServiceTest {
 		UserDetails userDetails = getMockUser(true);
     	String token = userDetails.getClientToken();
     	String userPrincipalName = "test";
-    	boolean excludeOnboarded = false;
-        List<ADServiceAccount> allServiceAccounts = null;
-        ResponseEntity<ADServiceAccountObjects> responseEntityExpected = ResponseEntity.status(HttpStatus.OK).body(generateADServiceAccountObjects(null));
         List<ADUserAccount> list = new ArrayList<>();
         ADUserAccount adUserAccount = new ADUserAccount();
         adUserAccount.setUserId("user.user11");
@@ -302,7 +293,6 @@ public class ServiceAccountsServiceTest {
 		UserDetails userDetails = getMockUser(true);
     	String token = userDetails.getClientToken();
     	String userPrincipalName = "test";
-    	boolean excludeOnboarded = false;
         List<ADServiceAccount> allServiceAccounts = generateADSerivceAccounts();
         ResponseEntity<ADServiceAccountObjects> responseEntityExpected = ResponseEntity.status(HttpStatus.OK).body(generateADServiceAccountObjects(allServiceAccounts));
         List<ADUserAccount> list = new ArrayList<>();
@@ -803,7 +793,6 @@ public class ServiceAccountsServiceTest {
     	String token = userDetails.getClientToken();
     	OnboardedServiceAccount onboardedServiceAccount = generateOnboardedServiceAccount();
 
-        ServiceAccountUser serviceAccountUser = new ServiceAccountUser("testacc01", userDetails.getUsername(), "sudo");
         String [] policies = {"o_svcacct_testacc01"};
         when(policyUtils.getCurrentPolicies(token, userDetails.getUsername(), userDetails)).thenReturn(policies);
         Response userResponse = getMockResponse(HttpStatus.OK, true, "{\"data\":{\"bound_cidrs\":[],\"max_ttl\":0,\"policies\":[\"default\", \"o_svcacct_testacc02\"],\"ttl\":0,\"groups\":\"admin\"}}");
@@ -884,7 +873,6 @@ public class ServiceAccountsServiceTest {
         String token = userDetails.getClientToken();
         OnboardedServiceAccount onboardedServiceAccount = generateOnboardedServiceAccount();
 
-        ServiceAccountUser serviceAccountUser = new ServiceAccountUser("testacc01", userDetails.getUsername(), "sudo");
         String [] policies = {"o_svcacct_testacc01"};
         when(policyUtils.getCurrentPolicies(token, userDetails.getUsername(), userDetails)).thenReturn(policies);
         Response userResponse = getMockResponse(HttpStatus.OK, true, "{\"data\":{\"bound_cidrs\":[],\"max_ttl\":0,\"policies\":[\"default\", \"o_svcacct_testacc02\"],\"ttl\":0,\"groups\":\"admin\"}}");
@@ -954,7 +942,6 @@ public class ServiceAccountsServiceTest {
         String token = userDetails.getClientToken();
         OnboardedServiceAccount onboardedServiceAccount = generateOnboardedServiceAccount();
 
-        ServiceAccountUser serviceAccountUser = new ServiceAccountUser("testacc01", userDetails.getUsername(), "sudo");
         String [] policies = {"o_svcacct_testacc01"};
         when(policyUtils.getCurrentPolicies(token, userDetails.getUsername(), userDetails)).thenReturn(policies);
         Response userResponse = getMockResponse(HttpStatus.OK, true, "{\"data\":{\"bound_cidrs\":[],\"max_ttl\":0,\"policies\":[\"default\", \"o_svcacct_testacc02\"],\"ttl\":0,\"groups\":\"admin\"}}");
@@ -1029,7 +1016,6 @@ public class ServiceAccountsServiceTest {
         String token = userDetails.getClientToken();
         OnboardedServiceAccount onboardedServiceAccount = generateOnboardedServiceAccount();
 
-        ServiceAccountUser serviceAccountUser = new ServiceAccountUser("testacc01", userDetails.getUsername(), "sudo");
         String [] policies = {"o_svcacct_testacc01"};
         when(policyUtils.getCurrentPolicies(token, userDetails.getUsername(), userDetails)).thenReturn(policies);
         Response userResponse = getMockResponse(HttpStatus.OK, true, "{\"data\":{\"bound_cidrs\":[],\"max_ttl\":0,\"policies\":[\"default\", \"o_svcacct_testacc02\"],\"ttl\":0,\"groups\":\"admin\"}}");
@@ -1180,15 +1166,13 @@ public class ServiceAccountsServiceTest {
    			List<String> policies = new ArrayList<>();
    			policies.add("safeadmin");
    			oidcEntityResponse.setPolicies(policies);
-   			ResponseEntity<DirectoryObjects> responseEntity1 = ResponseEntity.status(HttpStatus.OK).body(users);
    			when(OIDCUtil.fetchMountAccessorForOidc(token)).thenReturn(mountAccessor);
 
    			ResponseEntity<OIDCEntityResponse> responseEntity2 = ResponseEntity.status(HttpStatus.OK)
    					.body(oidcEntityResponse);
 
    			when(tokenUtils.getSelfServiceTokenWithAppRole()).thenReturn(token);
-   			String entityName = "entity";
-   			
+
    			Response responseEntity3 = getMockResponse(HttpStatus.NO_CONTENT, true, "{\"data\": [\"safeadmin\",\"vaultadmin\"]]");
    			when(OIDCUtil.updateOIDCEntity(any(), any()))
    					.thenReturn(responseEntity3);
@@ -1388,15 +1372,13 @@ public class ServiceAccountsServiceTest {
    			List<String> policies = new ArrayList<>();
    			policies.add("safeadmin");
    			oidcEntityResponse.setPolicies(policies);
-   			ResponseEntity<DirectoryObjects> responseEntity1 = ResponseEntity.status(HttpStatus.OK).body(users);
    			when(OIDCUtil.fetchMountAccessorForOidc(token)).thenReturn(mountAccessor);
 
    			ResponseEntity<OIDCEntityResponse> responseEntity2 = ResponseEntity.status(HttpStatus.OK)
    					.body(oidcEntityResponse);
 
    			when(tokenUtils.getSelfServiceTokenWithAppRole()).thenReturn(token);
-   			String entityName = "entity";
-   			
+
    			Response responseEntity3 = getMockResponse(HttpStatus.NO_CONTENT, true, "{\"data\": [\"safeadmin\",\"vaultadmin\"]]");
    			when(OIDCUtil.updateOIDCEntity(any(), any()))
    					.thenReturn(responseEntity3);
@@ -1557,7 +1539,6 @@ public class ServiceAccountsServiceTest {
         when(ControllerUtil.configureLDAPUser(eq("testacc01"),any(),any(),eq(token))).thenReturn(responseNoContent);
         when(ControllerUtil.updateMetadata(any(),any())).thenReturn(responseNoContent);
         // System under test
-        String expectedResponse = "{\"messages\":[\"Successfully added user to the Service Account\"]}";
         when(reqProcessor.process(eq("/sdb"),Mockito.any(),eq(token))).thenReturn(getMockResponse(HttpStatus.OK, true, "{\"data\":{\"initialPasswordReset\":false,\"managedBy\":\"smohan11\",\"name\":\"svc_vault_test5\",\"users\":{\"smohan11\":\"sudo\"}}}"));
         String[] latestPolicies = {"o_svcacct_testacc02"};
         when(policyUtils.getCurrentPolicies(userDetails.getSelfSupportToken(), userDetails.getUsername(), userDetails)).thenReturn(latestPolicies);
@@ -1615,7 +1596,6 @@ public class ServiceAccountsServiceTest {
         ResponseEntity<String> responseEntityExpected = ResponseEntity.status(HttpStatus.OK).body(expectedOutput);
         when(reqProcessor.process(eq("/sdb"),Mockito.any(),eq(token))).thenReturn(getMockResponse(HttpStatus.OK, true, "{\"data\":{\"initialPasswordReset\":false,\"managedBy\":\"normaluser\",\"name\":\"svc_vault_test5\",\"users\":{\"normaluser\":\"sudo\"}}}"));
 
-        ServiceAccountUser serviceAccountUser = new ServiceAccountUser("testacc02", "testacc01", "read");
         Response userResponse = getMockResponse(HttpStatus.OK, true, "{\"data\":{\"bound_cidrs\":[],\"max_ttl\":0,\"policies\":[\"default\"],\"ttl\":0,\"groups\":\"admin\"}}");
         Response responseNoContent = getMockResponse(HttpStatus.NO_CONTENT, true, "{\"policies\":null}");
         when(reqProcessor.process("/auth/ldap/users","{\"username\":\"testacc01\"}",token)).thenReturn(userResponse);
@@ -1770,7 +1750,6 @@ public class ServiceAccountsServiceTest {
         Response svcAccDetailsRes = getMockResponse(HttpStatus.OK, true, getJSON(rqstParams));
         when(reqProcessor.process("/ad/serviceaccount/details","{\"role_name\":\""+svcAccName+"\"}",token)).thenReturn(svcAccDetailsRes);
 
-        String pwdResetOutput = "{\"errors\":[\"Unable to reset password details for the given service account. Failed to read the updated password.\"]}";
         Response pwdResetResponse = getMockResponse(HttpStatus.BAD_REQUEST, true, "");
         when(reqProcessor.process(Mockito.eq("/ad/serviceaccount/resetpwd"),Mockito.anyString(),Mockito.eq(token))).thenReturn(pwdResetResponse);
 
@@ -2038,7 +2017,6 @@ public class ServiceAccountsServiceTest {
     	UserDetails userDetails = getMockUser(true);
     	ServiceAccountUser serviceAccountUser = new ServiceAccountUser("testacc02", "testacc01", "read");
     	String action = "addUser";
-    	boolean expected = true;
     	// System under test
     	boolean actual = serviceAccountsService.canAddOrRemoveUser(userDetails, serviceAccountUser, action);
         assertTrue(actual);
@@ -2049,7 +2027,6 @@ public class ServiceAccountsServiceTest {
     	UserDetails userDetails = getMockUser(false);
     	ServiceAccountUser serviceAccountUser = new ServiceAccountUser("testacc02", "testacc01", "read");
     	String action = "addUser";
-    	boolean expected = false;
     	// System under test
     	boolean actual = serviceAccountsService.canAddOrRemoveUser(userDetails, serviceAccountUser, action);
         assertFalse(actual);
@@ -2304,7 +2281,6 @@ public class ServiceAccountsServiceTest {
         ServiceAccountGroup serviceAccountGroup = new ServiceAccountGroup("svc_vault_test7", "group1", "reset");
         UserDetails userDetails = getMockUser(false);
         ResponseEntity<String> responseEntityExpected = ResponseEntity.status(HttpStatus.OK).body("{\"messages\":[\"Group is successfully removed from Service Account\"]}");
-        ResponseEntity<String> response = ResponseEntity.status(HttpStatus.OK).body("{\"messages\":[\"Group is successfully removed from Service Account\"]}");
         Response responseNoContent = getMockResponse(HttpStatus.NO_CONTENT, true, "");
 
         String [] policies = {"o_svcacct_svc_vault_test7"};
@@ -2339,7 +2315,6 @@ public class ServiceAccountsServiceTest {
         ServiceAccountGroup serviceAccountGroup = new ServiceAccountGroup("svc_vault_test7", "group1", "reset");
         UserDetails userDetails = getMockUser(false);
         ResponseEntity<String> responseEntityExpected = ResponseEntity.status(HttpStatus.OK).body("{\"messages\":[\"Group is successfully removed from Service Account\"]}");
-        ResponseEntity<String> response = ResponseEntity.status(HttpStatus.OK).body("{\"messages\":[\"Group is successfully removed from Service Account\"]}");
         Response responseNoContent = getMockResponse(HttpStatus.NO_CONTENT, true, "");
 
         String [] policies = {"o_svcacct_svc_vault_test7"};
@@ -2403,7 +2378,6 @@ public class ServiceAccountsServiceTest {
         ServiceAccountGroup serviceAccountGroup = new ServiceAccountGroup("svc_vault_test7", "group1", "reset");
         UserDetails userDetails = getMockUser(false);
         ResponseEntity<String> responseEntityExpected = ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body("{\"errors\":[\"Group configuration failed. Please try again\"]}");
-        ResponseEntity<String> response = ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body("{\"errors\":[\"Group configuration failed. Please try again\"]}");
         Response responseNoContent = getMockResponse(HttpStatus.NO_CONTENT, true, "");
         Response response404 = getMockResponse(HttpStatus.NOT_FOUND, true, "");
 
@@ -2837,7 +2811,6 @@ public class ServiceAccountsServiceTest {
     public void test_getServiceAccountMeta_success() {
         UserDetails userDetails = getMockUser(true);
         String token = userDetails.getClientToken();
-        String userPrincipalName = "test";
         String path = "/ad/roles/testacc01/";
         String _path = "metadata/ad/roles/testacc01";
 
@@ -3437,7 +3410,6 @@ public class ServiceAccountsServiceTest {
 
         when(reqProcessor.process("/ad/serviceaccount/details","{\"role_name\":\""+svcAccName+"\"}",token)).thenReturn(svcAccDetailsRes);
 
-        String encodedFilter = "(&(userPrincipalName=test*)(objectClass=user)(!(CN=null)))";
         List<ADServiceAccount> allServiceAccounts = generateADSerivceAccounts();
         allServiceAccounts.add(generateADServiceAccount("testacc02"));
         allServiceAccounts.add(generateADServiceAccount("testacc03"));

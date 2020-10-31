@@ -249,7 +249,6 @@ public class SSLCertificateControllerTest {
                 "abc.com", "password", "pembundle", false,"internal");
 
         String inputJson =new ObjectMapper().writeValueAsString(certificateDownloadRequest);
-        InputStreamResource resource = null;
         ResponseEntity<InputStreamResource> responseEntityExpected = ResponseEntity.status(HttpStatus.OK).body(null);
 
         UserDetails userDetails = getMockUser();
@@ -265,7 +264,6 @@ public class SSLCertificateControllerTest {
     @Test
     public void test_downloadCertificate() throws Exception {
 
-        InputStreamResource resource = null;
         ResponseEntity<InputStreamResource> responseEntityExpected = ResponseEntity.status(HttpStatus.OK).body(null);
 
         when(sslCertificateService.downloadCertificate(eq("5PDrOhsy4ig8L3EpsJZSLAMg"), Mockito.any(), eq("12345"),

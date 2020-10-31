@@ -99,7 +99,6 @@ public class AuthorizationUtilsTest {
     	String username = "testuser1";
     	String powerToken = "self_support_token";
     	String userToken = "ordinary_client_token";
-    	boolean admin = true;
     	String safename = "mysafe01";
     	String safeType = "shared";
     	String path = "shared/mysafe01";
@@ -113,8 +112,7 @@ public class AuthorizationUtilsTest {
     	String[] latestPolicies = createLatestPolicies(latestPoliciesStr);
     	ArrayList<String> policiesTobeChecked = createPoliciesTobeChecked(policiesTobeCheckedStr);
     	
-    	boolean forceCapabilityCheck = true;
-    	
+
     	boolean actual = authorizationUtils.isAuthorized(userDetails, safeMetaData, latestPolicies, policiesTobeChecked, true);
 		assertTrue(actual);
     }
@@ -125,7 +123,6 @@ public class AuthorizationUtilsTest {
     	String username = "normaluser";
     	String powerToken = "self_support_token";
     	String userToken = "ordinary_client_token";
-    	boolean admin = false;
     	String safename = "mysafe01";
     	String safeType = "shared";
     	String safeOwner = "owner@someorg.com";
@@ -139,8 +136,6 @@ public class AuthorizationUtilsTest {
     	String[] latestPolicies = createLatestPolicies(latestPoliciesStr);
     	ArrayList<String> policiesTobeChecked = createPoliciesTobeChecked(policiesTobeCheckedStr);
     	
-    	boolean forceCapabilityCheck = false;
-    	
     	boolean actual = authorizationUtils.isAuthorized(userDetails, safeMetaData, latestPolicies, policiesTobeChecked, false);
 		assertTrue(actual);
     }
@@ -150,7 +145,6 @@ public class AuthorizationUtilsTest {
     	String username = "normaluser";
     	String powerToken = "self_support_token";
     	String userToken = "ordinary_client_token";
-    	boolean admin = false;
     	String safename = "mysafe01";
     	String safeType = "shared";
     	String safeOwner = "owner@someorg.com";
@@ -158,7 +152,6 @@ public class AuthorizationUtilsTest {
     	String path = "shared/mysafe01";
     	String latestPoliciesStr = "s_shared_mysafe01, safeadmin";
     	String policiesTobeCheckedStr = "s_shared_mysafe01";
-    	boolean forceCapabilityCheck = true;
     	UserDetails userDetails = createUserDetails(username, powerToken, userToken, false);
     	Safe safeMetaData = createSafe(safename, safeType, path, safeOwner, safeOwnerId);
     	String[] latestPolicies = createLatestPolicies(latestPoliciesStr);
@@ -231,7 +224,6 @@ public class AuthorizationUtilsTest {
 		String username = "normaluser";
 		String powerToken = "self_support_token";
 		String userToken = "ordinary_client_token";
-		boolean admin = false;
 		String safename = "mysafe01";
 		String safeType = "shared";
 		String safeOwner = "owner@someorg.com";
@@ -239,7 +231,6 @@ public class AuthorizationUtilsTest {
 		String path = "shared/mysafe01";
 		String latestPoliciesStr = "s_shared_mysafe01, safeadmin";
 		String policiesTobeCheckedStr = "s_shared_mysafe01";
-		boolean forceCapabilityCheck = true;
 		UserDetails userDetails = createUserDetails(username, powerToken, userToken, false);
 		Safe safeMetaData = createSafe(safename, safeType, path, safeOwner, safeOwnerId);
 		String[] latestPolicies = createLatestPolicies(latestPoliciesStr);

@@ -251,9 +251,6 @@ public class AccessServiceTest {
 
         String token = "5PDrOhsy4ig8L3EpsJZSLAMg";
         String accessId = "test-access-policy";
-        String responseJson = "";
-        ResponseEntity<String> responseEntityExpected = ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body(responseJson);
-
         Response response =getMockResponse(HttpStatus.INTERNAL_SERVER_ERROR, false, "");
 
 
@@ -268,9 +265,6 @@ public class AccessServiceTest {
 
         String token = "5PDrOhsy4ig8L3EpsJZSLAMg";
         String accessId = "";
-        String responseJson = "{\"errors\":[\"Missing accessid \"]}";
-        ResponseEntity<String> responseEntityExpected = ResponseEntity.status(HttpStatus.BAD_REQUEST).body(responseJson);
-
         ResponseEntity<String> responseEntity = accessService.deletePolicyInfo(token, accessId);
 
         assertEquals(HttpStatus.BAD_REQUEST, responseEntity.getStatusCode());

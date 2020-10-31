@@ -169,8 +169,6 @@ public class OIDCUtilTest {
         ReflectionTestUtils.setField(oidcUtil, "ssoGroupsEndpoint", "testgroupurl");
         when(ControllerUtil.getOidcADLoginUrl()).thenReturn("testurl");
 
-        String responseJson = "{\"data\":{\"objectId\": \"abcdefg\"}}";
-        ResponseEntity<String> responseEntityExpected = ResponseEntity.status(HttpStatus.OK).body(responseJson);
         String actualToken = oidcUtil.getSSOToken();
         assertNotNull(actualToken);
     }
@@ -193,8 +191,6 @@ public class OIDCUtilTest {
         when(mockHttpEntity.getContent()).thenReturn( new ByteArrayInputStream(responseString.getBytes()));
         ReflectionTestUtils.setField(oidcUtil, "ssoGroupsEndpoint", "testgroupurl");
         when(ControllerUtil.getOidcADLoginUrl()).thenReturn("testurl");
-        String responseJson = "{\"errors\":[\"Failed to get SSO token for Azure AD access\"]}";
-        ResponseEntity<String> responseEntityExpected = ResponseEntity.status(HttpStatus.BAD_REQUEST).body(responseJson);
         String actualToken = oidcUtil.getSSOToken();
         assertNull(actualToken);
 
@@ -312,7 +308,6 @@ public class OIDCUtilTest {
     public void oidcFetchEntityDetailsSuccess(){
     	ResponseEntity<String> responseEntityExpected = ResponseEntity.status(HttpStatus.OK).body("{\"messages\":[\"Success\"]}");
     	String token = "qwqwdsfsf";
-    	String accessor = "testUser";
     	String username = "testUser";
     	   DirectoryUser directoryUser = new DirectoryUser();
            directoryUser.setDisplayName("testUser");
@@ -328,7 +323,6 @@ public class OIDCUtilTest {
            DirectoryObjectsList usersList = new DirectoryObjectsList();
            usersList.setValues(persons.toArray(new DirectoryUser[0]));
            users.setData(usersList);
-           ResponseEntity<DirectoryObjects> responseEntity1 = ResponseEntity.status(HttpStatus.OK).body(users);
            String dataOutput = "{\"data\":{\"oidc/\":{\"accessor\":\"auth_oidc_8b51f292\",\"config\":{\"default_lease_ttl\":0,\"force_no_cache\":false,\"max_lease_ttl\":0,\"token_type\":\"default-service\"},\"description\":\"\",\"external_entropy_access\":false,\"local\":false,\"options\":null,\"seal_wrap\":false,\"type\":\"oidc\",\"uuid\":\"fbd45cc4-d6b6-8b49-6d1a-d4d931345df9\"}}}";
            Response responsemock = getMockResponse(HttpStatus.OK, dataOutput);
            when(reqProcessor.process(eq("/sys/list"),Mockito.any(),eq(token))).thenReturn(responsemock);
@@ -349,7 +343,6 @@ public class OIDCUtilTest {
     public void oidcFetchEntityDetailsNewUserSuccess(){
         ResponseEntity<String> responseEntityExpected = ResponseEntity.status(HttpStatus.OK).body("{\"messages\":[\"Success\"]}");
         String token = "qwqwdsfsf";
-        String accessor = "testUser";
         String username = "testUser";
         DirectoryUser directoryUser = new DirectoryUser();
         directoryUser.setDisplayName("testUser");
@@ -365,7 +358,6 @@ public class OIDCUtilTest {
         DirectoryObjectsList usersList = new DirectoryObjectsList();
         usersList.setValues(persons.toArray(new DirectoryUser[0]));
         users.setData(usersList);
-        ResponseEntity<DirectoryObjects> responseEntity1 = ResponseEntity.status(HttpStatus.OK).body(users);
         String dataOutput = "{\"data\":{\"oidc/\":{\"accessor\":\"auth_oidc_8b51f292\",\"config\":{\"default_lease_ttl\":0,\"force_no_cache\":false,\"max_lease_ttl\":0,\"token_type\":\"default-service\"},\"description\":\"\",\"external_entropy_access\":false,\"local\":false,\"options\":null,\"seal_wrap\":false,\"type\":\"oidc\",\"uuid\":\"fbd45cc4-d6b6-8b49-6d1a-d4d931345df9\"}}}";
         Response responsemock = getMockResponse(HttpStatus.OK, dataOutput);
         when(reqProcessor.process(eq("/sys/list"),Mockito.any(),eq(token))).thenReturn(responsemock);

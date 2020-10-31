@@ -168,7 +168,6 @@ public class AppRoleServiceTest {
         String token = "5PDrOhsy4ig8L3EpsJZSLAMg";
         String [] policies = {"default"};
         AppRole appRole = new AppRole("selfservicesupportrole", policies, true, 1, 100, 0);
-        String jsonStr = "{\"role_name\":\"approle1\",\"policies\":[\"default\"],\"bind_secret_id\":true,\"secret_id_num_uses\":\"1\",\"secret_id_ttl\":\"100m\",\"token_num_uses\":0,\"token_ttl\":null,\"token_max_ttl\":null}";
         ResponseEntity<String> responseEntityExpected = ResponseEntity.status(HttpStatus.BAD_REQUEST).body("{\"errors\":[\"Access denied: no permission to create an approle named "+appRole.getRole_name()+"\"]}");
         UserDetails userDetails = getMockUser(true);
         when(ControllerUtil.areAppRoleInputsValid(appRole)).thenReturn(true);
@@ -707,7 +706,6 @@ public class AppRoleServiceTest {
         String token = "5PDrOhsy4ig8L3EpsJZSLAMg";
         String appRoleId = "selfservicesupportrole";
         String responseJson = "{\"errors\":[\"Access denied: no permission to remove this AppRole\"]}";
-        Response response =getMockResponse(HttpStatus.BAD_REQUEST, responseJson);
         ResponseEntity<String> responseEntityExpected = ResponseEntity.status(HttpStatus.BAD_REQUEST).body(responseJson);
         AppRole appRole = new AppRole();
         appRole.setRole_name(appRoleId);
@@ -869,7 +867,6 @@ public class AppRoleServiceTest {
     public void test_AssociateAppRole_failed_configuration() throws Exception {
 
         Response response = getMockResponse(HttpStatus.OK, "");
-        ResponseEntity<String> responseEntityExpected = ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body("{\"errors\":[\"Role configuration failed.Contact Admin \"]}");
         String token = "5PDrOhsy4ig8L3EpsJZSLAMg";
         SafeAppRoleAccess safeAppRoleAccess = new SafeAppRoleAccess("approle1", "shared/mysafe01", "write");
         String jsonStr = "{\"role_name\":\"approle1\",\"path\":\"shared/mysafe01\",\"access\":\"write\"}";
@@ -909,14 +906,11 @@ public class AppRoleServiceTest {
     public void test_AssociateAppRole_failed() throws Exception {
 
         Response response = getMockResponse(HttpStatus.OK, "");
-        ResponseEntity<String> responseEntityExpected = ResponseEntity.status(HttpStatus.BAD_REQUEST).body("{\"messages\":[\"Approle :approle1 failed to be associated with SDB\"]}");
         String token = "5PDrOhsy4ig8L3EpsJZSLAMg";
         SafeAppRoleAccess safeAppRoleAccess = new SafeAppRoleAccess("approle1", "shared/mysafe01", "write");
         String jsonStr = "{\"role_name\":\"approle1\",\"path\":\"shared/mysafe01\",\"access\":\"write\"}";
         Map<String, Object> requestMap = new ObjectMapper().readValue(jsonStr, new TypeReference<Map<String, Object>>(){});
         Response configureAppRoleResponse = getMockResponse(HttpStatus.INTERNAL_SERVER_ERROR, "{\"errors\":[\"Internal server error\"]}");
-        Response updateMetadataResponse_404 = getMockResponse(HttpStatus.NOT_FOUND, "");
-        Response updateMetadataResponse = getMockResponse(HttpStatus.NO_CONTENT, "");
 
         when(ControllerUtil.parseJson(Mockito.anyString())).thenReturn(requestMap);
         when(reqProcessor.process(any(String.class),any(String.class),any(String.class))).thenReturn(response);
@@ -934,7 +928,6 @@ public class AppRoleServiceTest {
     @Test
     public void test_AssociateAppRole_failed_400() throws Exception {
 
-        ResponseEntity<String> responseEntityExpected = ResponseEntity.status(HttpStatus.BAD_REQUEST).body("{\"errors\":[\"Invalid input values\"]}");
         String token = "5PDrOhsy4ig8L3EpsJZSLAMg";
         SafeAppRoleAccess safeAppRoleAccess = new SafeAppRoleAccess("approle1", "shared/mysafe01", "write");
         String jsonStr = "{\"role_name\":\"approle1\",\"path\":\"shared/mysafe01\",\"access\":\"write\"}";
@@ -953,7 +946,6 @@ public class AppRoleServiceTest {
     @Test
     public void test_AssociateAppRole_failed_403() throws Exception {
 
-        ResponseEntity<String> responseEntityExpected = ResponseEntity.status(HttpStatus.BAD_REQUEST).body("{\"messages\":[\"Approle : approle1 failed to be associated with SDB.. Invalid Path specified\"]}");
         String token = "5PDrOhsy4ig8L3EpsJZSLAMg";
         SafeAppRoleAccess safeAppRoleAccess = new SafeAppRoleAccess("approle1", "shared/mysafe01", "write");
         String jsonStr = "{\"role_name\":\"approle1\",\"path\":\"shared/mysafe01\",\"access\":\"write\"}";
@@ -1450,7 +1442,6 @@ public class AppRoleServiceTest {
         
         // START - AppRole exists
 
-        AppRole appRole = null;
         String appRoleResponseJson = new ObjectMapper().writeValueAsString(null);
         Response appRoleResponse = getMockResponse(HttpStatus.NOT_FOUND, appRoleResponseJson);
         Map<String, Object> appRoleResponseMap = new HashMap<>();
@@ -1720,7 +1711,6 @@ public class AppRoleServiceTest {
         when(ControllerUtil.parseJson("{\"path\":\""+path+"\",\"data\":{\"name\":\""+role_name+"\",\"createdBy\":\""+username+"\"}}")).thenReturn(responseMap);
 
         String responseJson = "{\"errors\":[\"Access denied: You don't have enough permission to read the accessors of SecretIds associated with the AppRole\"]}";
-        Response response =getMockResponse(HttpStatus.OK, responseJson);
         ResponseEntity<String> responseEntityExpected = ResponseEntity.status(HttpStatus.BAD_REQUEST).body(responseJson);
         ResponseEntity<String> responseEntityActual = appRoleService.readSecretIdAccessors(token, role_name, userDetails);
 
@@ -2096,7 +2086,6 @@ public class AppRoleServiceTest {
         when(ControllerUtil.parseJson(appRoleResponseJson)).thenReturn(appRoleResponseMap);
         // END - AppRole exists
         String jsonStr = "{\"role_name\":\"approle1\",\"policies\":[\"default\"],\"bind_secret_id\":true,\"secret_id_num_uses\":\"1\",\"secret_id_ttl\":\"100m\",\"token_num_uses\":0,\"token_ttl\":null,\"token_max_ttl\":null}";
-        ResponseEntity<String> responseEntityExpected = ResponseEntity.status(HttpStatus.BAD_REQUEST).body("{}");
 
         Map<String,Object> appRolesList = new HashMap<>();
         ArrayList<String> arrayList = new ArrayList<>();

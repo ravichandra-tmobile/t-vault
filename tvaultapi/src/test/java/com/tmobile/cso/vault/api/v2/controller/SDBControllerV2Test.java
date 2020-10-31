@@ -63,16 +63,6 @@ public class SDBControllerV2Test {
         this.mockMvc = MockMvcBuilders.standaloneSetup(sdbControllerV2).build();
     }
 
-    UserDetails getMockUser() {
-        String token = "5PDrOhsy4ig8L3EpsJZSLAMg";
-        UserDetails userDetails = new UserDetails();
-        userDetails.setUsername("normaluser");
-        userDetails.setAdmin(false);
-        userDetails.setClientToken(token);
-        userDetails.setSelfSupportToken(token);
-        return userDetails;
-    }
-
     @Test
     public void test_getFolders() throws Exception {
         String responseJson = "{  \"keys\": [    \"mysafe01\"  ]}";
@@ -120,11 +110,7 @@ public class SDBControllerV2Test {
     @Test
     public void test_deletefolder() throws Exception {
         String responseJson = "{\"messages\":[\"SDB deleted\"]}";
-        SafeBasicDetails safeBasicDetails = new SafeBasicDetails("mysafe01", "youremail@yourcompany.com", null, "My first safe");
-        Safe safe = new Safe("shared/mysafe01",safeBasicDetails);
-        String inputJson =new ObjectMapper().writeValueAsString(safe);
         ResponseEntity<String> responseEntityExpected = ResponseEntity.status(HttpStatus.OK).body(responseJson);
-        UserDetails userDetails = getMockUser();
         when(safesService.deletefolder(eq("5PDrOhsy4ig8L3EpsJZSLAMg"), Mockito.any() , Mockito.any(UserDetails.class))).thenReturn(responseEntityExpected);
 
         mockMvc.perform(MockMvcRequestBuilders.delete("/v2/sdb/delete?path=users/safe1")
@@ -180,7 +166,6 @@ public class SDBControllerV2Test {
 
         String inputJson =new ObjectMapper().writeValueAsString(safe);
         ResponseEntity<String> responseEntityExpected = ResponseEntity.status(HttpStatus.OK).body(responseJson);
-        UserDetails userDetails = getMockUser();
         when(safesService.deleteSafe(eq("5PDrOhsy4ig8L3EpsJZSLAMg"), Mockito.any() , Mockito.any(UserDetails.class))).thenReturn(responseEntityExpected);
 
         mockMvc.perform(MockMvcRequestBuilders.delete("/v2/sdb")

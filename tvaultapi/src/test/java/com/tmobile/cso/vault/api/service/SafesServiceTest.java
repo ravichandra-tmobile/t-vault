@@ -693,7 +693,6 @@ public class SafesServiceTest {
         when(ControllerUtil.updateMetadata(any(),eq(token))).thenReturn(responseNoContent);
 
       //oidc test cases
-        String mountAccessor = "auth_oidc";
         DirectoryUser directoryUser = new DirectoryUser();
         directoryUser.setDisplayName("testUser");
         directoryUser.setGivenName("testUser");
@@ -976,7 +975,6 @@ public class SafesServiceTest {
         UserDetails userDetails = new UserDetails();
         userDetails.setUsername("testuser1");
 
-        Response userResponse = getMockResponse(HttpStatus.OK, true, "{\"data\":{\"bound_cidrs\":[],\"max_ttl\":0,\"policies\":[\"default\",\"w_shared_mysafe01\",\"w_shared_mysafe02\"],\"ttl\":0,\"groups\":\"admin\"}}");
         Response groupResponse = getMockResponse(HttpStatus.OK, true, "{\"data\":{\"bound_cidrs\":[],\"max_ttl\":0,\"policies\":[\"default\",\"w_shared_mysafe01\",\"w_shared_mysafe02\"],\"ttl\":0,\"groups\":\"admin\"}}");
         Response idapConfigureResponse = getMockResponse(HttpStatus.NO_CONTENT, true, "{\"policies\":null}");
         Response responseNoContent = getMockResponse(HttpStatus.NO_CONTENT, true, "");
@@ -1032,7 +1030,6 @@ public class SafesServiceTest {
         UserDetails userDetails = new UserDetails();
         userDetails.setUsername("testuser1");
 
-        Response userResponse = getMockResponse(HttpStatus.OK, true, "{\"data\":{\"bound_cidrs\":[],\"max_ttl\":0,\"policies\":[\"default\",\"w_shared_mysafe01\",\"w_shared_mysafe02\"],\"ttl\":0,\"groups\":\"admin\"}}");
         Response groupResponse = getMockResponse(HttpStatus.OK, true, "{\"data\":{\"bound_cidrs\":[],\"max_ttl\":0,\"policies\":[\"default\",\"w_shared_mysafe01\",\"w_shared_mysafe02\"],\"ttl\":0,\"groups\":\"admin\"}}");
         Response idapConfigureResponse = getMockResponse(HttpStatus.NO_CONTENT, true, "{\"policies\":null}");
         Response responseNoContent = getMockResponse(HttpStatus.NO_CONTENT, true, "");
@@ -1086,10 +1083,8 @@ public class SafesServiceTest {
         UserDetails userDetails = new UserDetails();
         userDetails.setUsername("testuser1");
 
-        Response userResponse = getMockResponse(HttpStatus.OK, true, "{\"data\":{\"bound_cidrs\":[],\"max_ttl\":0,\"policies\":[\"default\",\"w_shared_mysafe01\",\"w_shared_mysafe02\"],\"ttl\":0,\"groups\":\"admin\"}}");
         Response groupResponse = getMockResponse(HttpStatus.OK, true, "{\"data\":{\"bound_cidrs\":[],\"max_ttl\":0,\"policies\":[\"default\",\"w_shared_mysafe01\",\"w_shared_mysafe02\"],\"ttl\":0,\"groups\":\"admin\"}}");
         Response idapConfigureResponse = getMockResponse(HttpStatus.NO_CONTENT, true, "{\"policies\":null}");
-        Response responseNoContent = getMockResponse(HttpStatus.NO_CONTENT, true, "");
         Response response_404 = getMockResponse(HttpStatus.NOT_FOUND, true, "");
         ResponseEntity<String> responseEntityExpected = ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body("{\"errors\":[\"Group configuration failed.Try Again\"]}");
 
@@ -1495,8 +1490,6 @@ public class SafesServiceTest {
         String jsonStr = "{\"role_name\":\"approle1\",\"path\":\"shared/mysafe01\",\"access\":\"write\"}";
         Map<String, Object> requestMap = new ObjectMapper().readValue(jsonStr, new TypeReference<Map<String, Object>>(){});
         Response configureAppRoleResponse = getMockResponse(HttpStatus.INTERNAL_SERVER_ERROR, true, "{\"errors\":[\"Internal server error\"]}");
-        Response updateMetadataResponse_404 = getMockResponse(HttpStatus.NOT_FOUND, true, "");
-        Response updateMetadataResponse = getMockResponse(HttpStatus.NO_CONTENT, true, "");
 
         when(ControllerUtil.parseJson(Mockito.anyString())).thenReturn(requestMap);
         when(reqProcessor.process(any(String.class),any(String.class),any(String.class))).thenReturn(response);
@@ -1594,7 +1587,6 @@ public class SafesServiceTest {
         String inputJson = "{\"role\":\"approle1\",\"path\":\"users/safe1\"}";
         String path = "users/safe1";
         ResponseEntity<String> responseEntityExpected = ResponseEntity.status(HttpStatus.BAD_REQUEST).body("{\"errors\":[\"Invalid 'path' specified\"]}");
-        Response response_404 = getMockResponse(HttpStatus.NOT_FOUND, true, "");
 
         when(ControllerUtil.isValidSafePath(path)).thenReturn(false);
         when(ControllerUtil.isValidSafe(path, token)).thenReturn(true);
@@ -1612,7 +1604,6 @@ public class SafesServiceTest {
         String jsonStr = "{\"path\":\"" + path + "\",\"data\":{\"default\":\"default\"}}";
         String token = "5PDrOhsy4ig8L3EpsJZSLAMg";
         Response response = getMockResponse(HttpStatus.OK, true, responseJson);
-        ResponseEntity<String> responseEntityExpected = ResponseEntity.status(HttpStatus.OK).body(responseJson);
 
         when(ControllerUtil.isPathValid(path)).thenReturn(true);
         when(reqProcessor.process("/sdb/createfolder",jsonStr,token)).thenReturn(response);
@@ -1629,12 +1620,8 @@ public class SafesServiceTest {
     @Test
     public void test_createNestedfolder_failure_400() {
 
-        String responseJson = "{\"errors\":[\"Invalid path\"]}";
         String path = "shared/mysafe01";
-        String jsonStr = "{\"path\":\"" + path + "\",\"data\":{\"default\":\"default\"}}";
         String token = "5PDrOhsy4ig8L3EpsJZSLAMg";
-        Response response = getMockResponse(HttpStatus.BAD_REQUEST, true, responseJson);
-        ResponseEntity<String> responseEntityExpected = ResponseEntity.status(HttpStatus.OK).body(responseJson);
 
         when(ControllerUtil.isPathValid(path)).thenReturn(false);
         UserDetails userDetails = getMockUser(false);
@@ -1718,7 +1705,6 @@ public class SafesServiceTest {
 			List<String> policies = new ArrayList<>();
 			policies.add("safeadmin");
 			oidcEntityResponse.setPolicies(policies);
-			ResponseEntity<DirectoryObjects> responseEntity1 = ResponseEntity.status(HttpStatus.OK).body(users);
 			when(OIDCUtil.fetchMountAccessorForOidc(token)).thenReturn(mountAccessor);
 
 			ResponseEntity<OIDCEntityResponse> responseEntity2 = ResponseEntity.status(HttpStatus.OK)
@@ -1807,15 +1793,13 @@ public class SafesServiceTest {
 			List<String> policies = new ArrayList<>();
 			policies.add("safeadmin");
 			oidcEntityResponse.setPolicies(policies);
-			ResponseEntity<DirectoryObjects> responseEntity1 = ResponseEntity.status(HttpStatus.OK).body(users);
 			when(OIDCUtil.fetchMountAccessorForOidc(token)).thenReturn(mountAccessor);
 
 			ResponseEntity<OIDCEntityResponse> responseEntity2 = ResponseEntity.status(HttpStatus.OK)
 					.body(oidcEntityResponse);
 
 			when(tokenUtils.getSelfServiceTokenWithAppRole()).thenReturn(token);
-			String entityName = "entity";
-			
+
 			Response responseEntity3 = getMockResponse(HttpStatus.NO_CONTENT, true, "{\"data\": [\"safeadmin\",\"vaultadmin\"]]");
 			when(OIDCUtil.updateOIDCEntity(any(), any()))
 					.thenReturn(responseEntity3);
@@ -1934,7 +1918,6 @@ public class SafesServiceTest {
 			List<String> policies = new ArrayList<>();
 			policies.add("safeadmin");
 			oidcEntityResponse.setPolicies(policies);
-			ResponseEntity<DirectoryObjects> responseEntity1 = ResponseEntity.status(HttpStatus.OK).body(users);
 			when(OIDCUtil.fetchMountAccessorForOidc(token)).thenReturn(mountAccessor);
 
 			ResponseEntity<OIDCEntityResponse> responseEntity2 = ResponseEntity.status(HttpStatus.OK)
@@ -1962,10 +1945,8 @@ public class SafesServiceTest {
 
      Response userResponse = getMockResponse(HttpStatus.OK, true, "{\"data\":{\"bound_cidrs\":[],\"max_ttl\":0,\"policies\":[\"default\",\"w_shared_mysafe01\",\"w_shared_mysafe02\"],\"ttl\":0,\"groups\":\"admin\"}}");
      Response idapConfigureResponse = getMockResponse(HttpStatus.NO_CONTENT, true, "{\"policies\":null}");
-     Response responseNoContent = getMockResponse(HttpStatus.NO_CONTENT, true, "");
      Response response_404 = getMockResponse(HttpStatus.NOT_FOUND, true, "");
 
-     ResponseEntity<String> responseEntityExpected = ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body("{\"messages\":[\"User configuration failed.Please try again\"]}");
 
      when(ControllerUtil.areSafeUserInputsValid(safeUser)).thenReturn(true);
      when(ControllerUtil.canAddPermission(path, token)).thenReturn(true);
@@ -2019,7 +2000,6 @@ public class SafesServiceTest {
 			List<String> policies = new ArrayList<>();
 			policies.add("safeadmin");
 			oidcEntityResponse.setPolicies(policies);
-			ResponseEntity<DirectoryObjects> responseEntity1 = ResponseEntity.status(HttpStatus.OK).body(users);
 			when(OIDCUtil.fetchMountAccessorForOidc(token)).thenReturn(mountAccessor);
 
 			ResponseEntity<OIDCEntityResponse> responseEntity2 = ResponseEntity.status(HttpStatus.OK)

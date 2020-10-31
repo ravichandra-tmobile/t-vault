@@ -217,7 +217,7 @@ public class AWSIAMAuthServiceTest {
 
         when(ControllerUtil.areAWSIAMRoleInputsValid(awsiamRole)).thenReturn(false);
         UserDetails userDetails = getMockUser();
-        ResponseEntity<String> responseEntity = awsIamAuthService.createIAMRole(awsiamRole, token, userDetails);
+        awsIamAuthService.createIAMRole(awsiamRole, token, userDetails);
     }
 
     @Test

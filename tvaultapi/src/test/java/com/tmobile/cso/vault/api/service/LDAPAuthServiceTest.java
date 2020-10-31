@@ -272,7 +272,6 @@ public class LDAPAuthServiceTest {
         Response responseGroup = getMockResponse(HttpStatus.OK, true, "{\"data\": { \"policies\": [ \"admin\", \"default\"] }}");
         Response responseFailure = getMockResponse(HttpStatus.INTERNAL_SERVER_ERROR, false, "{\"errors\":[\"LDAP Group configuration failed\"]}");
         Response responseOk = getMockResponse(HttpStatus.OK, true, "");
-        ResponseEntity<String> responseEntityExpected = ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body("{\"messages\":[\"LDAP Group configured\"]}");
         LDAPGroup ldapGroup = new LDAPGroup("admin", "admin,default");
         when(JSONUtil.getJSON(ldapGroup)).thenReturn(jsonStr);
         when(ControllerUtil.updateMetaDataOnConfigChanges(Mockito.any(), Mockito.any(), Mockito.any(), Mockito.any(), Mockito.any())).thenReturn(responseOk);

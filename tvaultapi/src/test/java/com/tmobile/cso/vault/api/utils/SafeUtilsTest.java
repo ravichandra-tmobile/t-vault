@@ -108,9 +108,6 @@ public class SafeUtilsTest {
 
     @Test
     public void test_getManagedSafesFromPolicies_successfully() throws IOException {
-        ObjectMapper objMapper = new ObjectMapper();
-        Response response = getMockResponse("{\"client_token\":\"8zyIbj3i9hXJFuIPC5AzeUK3\",\"admin\":\"no\",\"access\":{},\"policies\":[\"approle_normal_user\",\"default\",\"s_users_ert\"],\"lease_duration\":1800000}");
-        JsonNode policiesJsonNode = objMapper.readTree(response.getResponse()).get("policies");
         String[] expectedList = {"ert"};
         String[] policies = {"s_users_ert"};
         String[] policiesRes = safeUtils.getManagedSafes(policies, "users");

@@ -156,7 +156,6 @@ public class CertificateUtilsTest {
     @Test
     public void testHasAddOrRemovePermissionForEmptyMetadata() {
         UserDetails userDetails = getMockUser(false);
-        SSLCertificateMetadataDetails certificateMetadata = null;
         boolean canAdd = certificateUtils.hasAddOrRemovePermission(userDetails, null);
         assertFalse(canAdd);
     }
