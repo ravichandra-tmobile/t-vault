@@ -166,7 +166,7 @@ public class ServiceAccountsServiceTest {
         return adServiceAccount;
     }
     private List<ADServiceAccount> generateADSerivceAccounts() {
-    	List<ADServiceAccount> allServiceAccounts = new ArrayList<ADServiceAccount>();
+    	List<ADServiceAccount> allServiceAccounts = new ArrayList<>();
     	allServiceAccounts.add(generateADServiceAccount("testacc01"));
     	return allServiceAccounts;
     }

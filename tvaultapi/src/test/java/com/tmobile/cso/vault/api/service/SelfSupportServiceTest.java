@@ -104,7 +104,7 @@ public class SelfSupportServiceTest {
 
     private void mockIsAuthorized(UserDetails userDetails, boolean isAuthorized) {
         String[] policies = {"s_shared_mysafe01"};
-        ArrayList<String> policiesTobeChecked = new ArrayList<String>();
+        ArrayList<String> policiesTobeChecked = new ArrayList<>();
         policiesTobeChecked.add("s_shared_mysafe01");
         SafeBasicDetails safeBasicDetails = new SafeBasicDetails("mysafe01", "youremail@yourcompany.com", null, "My first safe");
         Safe safe = new Safe("shared/mysafe01",safeBasicDetails);
@@ -609,7 +609,7 @@ public class SelfSupportServiceTest {
         ResponseEntity<String> response = ResponseEntity.status(HttpStatus.OK).body("{\"messages\":[\"Group is successfully associated with Safe\"]}");
         when(safesService.addGroupToSafe(token, safeGroup, userDetails)).thenReturn(response);
         String[] policies = {"s_shared_mysafe01"};
-        ArrayList<String> policiesTobeChecked = new ArrayList<String>();
+        ArrayList<String> policiesTobeChecked = new ArrayList<>();
         policiesTobeChecked.add("s_shared_mysafe01");
         SafeBasicDetails safeBasicDetails = new SafeBasicDetails("mysafe01", "youremail@yourcompany.com", null, "My first safe");
         Safe safe = new Safe("shared/mysafe01",safeBasicDetails);
@@ -651,7 +651,7 @@ public class SelfSupportServiceTest {
         when(safesService.addGroupToSafe(token, safeGroup, userDetails)).thenReturn(response);
 
         String[] policies = {"s_shared_mysafe01"};
-        ArrayList<String> policiesTobeChecked = new ArrayList<String>();
+        ArrayList<String> policiesTobeChecked = new ArrayList<>();
         policiesTobeChecked.add("s_shared_mysafe01");
         SafeBasicDetails safeBasicDetails = new SafeBasicDetails("mysafe01", "youremail@yourcompany.com", null, "My first safe");
         Safe safe = new Safe("shared/mysafe01",safeBasicDetails);
@@ -693,7 +693,7 @@ public class SelfSupportServiceTest {
 
         when(safesService.removeGroupFromSafe(token, safeGroup, userDetails)).thenReturn(response);
         String[] policies = {"s_shared_mysafe01"};
-        ArrayList<String> policiesTobeChecked = new ArrayList<String>();
+        ArrayList<String> policiesTobeChecked = new ArrayList<>();
         policiesTobeChecked.add("s_shared_mysafe01");
         SafeBasicDetails safeBasicDetails = new SafeBasicDetails("mysafe01", "youremail@yourcompany.com", null, "My first safe");
         Safe safe = new Safe("shared/mysafe01",safeBasicDetails);
@@ -720,7 +720,7 @@ public class SelfSupportServiceTest {
 
         when(safesService.removeGroupFromSafe(token, safeGroup, userDetails)).thenReturn(response);
         String[] policies = {"s_shared_mysafe01"};
-        ArrayList<String> policiesTobeChecked = new ArrayList<String>();
+        ArrayList<String> policiesTobeChecked = new ArrayList<>();
         policiesTobeChecked.add("s_shared_mysafe01");
         SafeBasicDetails safeBasicDetails = new SafeBasicDetails("mysafe01", "youremail@yourcompany.com", null, "My first safe");
         Safe safe = new Safe("shared/mysafe01",safeBasicDetails);

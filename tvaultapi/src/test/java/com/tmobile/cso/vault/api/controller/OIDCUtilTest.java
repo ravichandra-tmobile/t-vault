@@ -448,7 +448,7 @@ public class OIDCUtilTest {
         String entityName = "entityName";
         OIDCEntityRequest oidcEntityRequest = new OIDCEntityRequest();
         oidcEntityRequest.setDisabled(false);
-        Map<String, String> metadata = new HashMap<String, String>();
+        Map<String, String> metadata = new HashMap<>();
         metadata.put("organization", "t-vault");
         oidcEntityRequest.setMetadata(metadata);
         oidcEntityRequest.setPolicies(null);

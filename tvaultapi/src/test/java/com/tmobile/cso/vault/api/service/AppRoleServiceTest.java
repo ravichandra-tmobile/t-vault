@@ -39,6 +39,7 @@ import org.mockito.Mock;
 import org.mockito.Mockito;
 import org.mockito.invocation.InvocationOnMock;
 import org.mockito.stubbing.Answer;
+import org.mockito.stubbing.OngoingStubbing;
 import org.powermock.api.mockito.PowerMockito;
 import org.powermock.core.classloader.annotations.PowerMockIgnore;
 import org.powermock.core.classloader.annotations.PrepareForTest;
@@ -82,7 +83,7 @@ public class AppRoleServiceTest {
     @Mock
     RequestProcessor reqProcessor;
     
-    ObjectMapper objMapper = new ObjectMapper();
+    final ObjectMapper objMapper = new ObjectMapper();
 
     @Before
     public void setUp() throws NoSuchMethodException, InvocationTargetException, IllegalAccessException, NoSuchFieldException{
@@ -898,7 +899,7 @@ public class AppRoleServiceTest {
         when(ControllerUtil.areSafeAppRoleInputsValid(Mockito.anyMap())).thenReturn(true);
         when(ControllerUtil.canAddPermission(Mockito.anyString(), Mockito.anyString())).thenReturn(true);
 
-        Map<String,String> params = new HashMap<String,String>();
+        Map<String,String> params = new HashMap<>();
         params.put("type", "app-roles");
         params.put("name","approle1");
         params.put("path","shared/mysafe01");
@@ -1090,7 +1091,7 @@ public class AppRoleServiceTest {
         Response response = getMockResponse(HttpStatus.OK, true, responseJson);
         
         Map<String, Object> responseMap = new HashMap<>();
-        ArrayList<String> accessorIds = new ArrayList<String>();
+        ArrayList<String> accessorIds = new ArrayList<>();
         accessorIds.add("generated-accessor-id1");
         responseMap.put("keys", accessorIds);
         when(ControllerUtil.parseJson(responseJson)).thenReturn(responseMap);
@@ -1113,7 +1114,7 @@ public class AppRoleServiceTest {
         Response response = getMockResponse(HttpStatus.NOT_FOUND, true, responseJson);
         
         Map<String, Object> responseMap = new HashMap<>();
-        ArrayList<String> accessorIds = new ArrayList<String>();
+        ArrayList<String> accessorIds = new ArrayList<>();
         accessorIds.add("generated-accessor-id1");
         responseMap.put("keys", accessorIds);
         when(ControllerUtil.parseJson(responseJson)).thenReturn(responseMap);
@@ -1180,7 +1181,7 @@ public class AppRoleServiceTest {
     public void test_readAppRoleBasicDetails_successfully() throws Exception{
         String token = "5PDrOhsy4ig8L3EpsJZSLAMg";
         String role_name = "testapprole01";
-        ArrayList<String> policiesList = new ArrayList<String>();
+        ArrayList<String> policiesList = new ArrayList<>();
         policiesList.add("r_shared_safe01");
         String[] policies = policiesList.toArray(new String[0]);
         
@@ -1194,11 +1195,11 @@ public class AppRoleServiceTest {
         responseMap.put("data", dataMap);
         dataMap.put("policies",policiesList);
         dataMap.put("bind_secret_id", Boolean.TRUE);
-        dataMap.put("secret_id_num_uses", new Integer(0));
-        dataMap.put("secret_id_ttl", new Integer(0));
-        dataMap.put("token_num_uses", new Integer(0));
-        dataMap.put("token_ttl", new Integer(0));
-        dataMap.put("token_max_ttl", new Integer(0));
+        dataMap.put("secret_id_num_uses", 0);
+        dataMap.put("secret_id_ttl", 0);
+        dataMap.put("token_num_uses", 0);
+        dataMap.put("token_ttl", 0);
+        dataMap.put("token_max_ttl", 0);
         
         when(ControllerUtil.parseJson(responseJson)).thenReturn(responseMap);
         
@@ -1213,7 +1214,7 @@ public class AppRoleServiceTest {
     public void test_readAppRoleBasicDetails_failure() throws Exception{
         String token = "5PDrOhsy4ig8L3EpsJZSLAMg";
         String role_name = "testapprole01";
-        ArrayList<String> policiesList = new ArrayList<String>();
+        ArrayList<String> policiesList = new ArrayList<>();
         policiesList.add("r_shared_safe01");
         String[] policies = policiesList.toArray(new String[0]);
         
@@ -1227,11 +1228,11 @@ public class AppRoleServiceTest {
         responseMap.put("data", dataMap);
         dataMap.put("policies",policiesList);
         dataMap.put("bind_secret_id", Boolean.TRUE);
-        dataMap.put("secret_id_num_uses", new Integer(0));
-        dataMap.put("secret_id_ttl", new Integer(0));
-        dataMap.put("token_num_uses", new Integer(0));
-        dataMap.put("token_ttl", new Integer(0));
-        dataMap.put("token_max_ttl", new Integer(0));
+        dataMap.put("secret_id_num_uses", 0);
+        dataMap.put("secret_id_ttl", 0);
+        dataMap.put("token_num_uses", 0);
+        dataMap.put("token_ttl", 0);
+        dataMap.put("token_max_ttl", 0);
         
         when(ControllerUtil.parseJson(responseJson)).thenReturn(responseMap);
         
@@ -1342,7 +1343,7 @@ public class AppRoleServiceTest {
         String path = TVaultConstants.APPROLE_METADATA_MOUNT_PATH + "/" + role_name;
         
         // START - AppRole exists
-        ArrayList<String> policiesList = new ArrayList<String>();
+        ArrayList<String> policiesList = new ArrayList<>();
         policiesList.add("r_shared_safe01");
         String[] policies = policiesList.toArray(new String[0]);
         AppRole appRole = new AppRole(role_name, policies, true, 0, 0, 0);
@@ -1353,11 +1354,11 @@ public class AppRoleServiceTest {
         appRoleResponseMap.put("data", dataMap);
         dataMap.put("policies",policiesList);
         dataMap.put("bind_secret_id", Boolean.TRUE);
-        dataMap.put("secret_id_num_uses", new Integer(0));
-        dataMap.put("secret_id_ttl", new Integer(0));
-        dataMap.put("token_num_uses", new Integer(0));
-        dataMap.put("token_ttl", new Integer(0));
-        dataMap.put("token_max_ttl", new Integer(0));
+        dataMap.put("secret_id_num_uses", 0);
+        dataMap.put("secret_id_ttl", 0);
+        dataMap.put("token_num_uses", 0);
+        dataMap.put("token_ttl", 0);
+        dataMap.put("token_max_ttl", 0);
         when(reqProcessor.process("/auth/approle/role/read", "{\"role_name\":\""+role_name+"\"}",userDetails.getSelfSupportToken())).thenReturn(appRoleResponse);
         when(ControllerUtil.parseJson(appRoleResponseJson)).thenReturn(appRoleResponseMap);
         // END - AppRole exists
@@ -1397,7 +1398,7 @@ public class AppRoleServiceTest {
         String path = TVaultConstants.APPROLE_METADATA_MOUNT_PATH + "/" + role_name;
         
         // START - AppRole exists
-        ArrayList<String> policiesList = new ArrayList<String>();
+        ArrayList<String> policiesList = new ArrayList<>();
         policiesList.add("r_shared_safe01");
         String[] policies = policiesList.toArray(new String[0]);
         AppRole appRole = new AppRole(role_name, policies, true, 0, 0, 0);
@@ -1408,11 +1409,11 @@ public class AppRoleServiceTest {
         appRoleResponseMap.put("data", dataMap);
         dataMap.put("policies",policiesList);
         dataMap.put("bind_secret_id", Boolean.TRUE);
-        dataMap.put("secret_id_num_uses", new Integer(0));
-        dataMap.put("secret_id_ttl", new Integer(0));
-        dataMap.put("token_num_uses", new Integer(0));
-        dataMap.put("token_ttl", new Integer(0));
-        dataMap.put("token_max_ttl", new Integer(0));
+        dataMap.put("secret_id_num_uses", 0);
+        dataMap.put("secret_id_ttl", 0);
+        dataMap.put("token_num_uses", 0);
+        dataMap.put("token_ttl", 0);
+        dataMap.put("token_max_ttl", 0);
         when(reqProcessor.process("/auth/approle/role/read", "{\"role_name\":\""+role_name+"\"}",userDetails.getSelfSupportToken())).thenReturn(appRoleResponse);
         when(ControllerUtil.parseJson(appRoleResponseJson)).thenReturn(appRoleResponseMap);
         // END - AppRole exists
@@ -1472,11 +1473,11 @@ public class AppRoleServiceTest {
         appRoleResponseMap.put("data", dataMap);
         dataMap.put("policies",null);
         dataMap.put("bind_secret_id", Boolean.TRUE);
-        dataMap.put("secret_id_num_uses", new Integer(0));
-        dataMap.put("secret_id_ttl", new Integer(0));
-        dataMap.put("token_num_uses", new Integer(0));
-        dataMap.put("token_ttl", new Integer(0));
-        dataMap.put("token_max_ttl", new Integer(0));
+        dataMap.put("secret_id_num_uses", 0);
+        dataMap.put("secret_id_ttl", 0);
+        dataMap.put("token_num_uses", 0);
+        dataMap.put("token_ttl", 0);
+        dataMap.put("token_max_ttl", 0);
         when(reqProcessor.process("/auth/approle/role/read", "{\"role_name\":\""+role_name+"\"}",userDetails.getSelfSupportToken())).thenReturn(appRoleResponse);
         when(ControllerUtil.parseJson(appRoleResponseJson)).thenReturn(appRoleResponseMap);
         // END - AppRole exists
@@ -1528,7 +1529,7 @@ public class AppRoleServiceTest {
         String path = TVaultConstants.APPROLE_METADATA_MOUNT_PATH + "/" + role_name;
         
         // START - AppRole exists
-        ArrayList<String> policiesList = new ArrayList<String>();
+        ArrayList<String> policiesList = new ArrayList<>();
         policiesList.add("r_shared_safe01");
         String[] policies = policiesList.toArray(new String[0]);
         AppRole appRole = new AppRole(role_name, policies, true, 0, 0, 0);
@@ -1539,11 +1540,11 @@ public class AppRoleServiceTest {
         appRoleResponseMap.put("data", dataMap);
         dataMap.put("policies",policiesList);
         dataMap.put("bind_secret_id", Boolean.TRUE);
-        dataMap.put("secret_id_num_uses", new Integer(0));
-        dataMap.put("secret_id_ttl", new Integer(0));
-        dataMap.put("token_num_uses", new Integer(0));
-        dataMap.put("token_ttl", new Integer(0));
-        dataMap.put("token_max_ttl", new Integer(0));
+        dataMap.put("secret_id_num_uses", 0);
+        dataMap.put("secret_id_ttl", 0);
+        dataMap.put("token_num_uses", 0);
+        dataMap.put("token_ttl", 0);
+        dataMap.put("token_max_ttl", 0);
         when(reqProcessor.process("/auth/approle/role/read", "{\"role_name\":\""+role_name+"\"}",userDetails.getSelfSupportToken())).thenReturn(appRoleResponse);
         when(ControllerUtil.parseJson(appRoleResponseJson)).thenReturn(appRoleResponseMap);
         // END - AppRole exists
@@ -1585,7 +1586,7 @@ public class AppRoleServiceTest {
         String path = TVaultConstants.APPROLE_METADATA_MOUNT_PATH + "/" + role_name;
         
         // START - AppRole exists
-        ArrayList<String> policiesList = new ArrayList<String>();
+        ArrayList<String> policiesList = new ArrayList<>();
         policiesList.add("r_shared_safe01");
         String[] policies = policiesList.toArray(new String[0]);
         AppRole appRole = new AppRole(role_name, policies, true, 0, 0, 0);
@@ -1596,11 +1597,11 @@ public class AppRoleServiceTest {
         appRoleResponseMap.put("data", dataMap);
         dataMap.put("policies",policiesList);
         dataMap.put("bind_secret_id", Boolean.TRUE);
-        dataMap.put("secret_id_num_uses", new Integer(0));
-        dataMap.put("secret_id_ttl", new Integer(0));
-        dataMap.put("token_num_uses", new Integer(0));
-        dataMap.put("token_ttl", new Integer(0));
-        dataMap.put("token_max_ttl", new Integer(0));
+        dataMap.put("secret_id_num_uses", 0);
+        dataMap.put("secret_id_ttl", 0);
+        dataMap.put("token_num_uses", 0);
+        dataMap.put("token_ttl", 0);
+        dataMap.put("token_max_ttl", 0);
         when(reqProcessor.process("/auth/approle/role/read", "{\"role_name\":\""+role_name+"\"}",userDetails.getSelfSupportToken())).thenReturn(appRoleResponse);
         when(ControllerUtil.parseJson(appRoleResponseJson)).thenReturn(appRoleResponseMap);
         // END - AppRole exists
@@ -1757,7 +1758,7 @@ public class AppRoleServiceTest {
         
         
         
-        ArrayList<String> policiesList = new ArrayList<String>();
+        ArrayList<String> policiesList = new ArrayList<>();
         policiesList.add("r_shared_safe01");
         String[] policies = policiesList.toArray(new String[0]);
         AppRole appRole = new AppRole(role_name, policies, true, 0, 0, 0);
@@ -1770,11 +1771,11 @@ public class AppRoleServiceTest {
         appRoleResponseMap.put("data", dataMap);
         dataMap.put("policies",policiesList);
         dataMap.put("bind_secret_id", Boolean.TRUE);
-        dataMap.put("secret_id_num_uses", new Integer(0));
-        dataMap.put("secret_id_ttl", new Integer(0));
-        dataMap.put("token_num_uses", new Integer(0));
-        dataMap.put("token_ttl", new Integer(0));
-        dataMap.put("token_max_ttl", new Integer(0));
+        dataMap.put("secret_id_num_uses", 0);
+        dataMap.put("secret_id_ttl", 0);
+        dataMap.put("token_num_uses", 0);
+        dataMap.put("token_ttl", 0);
+        dataMap.put("token_max_ttl", 0);
         
         when(ControllerUtil.parseJson(appRoleResponseJson)).thenReturn(appRoleResponseMap);
         when(reqProcessor.process("/auth/approle/role/read", "{\"role_name\":\""+role_name+"\"}",token)).thenReturn(appRoleResponse);
@@ -1814,7 +1815,7 @@ public class AppRoleServiceTest {
         		"}";
         Response accessorIdResponse = getMockResponse(HttpStatus.OK, true, accessorIdResponseJson);
         
-        ArrayList<String> accessorIds = new ArrayList<String>();
+        ArrayList<String> accessorIds = new ArrayList<>();
         accessorIds.add("generated-accessor-id1");
         when(ControllerUtil.parseJson(accessorIdResponseJson)).thenReturn(responseMap);
         
@@ -1852,7 +1853,7 @@ public class AppRoleServiceTest {
         
         
         
-        ArrayList<String> policiesList = new ArrayList<String>();
+        ArrayList<String> policiesList = new ArrayList<>();
         policiesList.add("r_shared_safe01");
         String[] policies = policiesList.toArray(new String[0]);
         AppRole appRole = new AppRole(role_name, policies, true, 0, 0, 0);
@@ -1865,11 +1866,11 @@ public class AppRoleServiceTest {
         appRoleResponseMap.put("data", dataMap);
         dataMap.put("policies",policiesList);
         dataMap.put("bind_secret_id", Boolean.TRUE);
-        dataMap.put("secret_id_num_uses", new Integer(0));
-        dataMap.put("secret_id_ttl", new Integer(0));
-        dataMap.put("token_num_uses", new Integer(0));
-        dataMap.put("token_ttl", new Integer(0));
-        dataMap.put("token_max_ttl", new Integer(0));
+        dataMap.put("secret_id_num_uses", 0);
+        dataMap.put("secret_id_ttl", 0);
+        dataMap.put("token_num_uses", 0);
+        dataMap.put("token_ttl", 0);
+        dataMap.put("token_max_ttl", 0);
         
         when(ControllerUtil.parseJson(appRoleResponseJson)).thenReturn(appRoleResponseMap);
         when(reqProcessor.process("/auth/approle/role/read", "{\"role_name\":\""+role_name+"\"}",userDetails.getSelfSupportToken())).thenReturn(appRoleResponse);
@@ -1909,7 +1910,7 @@ public class AppRoleServiceTest {
         		"}";
         Response accessorIdResponse = getMockResponse(HttpStatus.OK, true, accessorIdResponseJson);
         
-        ArrayList<String> accessorIds = new ArrayList<String>();
+        ArrayList<String> accessorIds = new ArrayList<>();
         accessorIds.add("generated-accessor-id1");
         when(ControllerUtil.parseJson(accessorIdResponseJson)).thenReturn(responseMap);
         
@@ -1947,7 +1948,7 @@ public class AppRoleServiceTest {
         
         
         
-        ArrayList<String> policiesList = new ArrayList<String>();
+        ArrayList<String> policiesList = new ArrayList<>();
         policiesList.add("r_shared_safe01");
         String[] policies = policiesList.toArray(new String[0]);
         AppRole appRole = new AppRole(role_name, policies, true, 0, 0, 0);
@@ -1960,11 +1961,11 @@ public class AppRoleServiceTest {
         appRoleResponseMap.put("data", dataMap);
         dataMap.put("policies",policiesList);
         dataMap.put("bind_secret_id", Boolean.TRUE);
-        dataMap.put("secret_id_num_uses", new Integer(0));
-        dataMap.put("secret_id_ttl", new Integer(0));
-        dataMap.put("token_num_uses", new Integer(0));
-        dataMap.put("token_ttl", new Integer(0));
-        dataMap.put("token_max_ttl", new Integer(0));
+        dataMap.put("secret_id_num_uses", 0);
+        dataMap.put("secret_id_ttl", 0);
+        dataMap.put("token_num_uses", 0);
+        dataMap.put("token_ttl", 0);
+        dataMap.put("token_max_ttl", 0);
         
         when(ControllerUtil.parseJson(appRoleResponseJson)).thenReturn(appRoleResponseMap);
         when(reqProcessor.process("/auth/approle/role/read", "{\"role_name\":\""+role_name+"\"}",userDetails.getSelfSupportToken())).thenReturn(appRoleResponse);
@@ -2004,7 +2005,7 @@ public class AppRoleServiceTest {
         		"}";
         Response accessorIdResponse = getMockResponse(HttpStatus.OK, true, accessorIdResponseJson);
         
-        ArrayList<String> accessorIds = new ArrayList<String>();
+        ArrayList<String> accessorIds = new ArrayList<>();
         accessorIds.add("generated-accessor-id1");
         when(ControllerUtil.parseJson(accessorIdResponseJson)).thenReturn(responseMap);
         
@@ -2038,7 +2039,7 @@ public class AppRoleServiceTest {
         UserDetails userDetails = getMockUser("testuser1", false);
 
         // START - AppRole exists
-        ArrayList<String> policiesList = new ArrayList<String>();
+        ArrayList<String> policiesList = new ArrayList<>();
         policiesList.add("r_shared_safe01");
         String[] policies = policiesList.toArray(new String[0]);
         AppRole appRole = new AppRole(role_name, policies, true, 0, 0, 0);
@@ -2049,11 +2050,11 @@ public class AppRoleServiceTest {
         appRoleResponseMap.put("data", dataMap);
         dataMap.put("policies",policiesList);
         dataMap.put("bind_secret_id", Boolean.TRUE);
-        dataMap.put("secret_id_num_uses", new Integer(0));
-        dataMap.put("secret_id_ttl", new Integer(0));
-        dataMap.put("token_num_uses", new Integer(0));
-        dataMap.put("token_ttl", new Integer(0));
-        dataMap.put("token_max_ttl", new Integer(0));
+        dataMap.put("secret_id_num_uses", 0);
+        dataMap.put("secret_id_ttl", 0);
+        dataMap.put("token_num_uses", 0);
+        dataMap.put("token_ttl", 0);
+        dataMap.put("token_max_ttl", 0);
         when(reqProcessor.process("/auth/approle/role/read", "{\"role_name\":\""+role_name+"\"}",userDetails.getSelfSupportToken())).thenReturn(appRoleResponse);
         when(ControllerUtil.parseJson(appRoleResponseJson)).thenReturn(appRoleResponseMap);
         // END - AppRole exists
@@ -2092,7 +2093,7 @@ public class AppRoleServiceTest {
         UserDetails userDetails = getMockUser("testuser1", false);
 
         // START - AppRole exists
-        ArrayList<String> policiesList = new ArrayList<String>();
+        ArrayList<String> policiesList = new ArrayList<>();
         policiesList.add("r_shared_safe01");
         String[] policies = policiesList.toArray(new String[0]);
         AppRole appRole = new AppRole(role_name, policies, true, 0, 0, 0);
@@ -2103,11 +2104,11 @@ public class AppRoleServiceTest {
         appRoleResponseMap.put("data", dataMap);
         dataMap.put("policies",policiesList);
         dataMap.put("bind_secret_id", Boolean.TRUE);
-        dataMap.put("secret_id_num_uses", new Integer(0));
-        dataMap.put("secret_id_ttl", new Integer(0));
-        dataMap.put("token_num_uses", new Integer(0));
-        dataMap.put("token_ttl", new Integer(0));
-        dataMap.put("token_max_ttl", new Integer(0));
+        dataMap.put("secret_id_num_uses", 0);
+        dataMap.put("secret_id_ttl", 0);
+        dataMap.put("token_num_uses", 0);
+        dataMap.put("token_ttl", 0);
+        dataMap.put("token_max_ttl", 0);
         when(reqProcessor.process("/auth/approle/role/read", "{\"role_name\":\""+role_name+"\"}",userDetails.getSelfSupportToken())).thenReturn(appRoleResponse);
         when(ControllerUtil.parseJson(appRoleResponseJson)).thenReturn(appRoleResponseMap);
         // END - AppRole exists

@@ -164,10 +164,10 @@ public class AuthorizationUtilsTest {
     	String[] latestPolicies = createLatestPolicies(latestPoliciesStr);
     	ArrayList<String> policiesTobeChecked = createPoliciesTobeChecked(policiesTobeCheckedStr);
     	
-    	LinkedHashMap<String, Object> capRes = new LinkedHashMap<String, Object>();
-    	LinkedHashMap<String, Object> pathsMap = new LinkedHashMap<String, Object>();
-    	LinkedHashMap<String, Object> capPathMap = new  LinkedHashMap<String, Object>();
-    	LinkedHashMap<String, Object> capMap = new  LinkedHashMap<String, Object>();
+    	LinkedHashMap<String, Object> capRes = new LinkedHashMap<>();
+    	LinkedHashMap<String, Object> pathsMap = new LinkedHashMap<>();
+    	LinkedHashMap<String, Object> capPathMap = new LinkedHashMap<>();
+    	LinkedHashMap<String, Object> capMap = new LinkedHashMap<>();
     	capMap.put("policy", "sudo");
     	capPathMap.put("metadata/shared/s1/*", capMap);
     	capPathMap.put("shared/s1/*", capMap);
@@ -210,7 +210,7 @@ public class AuthorizationUtilsTest {
     
     private ArrayList<String> createPoliciesTobeChecked(String policiesStr) {
     	List<String> policies = Arrays.asList(policiesStr.split(","));
-    	return new ArrayList<String>(policies);
+    	return new ArrayList<>(policies);
     }
 
     @Test
@@ -245,10 +245,10 @@ public class AuthorizationUtilsTest {
 		String[] latestPolicies = createLatestPolicies(latestPoliciesStr);
 		ArrayList<String> policiesTobeChecked = createPoliciesTobeChecked(policiesTobeCheckedStr);
 
-		LinkedHashMap<String, Object> capRes = new LinkedHashMap<String, Object>();
-		LinkedHashMap<String, Object> pathsMap = new LinkedHashMap<String, Object>();
-		LinkedHashMap<String, Object> capPathMap = new  LinkedHashMap<String, Object>();
-		LinkedHashMap<String, Object> capMap = new  LinkedHashMap<String, Object>();
+		LinkedHashMap<String, Object> capRes = new LinkedHashMap<>();
+		LinkedHashMap<String, Object> pathsMap = new LinkedHashMap<>();
+		LinkedHashMap<String, Object> capPathMap = new LinkedHashMap<>();
+		LinkedHashMap<String, Object> capMap = new LinkedHashMap<>();
 		List<String> policies = new ArrayList<>();
 		policies.add("create");
 		capMap.put("policy", policies);

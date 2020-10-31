@@ -99,7 +99,7 @@ public class ServiceAccountsControllerV2Test {
         return adServiceAccount;
     }
     private List<ADServiceAccount> generateADSerivceAccounts() {
-    	List<ADServiceAccount> allServiceAccounts = new ArrayList<ADServiceAccount>();
+    	List<ADServiceAccount> allServiceAccounts = new ArrayList<>();
     	allServiceAccounts.add(generateADServiceAccount("testacc01"));
     	return allServiceAccounts;
     }
@@ -151,8 +151,8 @@ public class ServiceAccountsControllerV2Test {
         UserDetails userDetails = getMockUser(false);
         String token = userDetails.getClientToken();
         
-        Map<String, List<String>> onboardedServiceAccounts = new HashMap<String, List<String>>();
-        List<String> accounts = new ArrayList<String>();
+        Map<String, List<String>> onboardedServiceAccounts = new HashMap<>();
+        List<String> accounts = new ArrayList<>();
         accounts.add("testacc02");
         accounts.add("testacc03");
         accounts.add("testacc04");

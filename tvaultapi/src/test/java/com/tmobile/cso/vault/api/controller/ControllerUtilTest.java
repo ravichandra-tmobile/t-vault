@@ -240,7 +240,7 @@ public class ControllerUtilTest {
     @Test
     public void test_updateMetadataOnSvcaccPwdReset_successfully_update_initialResetStatus() {
         String token = "7QPMPIGiyDFlJkrK3jFykUqa";
-        Map<String,String> params = new HashMap<String,String>();
+        Map<String,String> params = new HashMap<>();
         params.put("type", "initialPasswordReset");
         params.put("path", TVaultConstants.SVC_ACC_ROLES_PATH + "testacc02");
         params.put("value","true");
@@ -258,7 +258,7 @@ public class ControllerUtilTest {
     @Test
     public void test_updateMetadataOnSvcaccPwdReset_successfully() {
         String token = "7QPMPIGiyDFlJkrK3jFykUqa";
-        Map<String,String> params = new HashMap<String,String>();
+        Map<String,String> params = new HashMap<>();
         params.put("type", "initialPasswordReset");
         params.put("path", TVaultConstants.SVC_ACC_ROLES_PATH + "testacc02");
         params.put("value","true");
@@ -1139,7 +1139,7 @@ public class ControllerUtilTest {
     @Test
     public void test_updateMetadata1_successfully() throws JsonProcessingException {
         String token = "7QPMPIGiyDFlJkrK3jFykUqa";
-        Map<String,String> params = new HashMap<String,String>();
+        Map<String,String> params = new HashMap<>();
         params.put("status", "Revoked");
         String path = SSLCertificateConstants.SSL_CERT_PATH + "/testCert";
        
@@ -1154,7 +1154,7 @@ public class ControllerUtilTest {
     @Test
     public void test_updateMetadata1_failed() throws JsonProcessingException {
         String token = "7QPMPIGiyDFlJkrK3jFykUqa";
-        Map<String,String> params = new HashMap<String,String>();
+        Map<String,String> params = new HashMap<>();
         params.put("status", "Revoked");
         String path = SSLCertificateConstants.SSL_CERT_PATH + "/testCert";
        

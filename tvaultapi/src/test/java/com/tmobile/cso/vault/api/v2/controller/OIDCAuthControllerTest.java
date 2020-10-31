@@ -127,7 +127,7 @@ public class OIDCAuthControllerTest {
 		String name ="name"; 
 		OIDCEntityRequest oidcEntityRequest = new OIDCEntityRequest();
 		oidcEntityRequest.setDisabled(false);
-		Map<String, String> metadata = new HashMap<String, String>();
+		Map<String, String> metadata = new HashMap<>();
 		metadata.put("organization", "t-vault");
 		oidcEntityRequest.setMetadata(metadata);
 		oidcEntityRequest.setPolicies(null);
@@ -151,7 +151,7 @@ public class OIDCAuthControllerTest {
 		OIDCIdentityGroupRequest oidcIdentityGroupRequest = new OIDCIdentityGroupRequest();
 		oidcIdentityGroupRequest.setMember_group_ids(null);
 		oidcIdentityGroupRequest.setMember_entity_ids(null);
-		Map<String, String> metadata = new HashMap<String, String>();
+		Map<String, String> metadata = new HashMap<>();
 		metadata.put("organization", "t-vault");
 		oidcIdentityGroupRequest.setMetadata(metadata);
 		oidcIdentityGroupRequest.setPolicies(null);

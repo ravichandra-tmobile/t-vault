@@ -540,8 +540,8 @@ public class SelfSupportControllerTest {
     
     @Test
     public void test_deleteSecretIds() throws Exception {
-		ArrayList<String> failedAccessorIds = new ArrayList<String>();
-		ArrayList<String> deletedAccessorIds = new ArrayList<String>();
+		ArrayList<String> failedAccessorIds = new ArrayList<>();
+		ArrayList<String> deletedAccessorIds = new ArrayList<>();
 		deletedAccessorIds.add("deleted01");
 		failedAccessorIds.add("failed01");
 		StringBuilder responseMessage = new StringBuilder("Deletion of secret_ids completed as: ");
